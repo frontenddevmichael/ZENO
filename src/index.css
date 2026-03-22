@@ -1,0 +1,424 @@
+/**
+ * Zeno Design Tokens
+ * zeno.ng — Technology, precisely.
+ *
+ * These are the single source of truth for every visual decision in the UI.
+ * If a value isn't here, it doesn't belong in the codebase.
+ *
+ * How to use this file:
+ * Import it once at the top of your global stylesheet or in your root layout.
+ * Reference tokens by name throughout your CSS — never hardcode a hex value directly.
+ *
+ * @version 1.0.0
+ * @updated 2025
+ */
+
+:root {
+
+    /* ============================================================
+     COLOUR — BACKGROUNDS
+     Use these for page surfaces, section alternates, and card fills.
+     Never use plain white/grey — always pull from here.
+  ============================================================ */
+
+    --color-bg: #FFFFFF;
+    /* default page background */
+    --color-bg-subtle: #F8F8F6;
+    /* alternate sections, card backgrounds, image placeholders */
+    --color-bg-overlay: #F2F2F0;
+    /* hovered inputs, pressed states, skeleton base */
+    --color-bg-inverse: #111111;
+    /* dark surfaces — quick-add bars, tooltips, dark CTAs */
+
+
+    /* ============================================================
+     COLOUR — TEXT
+     Stick to this hierarchy. Primary for headings and prices.
+     Secondary for descriptions. Muted for placeholders.
+  ============================================================ */
+
+    --color-text-primary: #111111;
+    /* headings, prices, primary body copy */
+    --color-text-secondary: #6B7280;
+    /* descriptions, labels, meta information */
+    --color-text-muted: #9CA3AF;
+    /* placeholders, disabled text, fine print */
+    --color-text-inverse: #FFFFFF;
+    /* text on dark surfaces */
+    --color-text-accent: #4CAF76;
+    /* links, active nav items, success text */
+
+
+    /* ============================================================
+     COLOUR — ACCENT
+     This is Zeno's green. Use it sparingly — CTAs, focus rings,
+     active states, and nothing else. It should feel like punctuation.
+     The rule: accent covers less than 10% of any given screen.
+  ============================================================ */
+
+    --color-accent: #4CAF76;
+    /* primary accent — buttons, focus, active */
+    --color-accent-dark: #3A9E64;
+    /* accent hover state */
+    --color-accent-light: #EBF7F0;
+    /* accent background tint — success banners, focus rings */
+    --color-accent-ring: rgba(76, 175, 118, 0.18);
+    /* focus ring around inputs and buttons */
+
+
+    /* ============================================================
+     COLOUR — BORDERS
+     Use rgba so borders work on any background without looking
+     different depending on what's behind them.
+  ============================================================ */
+
+    --color-border: rgba(0, 0, 0, 0.08);
+    /* default — cards, dividers, section breaks */
+    --color-border-strong: rgba(0, 0, 0, 0.15);
+    /* inputs, tables, emphasized separators */
+    --color-border-focus: #4CAF76;
+    /* input focus state border */
+
+
+    /* ============================================================
+     COLOUR — SEMANTIC STATES
+     Error, warning, success, info. Used for alerts, form feedback,
+     badges, and toast notifications. Not for decoration.
+  ============================================================ */
+
+    --color-error: #DC2626;
+    /* error borders, destructive actions */
+    --color-error-bg: #FEF2F2;
+    /* error message backgrounds */
+    --color-warning: #D97706;
+    /* low stock badges, warning alerts */
+    --color-warning-bg: #FFFBEB;
+    /* warning message backgrounds */
+    --color-success: #16A34A;
+    /* order confirmed, item added, form success */
+    --color-success-bg: #F0FDF4;
+    /* success toast backgrounds */
+    --color-info: #2563EB;
+    /* informational banners, links */
+    --color-info-bg: #EFF6FF;
+    /* info message backgrounds */
+
+
+    /* ============================================================
+     TYPOGRAPHY — FONT FAMILIES
+     Satoshi for all UI text. JetBrains Mono exclusively for
+     prices (₦450,000), spec values (128GB), and order numbers.
+     Never use Inter. Never use Roboto. Never use Arial.
+  ============================================================ */
+
+    --font-primary: 'Satoshi', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+
+    /* ============================================================
+     TYPOGRAPHY — SIZE SCALE
+     Use the named step, not the pixel value directly.
+     Example: font-size: var(--text-body) — not font-size: 16px.
+  ============================================================ */
+
+    --text-display: 4.5rem;
+    /* 72px — homepage hero headline only */
+    --text-h1: 3.5rem;
+    /* 56px — page titles */
+    --text-h2: 2.5rem;
+    /* 40px — section headings */
+    --text-h3: 1.75rem;
+    /* 28px — card headings, modal titles */
+    --text-body-lg: 1.125rem;
+    /* 18px — hero subtext, featured descriptions */
+    --text-body: 1rem;
+    /* 16px — standard body copy */
+    --text-small: 0.8125rem;
+    /* 13px — metadata, timestamps, secondary labels */
+    --text-label: 0.6875rem;
+    /* 11px — uppercased category labels, nav labels */
+
+
+    /* ============================================================
+     TYPOGRAPHY — WEIGHT
+     Two weights only. 400 for reading. 500 for everything that
+     needs to stand out. Never 600, never 700 — too heavy here.
+  ============================================================ */
+
+    --weight-regular: 400;
+    --weight-medium: 500;
+
+
+    /* ============================================================
+     TYPOGRAPHY — TRACKING (LETTER SPACING)
+     Tight tracking on large type. Natural on body. Loose on labels.
+  ============================================================ */
+
+    --tracking-display: -0.03em;
+    /* used at Display size */
+    --tracking-h1: -0.025em;
+    /* used at H1 */
+    --tracking-h2: -0.02em;
+    /* used at H2 */
+    --tracking-h3: -0.01em;
+    /* used at H3 */
+    --tracking-body: 0em;
+    /* body text — never adjust */
+    --tracking-label: 0.06em;
+    /* uppercased label text */
+
+
+    /* ============================================================
+     TYPOGRAPHY — LINE HEIGHT
+     Tighter for large headings (optical balance).
+     Looser for body text (readability).
+  ============================================================ */
+
+    --leading-display: 1.05;
+    /* display and H1 */
+    --leading-heading: 1.15;
+    /* H2 and H3 */
+    --leading-body: 1.65;
+    /* standard body */
+    --leading-body-lg: 1.7;
+    /* large body / descriptions */
+    --leading-small: 1.5;
+    /* small text */
+
+
+    /* ============================================================
+     SPACING — 8px BASE SCALE
+     The entire layout is built on multiples of 8.
+     Use these tokens everywhere — padding, margin, gap.
+     The rule: if a value isn't on this scale, it's wrong.
+  ============================================================ */
+
+    --space-1: 0.25rem;
+    /*  4px — icon-to-text gaps, hairline offsets */
+    --space-2: 0.5rem;
+    /*  8px — tight inline spacing, small badges */
+    --space-3: 0.75rem;
+    /* 12px — button padding vertical, input vertical */
+    --space-4: 1rem;
+    /* 16px — card internal padding small, list gaps */
+    --space-6: 1.5rem;
+    /* 24px — card padding standard, form field gap */
+    --space-8: 2rem;
+    /* 32px — section internal padding, modal padding */
+    --space-12: 3rem;
+    /* 48px — between components within a section */
+    --space-16: 4rem;
+    /* 64px — between sections on a page */
+    --space-20: 5rem;
+    /* 80px — generous section padding */
+    --space-24: 6rem;
+    /* 96px — section vertical padding default */
+    --space-32: 8rem;
+    /* 128px — hero section padding, maximum breathing room */
+
+
+    /* ============================================================
+     BORDER RADIUS
+     Consistent rounding that gives the UI its precise character.
+     Never go above --radius-xl for standard components.
+  ============================================================ */
+
+    --radius-sm: 4px;
+    /* tags, badges, chips, small pills */
+    --radius-md: 8px;
+    /* buttons, inputs, dropdowns */
+    --radius-lg: 12px;
+    /* product cards, feature cards */
+    --radius-xl: 20px;
+    /* modals, bottom sheets, large containers */
+    --radius-full: 9999px;
+    /* fully round — avatar, icon buttons, status dots */
+
+
+    /* ============================================================
+     SHADOW
+     Almost invisible. The premium feel comes from borders and
+     spacing — not shadows. These are the only two allowed.
+  ============================================================ */
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+    /* resting card state — barely visible */
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    /* hovered card, floating elements */
+
+
+    /* ============================================================
+     MOTION — EASING CURVES
+     Three named curves for the three directions of movement.
+     Never use the raw string "ease" or "ease-in-out" — always
+     reference a token so the system stays consistent.
+  ============================================================ */
+
+    --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    /* default — color, opacity, most transitions */
+    --ease-enter: cubic-bezier(0, 0, 0.2, 1);
+    /* elements entering — drawers, modals, dropdowns */
+    --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+    /* elements leaving */
+
+
+    /* ============================================================
+     MOTION — DURATION
+     Match duration to the scale of the movement.
+     Micro for instant feedback. Panel for structural changes.
+  ============================================================ */
+
+    --duration-micro: 150ms;
+    /* hover color changes, icon swaps, badge updates */
+    --duration-standard: 250ms;
+    /* card lift, button scale, dropdown open */
+    --duration-panel: 350ms;
+    /* side drawers, cart sliding in, filter sheets */
+    --duration-page: 400ms;
+    /* page transitions, full overlays */
+
+
+    /* ============================================================
+     LAYOUT — STRUCTURE
+     Fixed widths and heights for consistent structural components.
+  ============================================================ */
+
+    --width-content: 1280px;
+    /* max content width — centered on wide screens */
+    --width-sidebar: 280px;
+    /* filter sidebar on PLP */
+    --height-navbar: 64px;
+    /* top navigation bar */
+    --height-input: 48px;
+    /* standard input and button height */
+    --height-input-sm: 40px;
+    /* compact inputs — search, quantity selectors */
+
+
+    /* ============================================================
+     LAYOUT — Z-INDEX STACK
+     Keeps layering predictable. Reference these instead of
+     inventing numbers. Nothing should go above --z-modal except
+     in an extreme edge case.
+  ============================================================ */
+
+    --z-base: 0;
+    --z-above: 10;
+    /* sticky elements, hover tooltips */
+    --z-navbar: 100;
+    /* top nav — always above page content */
+    --z-drawer: 200;
+    /* cart drawer, filter bottom sheet */
+    --z-modal: 300;
+    /* search overlay, confirmation modals */
+    --z-toast: 400;
+    /* notifications — always on top of everything */
+
+
+    /* ============================================================
+     BREAKPOINTS
+     These are reference values — use them in @media queries.
+     The site is designed desktop-first. Mobile must work perfectly.
+  ============================================================ */
+
+    /* --bp-mobile:  390px  */
+    /* --bp-tablet:  768px  */
+    /* --bp-laptop:  1024px */
+    /* --bp-desktop: 1280px */
+
+    /*
+    Note: CSS custom properties can't be used inside @media queries.
+    The values above are here for documentation.
+    In your CSS, write:  @media (max-width: 768px) { ... }
+  */
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   This one rule handles all accessibility for animation.
+   Include it once here and it covers the entire codebase.
+   Do not remove or override this.
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+
+/* ============================================================
+   BASE RESETS
+   Minimal resets that pair with the token system above.
+   Not a full normalize — just the decisions this design requires.
+============================================================ */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-primary);
+    font-size: var(--text-body);
+    font-weight: var(--weight-regular);
+    line-height: var(--leading-body);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg);
+}
+
+img, video {
+    display: block;
+    max-width: 100%;
+}
+
+button {
+    cursor: pointer;
+    font-family: inherit;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Price values — applied wherever ₦ figures appear */
+.price {
+    font-family: var(--font-mono);
+    font-size: var(--text-body);
+    color: var(--color-text-primary);
+    font-weight: var(--weight-medium);
+}
+
+/* Spec values — RAM, storage, screen size etc */
+.spec-value {
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+}
+
+/* Uppercase section labels */
+.label-upper {
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+}
