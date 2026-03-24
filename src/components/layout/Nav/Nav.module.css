@@ -1,0 +1,404 @@
+/* ============================================================
+   Navbar — Zeno Design System
+   Floats transparent, collapses to frosted glass on scroll.
+   Logo morphs from wordmark → monogram. Surgical precision.
+   ============================================================ */
+
+
+/* ── SHARED BASE ── */
+.navbar,
+.navbarScrolled {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: var(--z-navbar);
+    transition:
+        background-color var(--duration-standard) var(--ease-standard),
+        border-color var(--duration-standard) var(--ease-standard),
+        box-shadow var(--duration-standard) var(--ease-standard),
+        padding var(--duration-standard) var(--ease-standard);
+}
+
+/* ── TRANSPARENT STATE (top of page) ── */
+.navbar {
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
+    box-shadow: none;
+    padding: 0 var(--space-8);
+    height: 72px;
+}
+
+/* ── FROSTED STATE (scrolled) ── */
+.navbarScrolled {
+    background-color: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+    padding: 0 var(--space-8);
+    height: var(--height-navbar);
+}
+
+
+/* ============================================================
+   INNER CONTENT — max-width centering
+   ============================================================ */
+
+.content {
+    max-width: var(--width-content);
+    width: 100%;
+    height: 100%;
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+}
+
+
+/* ============================================================
+   LOGO — morphs between wordmark and monogram
+   ============================================================ */
+
+.navLogo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+/* Container clips the morph transition */
+.logoInner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Full wordmark — visible when transparent */
+.logoWordmark {
+    font-family: var(--font-primary);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-medium);
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+    display: block;
+
+    /* Transition: fade + slide left */
+    opacity: 1;
+    transform: translateX(0);
+    max-width: 120px;
+    transition:
+        opacity var(--duration-standard) var(--ease-standard),
+        transform var(--duration-standard) var(--ease-standard),
+        max-width var(--duration-standard) var(--ease-standard);
+}
+
+/* Monogram "Z." — hidden at top, appears on scroll */
+.logoMono {
+    font-family: var(--font-primary);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-medium);
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+
+    position: absolute;
+    left: 0;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition:
+        opacity var(--duration-standard) var(--ease-standard),
+        transform var(--duration-standard) var(--ease-standard);
+    white-space: nowrap;
+}
+
+.logoMono span {
+    color: var(--color-accent);
+}
+
+/* ── Scrolled: swap wordmark out, monogram in ── */
+.navbarScrolled .logoWordmark {
+    opacity: 0;
+    transform: translateX(8px);
+    max-width: 0;
+}
+
+.navbarScrolled .logoMono {
+    opacity: 1;
+    transform: translateX(0);
+    position: relative;
+    /* take up space when active */
+}
+
+
+/* ============================================================
+   NAV LINKS
+   ============================================================ */
+
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+}
+
+.navLinks a {
+    font-family: var(--font-primary);
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 2px;
+
+    transition: color var(--duration-micro) var(--ease-standard);
+}
+
+/* Underline indicator — grows from center */
+.navLinks a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 1.5px;
+    background-color: var(--color-accent);
+    transform: translateX(-50%);
+    transition: width var(--duration-standard) var(--ease-standard);
+}
+
+.navLinks a:hover {
+    color: var(--color-text-primary);
+}
+
+.navLinks a:hover::after,
+.navLinks a.active::after {
+    width: 100%;
+}
+
+.navLinks a.active {
+    color: var(--color-text-primary);
+}
+
+
+/* ============================================================
+   NAV ACTIONS — cart button, etc.
+   ============================================================ */
+
+.navActions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-shrink: 0;
+}
+
+/* Cart button */
+.cartBtn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition:
+        background-color var(--duration-micro) var(--ease-standard),
+        border-color var(--duration-micro) var(--ease-standard),
+        transform var(--duration-micro) var(--ease-standard);
+}
+
+.cartBtn:hover {
+    background-color: var(--color-bg-overlay);
+    border-color: var(--color-border-strong);
+}
+
+.cartBtn:active {
+    transform: scale(0.95);
+}
+
+/* Cart icon SVG */
+.cartIcon {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Item count badge */
+.cartBadge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-accent);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: var(--weight-medium);
+    line-height: 17px;
+    text-align: center;
+    letter-spacing: 0;
+
+    /* Pop in */
+    animation: badgePop var(--duration-standard) var(--ease-enter);
+}
+
+@keyframes badgePop {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+/* ============================================================
+   MOBILE — hamburger + drawer
+   ============================================================ */
+
+.menuBtn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    transition: background-color var(--duration-micro) var(--ease-standard);
+}
+
+.menuBtn:hover {
+    background-color: var(--color-bg-overlay);
+}
+
+.menuBar {
+    width: 16px;
+    height: 1.5px;
+    background-color: currentColor;
+    border-radius: 2px;
+    transition:
+        transform var(--duration-standard) var(--ease-standard),
+        opacity var(--duration-standard) var(--ease-standard),
+        width var(--duration-standard) var(--ease-standard);
+}
+
+/* Hamburger → X morph */
+.menuOpen .menuBar:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+}
+
+.menuOpen .menuBar:nth-child(2) {
+    opacity: 0;
+    width: 0;
+}
+
+.menuOpen .menuBar:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+}
+
+
+/* Mobile drawer */
+.mobileMenu {
+    position: fixed;
+    top: var(--height-navbar);
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-6) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    z-index: calc(var(--z-navbar) - 1);
+
+    /* Slide down */
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+        transform var(--duration-panel) var(--ease-enter),
+        opacity var(--duration-panel) var(--ease-enter);
+}
+
+.mobileMenuOpen {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.mobileLink {
+    font-family: var(--font-primary);
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color var(--duration-micro) var(--ease-standard);
+}
+
+.mobileLink:last-child {
+    border-bottom: none;
+}
+
+.mobileLink:hover {
+    color: var(--color-accent);
+}
+
+.mobileLinkArrow {
+    color: var(--color-text-muted);
+    font-size: var(--text-small);
+    transition: transform var(--duration-micro) var(--ease-standard);
+}
+
+.mobileLink:hover .mobileLinkArrow {
+    transform: translateX(3px);
+    color: var(--color-accent);
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    .navbar,
+    .navbarScrolled {
+        padding: 0 var(--space-4);
+    }
+
+    .navLinks {
+        display: none;
+    }
+
+    .menuBtn {
+        display: flex;
+    }
+}
