@@ -1,0 +1,165 @@
+/* ============================================================
+   WhatsAppButton — Zeno Design System
+   Fixed FAB. WhatsApp green is hardcoded by brand requirement.
+   ============================================================ */
+
+/* ── Brand colour — only hardcoded value permitted ── */
+:root {
+    --color-whatsapp: #25D366;
+    --color-whatsapp-dark: #1ebe5d;
+}
+
+.btn {
+    position: fixed;
+    bottom: var(--space-6);
+    right: var(--space-6);
+    z-index: var(--z-toast);
+
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-whatsapp);
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+
+    /* Lift shadow — stronger than system defaults to read over any bg */
+    box-shadow:
+        0 4px 12px rgba(37, 211, 102, 0.35),
+        0 2px 4px rgba(0, 0, 0, 0.12);
+
+    transition:
+        background-color var(--duration-micro) var(--ease-standard),
+        transform var(--duration-standard) var(--ease-standard),
+        box-shadow var(--duration-standard) var(--ease-standard);
+
+    /* Entrance animation */
+    animation: fabEnter var(--duration-panel) var(--ease-enter) 600ms both;
+}
+
+.btn:hover {
+    background-color: var(--color-whatsapp-dark);
+    transform: translateY(-2px) scale(1.06);
+    box-shadow:
+        0 8px 20px rgba(37, 211, 102, 0.4),
+        0 4px 8px rgba(0, 0, 0, 0.14);
+}
+
+.btn:active {
+    transform: translateY(0) scale(0.96);
+    box-shadow:
+        0 2px 8px rgba(37, 211, 102, 0.3),
+        0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Pulse ring — draws attention without being annoying */
+.btn::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-whatsapp);
+    opacity: 0;
+    animation: pulse 3s var(--ease-standard) 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+@keyframes fabEnter {
+    from {
+        opacity: 0;
+        transform: scale(0.6) translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+
+/* ── Icon ── */
+.icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+
+/* ── Tooltip ── */
+.tooltip {
+    position: absolute;
+    right: calc(100% + var(--space-3));
+    top: 50%;
+    transform: translateY(-50%) translateX(4px);
+
+    background-color: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+    font-family: var(--font-primary);
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+
+    opacity: 0;
+    pointer-events: none;
+    transition:
+        opacity var(--duration-micro) var(--ease-standard),
+        transform var(--duration-standard) var(--ease-standard);
+}
+
+/* Arrow pointing right toward the button */
+.tooltip::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 4px solid transparent;
+    border-right-width: 0;
+    border-left-color: var(--color-bg-inverse);
+}
+
+.btn:hover .tooltip {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+
+/* ============================================================
+   RESPONSIVE — move up on mobile to clear bottom nav if any
+   ============================================================ */
+
+@media (max-width: 768px) {
+    .btn {
+        bottom: var(--space-4);
+        right: var(--space-4);
+        width: 44px;
+        height: 44px;
+    }
+
+    .icon {
+        width: 22px;
+        height: 22px;
+    }
+
+    /* Hide tooltip on touch — no hover state */
+    .tooltip {
+        display: none;
+    }
+}

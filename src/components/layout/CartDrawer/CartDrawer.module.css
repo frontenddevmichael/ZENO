@@ -1,0 +1,442 @@
+/* ============================================================
+   CartDrawer — Zeno Design System
+   Precision panel. Editorial hierarchy. Clean controls.
+   ============================================================ */
+
+
+/* ── OVERLAY ── */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.32);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: var(--z-drawer);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-panel) var(--ease-standard);
+}
+
+.overlayVisible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+/* ── DRAWER PANEL ── */
+.drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 420px;
+    height: 100%;
+    background-color: var(--color-bg);
+    z-index: calc(var(--z-drawer) + 1);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform var(--duration-panel) var(--ease-enter);
+
+    /* Crisp left edge */
+    border-left: 1px solid var(--color-border);
+}
+
+.drawerOpen {
+    transform: translateX(0);
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-6) var(--space-6) var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.headerLeft {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+}
+
+.header h3 {
+    font-family: var(--font-primary);
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-h3);
+    color: var(--color-text-primary);
+}
+
+/* Item count pill beside the heading */
+.itemCount {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-muted);
+    letter-spacing: 0.02em;
+}
+
+.closeBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition:
+        background-color var(--duration-micro) var(--ease-standard),
+        color var(--duration-micro) var(--ease-standard),
+        border-color var(--duration-micro) var(--ease-standard);
+}
+
+.closeBtn:hover {
+    background-color: var(--color-bg-overlay);
+    border-color: var(--color-border-strong);
+    color: var(--color-text-primary);
+}
+
+.closeBtn:active {
+    transform: scale(0.94);
+}
+
+
+/* ============================================================
+   SCROLLABLE CONTENT AREA
+   ============================================================ */
+
+.content {
+    flex: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    /* Subtle scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+}
+
+.content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.content::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 2px;
+}
+
+
+/* ============================================================
+   ITEM LIST
+   ============================================================ */
+
+.itemList {
+    padding: var(--space-4) var(--space-6);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Each item row */
+.item {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: var(--space-4);
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border);
+    position: relative;
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+/* Thumbnail */
+.thumb {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+/* Item details */
+.itemInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0;
+    /* prevent overflow */
+}
+
+.itemName {
+    font-family: var(--font-primary);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    line-height: var(--leading-heading);
+
+    /* Truncate long names */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.itemPrice {
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    letter-spacing: 0;
+}
+
+/* Bottom row: qty + remove */
+.itemFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--space-2);
+}
+
+/* ── Quantity stepper ── */
+.qtyControls {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    height: 28px;
+}
+
+.qtyBtn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: var(--text-body);
+    cursor: pointer;
+    transition:
+        background-color var(--duration-micro) var(--ease-standard),
+        color var(--duration-micro) var(--ease-standard);
+    line-height: 1;
+}
+
+.qtyBtn:hover {
+    background-color: var(--color-bg-overlay);
+    color: var(--color-text-primary);
+}
+
+.qtyDivider {
+    width: 1px;
+    height: 16px;
+    background-color: var(--color-border);
+    flex-shrink: 0;
+}
+
+.qtyValue {
+    min-width: 28px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    padding: 0 var(--space-1);
+    line-height: 28px;
+}
+
+/* Remove link */
+.removeBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-primary);
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    padding: 0;
+    transition: color var(--duration-micro) var(--ease-standard);
+}
+
+.removeBtn:hover {
+    color: var(--color-error);
+}
+
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+.empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: var(--space-12) var(--space-8);
+    text-align: center;
+    gap: var(--space-4);
+}
+
+.emptyIcon {
+    width: 48px;
+    height: 48px;
+    stroke: var(--color-border-strong);
+    fill: none;
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    margin-bottom: var(--space-2);
+}
+
+.emptyTitle {
+    font-family: var(--font-primary);
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+}
+
+.emptySubtext {
+    font-family: var(--font-primary);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    max-width: 22ch;
+    line-height: var(--leading-body);
+}
+
+.shopLink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    font-family: var(--font-primary);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    border-bottom: 1px solid var(--color-text-primary);
+    padding-bottom: 1px;
+    text-decoration: none;
+    transition:
+        color var(--duration-micro) var(--ease-standard),
+        border-color var(--duration-micro) var(--ease-standard);
+}
+
+.shopLink:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+
+/* ============================================================
+   FOOTER — subtotal + CTA
+   ============================================================ */
+
+.footer {
+    padding: var(--space-5) var(--space-6) var(--space-6);
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+/* Subtotal row */
+.subtotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.subtotalLabel {
+    font-family: var(--font-primary);
+    font-size: var(--text-small);
+    font-weight: var(--weight-regular);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+}
+
+.subtotalValue {
+    font-family: var(--font-mono);
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+}
+
+/* Shipping note */
+.shippingNote {
+    font-family: var(--font-primary);
+    font-size: var(--text-label);
+    color: var(--color-text-muted);
+    text-align: center;
+    letter-spacing: 0.01em;
+}
+
+/* CTA button */
+.checkoutBtn {
+    width: 100%;
+    height: var(--height-input);
+    background-color: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: var(--font-primary);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    position: relative;
+    overflow: hidden;
+    transition:
+        background-color var(--duration-micro) var(--ease-standard),
+        transform var(--duration-micro) var(--ease-standard);
+}
+
+/* Accent sweep on hover */
+.checkoutBtn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-accent);
+    transform: translateX(-101%);
+    transition: transform var(--duration-standard) var(--ease-enter);
+}
+
+.checkoutBtn:hover::before {
+    transform: translateX(0);
+}
+
+.checkoutBtn:active {
+    transform: scale(0.99);
+}
+
+/* Ensure text stays above the sweep */
+.checkoutBtn span {
+    position: relative;
+    z-index: 1;
+}

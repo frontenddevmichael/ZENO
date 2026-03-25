@@ -1,25 +1,8 @@
-/**
- * Zeno Design Tokens
- * zeno.ng — Technology, precisely.
- *
- * These are the single source of truth for every visual decision in the UI.
- * If a value isn't here, it doesn't belong in the codebase.
- *
- * How to use this file:
- * Import it once at the top of your global stylesheet or in your root layout.
- * Reference tokens by name throughout your CSS — never hardcode a hex value directly.
- *
- * @version 1.0.0
- * @updated 2025
- */
+
 
 :root {
 
-    /* ============================================================
-     COLOUR — BACKGROUNDS
-     Use these for page surfaces, section alternates, and card fills.
-     Never use plain white/grey — always pull from here.
-  ============================================================ */
+
 
     --color-bg: #FFFFFF;
     /* default page background */
@@ -28,16 +11,9 @@
     --color-bg-overlay: #F2F2F0;
     /* hovered inputs, pressed states, skeleton base */
     --color-bg-inverse: #111111;
-    /* dark surfaces — quick-add bars, tooltips, dark CTAs */
 
 
-    /* ============================================================
-     COLOUR — TEXT
-     Stick to this hierarchy. Primary for headings and prices.
-     Secondary for descriptions. Muted for placeholders.
-  ============================================================ */
-
-    --color-text-primary: #111111;
+    --color-text-primary: #1e1e1e;
     /* headings, prices, primary body copy */
     --color-text-secondary: #6B7280;
     /* descriptions, labels, meta information */
@@ -49,12 +25,7 @@
     /* links, active nav items, success text */
 
 
-    /* ============================================================
-     COLOUR — ACCENT
-     This is Zeno's green. Use it sparingly — CTAs, focus rings,
-     active states, and nothing else. It should feel like punctuation.
-     The rule: accent covers less than 10% of any given screen.
-  ============================================================ */
+
 
     --color-accent: #4CAF76;
     /* primary accent — buttons, focus, active */
@@ -147,6 +118,7 @@
 
     --weight-regular: 400;
     --weight-medium: 500;
+    --weight-light :200
 
 
     /* ============================================================
@@ -305,7 +277,7 @@
     --z-base: 0;
     --z-above: 10;
     /* sticky elements, hover tooltips */
-    --z-navbar: 100;
+    --z-navbar: 150;
     /* top nav — always above page content */
     --z-drawer: 200;
     /* cart drawer, filter bottom sheet */
