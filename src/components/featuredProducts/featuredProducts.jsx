@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react"
 import { Link } from "react-router-dom"
 import { getFeaturedProducts } from "../../lib/utilities/query"
 import ProductCard from "../products/ProductCard"
-import styles from "./FeaturedProducts.module.css"
+import styles from "../featuredProducts/featuredProducts.module.css"
 
 function SkeletonCard() {
     return (
