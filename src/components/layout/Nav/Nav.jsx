@@ -3,9 +3,15 @@ import { Link, NavLink } from "react-router-dom"
 import styles from "./Nav.module.css"
 import { useCartStore } from "../../../store/cartStore"
 import { useUIStore } from "../../../store/uiStore"
+import { useLocation } from "react-router-dom"
+
+
 
 
 export function Navbar() {
+
+    const Location = useLocation()
+    const isHomePage = Location.pathname === "/"
     const itemCount = useCartStore(state => state.itemCount())
     const openCart = useCartStore(state => state.openCart)
     const openSearch = useUIStore(state => state.openSearch)
@@ -26,9 +32,13 @@ export function Navbar() {
 
     const navClass = scrolled ? styles.navbarScrolled : styles.navbar
 
+    const navForOtherScreens = isHomePage ? styles.navBar : styles.navbarScrolled
+
+
+    const isTransparent = `${navClass} ${navForOtherScreens}`
     return (
         <>
-            <nav className={navClass}>
+            <nav className={isTransparent }>
                 <div className={styles.content}>
                     <Link to="/" className={styles.navLogo} onClick={() => setMenuOpen(false)}>
                         <div className={styles.logoInner}>

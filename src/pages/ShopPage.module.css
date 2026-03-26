@@ -1,36 +1,33 @@
+
 .pageWrapper {
     display: flex;
-    max-width: 1400px;
-    /* Limits the width on huge screens */
+    /* max-width: 1400px; */
     margin: 0 auto;
     padding: 40px 24px;
+    padding-top: 6rem;
     gap: 48px;
-    /* Generous breathing room between Sidebar and Grid */
     align-items: flex-start;
-    /* CRITICAL: Prevents sidebar from stretching to page height */
 }
 
 .sidebar {
     width: 260px;
-    /* Fixed width */
     flex-shrink: 0;
-    /* Forces the sidebar to keep its width */
     position: sticky;
     top: 100px;
-    /* Sticks the filters as you scroll */
 }
 
 .resultsArea {
     flex-grow: 1;
-    /* Takes the rest of the space */
     min-width: 0;
-    /* Prevents grid from breaking the layout */
+    overflow: scroll;
+    height: auto;
+
 }
 
 .stickyContent {
     position: sticky;
     top: var(--space-24);
-    /* Keeps filters visible while scrolling */
+
 }
 
 
@@ -48,8 +45,6 @@
 
 .productGrid {
     display: grid;
-    /* This 'repeat' trick makes it 3 columns on desktop, 
-     but wraps naturally on smaller screens */
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: var(--space-8);
 }

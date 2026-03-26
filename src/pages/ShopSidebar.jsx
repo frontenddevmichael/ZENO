@@ -22,7 +22,7 @@ const SORT_OPTIONS = [
 
 // Price axis: ₦0 – ₦1,000,000
 const PRICE_MIN = 0;
-const PRICE_MAX = 1_000_000;
+const PRICE_MAX = 2_000_000;
 
 // Simulated histogram buckets (20 bars across the price range).
 // In a real app, derive these from your product data.
