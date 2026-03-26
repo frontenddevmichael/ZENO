@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { Link } from "react-router-dom"
 import { getFeaturedProducts } from "../../lib/utilities/query"
-import ProductCard from "../../../src/components/products/ProductCard"
+import ProductCard from "../products/ProductCard"
 import styles from "./FeaturedProducts.module.css"
 
 function SkeletonCard() {
@@ -20,6 +20,24 @@ export default function FeaturedProducts() {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [isVisible, setIsVisible] = useState(false)
+
+    const sectionRef = useRef(null)
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true)
+                    observer.disconnect()
+                }
+            },
+            { threshold: 0.1 }
+        )
+
+        if (sectionRef.current) observer.observe(sectionRef.current)
+        return () => observer.disconnect()
+    }, [])
 
     useEffect(() => {
         async function fetchData() {
@@ -36,7 +54,10 @@ export default function FeaturedProducts() {
     }, [])
 
     return (
-        <section className={styles.section}>
+        <section
+            ref={sectionRef}
+            className={`${styles.section} ${isVisible ? styles.visible : ""}`}
+        >
 
             <div className={styles.header}>
                 <div className={styles.headerLeft}>
@@ -57,7 +78,9 @@ export default function FeaturedProducts() {
                     {loading
                         ? [...Array(4)].map((_, i) => <SkeletonCard key={i} />)
                         : products.map(product => (
-                            <ProductCard key={product.id} {...product} />
+                            <div key={product.id} className={styles.cardWrapper}>
+                                <ProductCard {...product} />
+                            </div>
                         ))
                     }
                 </div>

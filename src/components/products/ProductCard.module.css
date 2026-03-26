@@ -14,8 +14,8 @@
 }
 
 .card:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
     border-color: var(--color-border-strong);
 }
 
@@ -25,12 +25,36 @@
 }
 
 .outOfStock {
-    opacity: 0.6;
+    opacity: 0.55;
     pointer-events: none;
 }
 
-.outOfStock .image {
-    filter: grayscale(40%);
+
+/* ── SCAN LINE — slides up the image on hover ── */
+
+.card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            var(--color-accent) 30%,
+            var(--color-accent) 70%,
+            transparent 100%);
+    opacity: 0;
+    z-index: 3;
+    top: 75%;
+    transition:
+        top 0.55s var(--ease-standard),
+        opacity 0.2s var(--ease-standard);
+    pointer-events: none;
+}
+
+.card:hover::before {
+    top: 0%;
+    opacity: 0.7;
 }
 
 
@@ -39,7 +63,7 @@
 .imageArea {
     position: relative;
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
     background-color: var(--color-bg-subtle);
 }
@@ -50,11 +74,62 @@
     object-fit: cover;
     object-position: center;
     display: block;
-    transition: transform var(--duration-panel) var(--ease-standard);
+    transition:
+        transform var(--duration-panel) var(--ease-standard),
+        filter var(--duration-standard) var(--ease-standard);
 }
 
 .card:hover .image {
-    transform: scale(1.04);
+    transform: scale(1.05);
+}
+
+.outOfStock .image {
+    filter: grayscale(50%);
+}
+
+
+/* ── CORNER ACCENT — top-right bracket on hover ── */
+
+.imageArea::before,
+.imageArea::after {
+    content: '';
+    position: absolute;
+    z-index: 3;
+    pointer-events: none;
+    transition:
+        opacity var(--duration-standard) var(--ease-standard),
+        transform var(--duration-standard) var(--ease-standard);
+    opacity: 0;
+}
+
+.imageArea::before {
+    top: 10px;
+    right: 10px;
+    width: 16px;
+    height: 16px;
+    border-top: 1.5px solid var(--color-accent);
+    border-right: 1.5px solid var(--color-accent);
+    transform: translate(4px, -4px);
+}
+
+.imageArea::after {
+    bottom: 10px;
+    left: 10px;
+    width: 16px;
+    height: 16px;
+    border-bottom: 1.5px solid var(--color-accent);
+    border-left: 1.5px solid var(--color-accent);
+    transform: translate(-4px, 4px);
+}
+
+.card:hover .imageArea::before {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+.card:hover .imageArea::after {
+    opacity: 1;
+    transform: translate(0, 0);
 }
 
 
@@ -64,7 +139,7 @@
     position: absolute;
     top: var(--space-3);
     left: var(--space-3);
-    z-index: 2;
+    z-index: 4;
     font-family: var(--font-mono);
     font-size: var(--text-label);
     font-weight: var(--weight-medium);
@@ -77,13 +152,13 @@
 }
 
 
-/* ── SOLD OUT OVERLAY ── */
+/* ── SOLD OUT TAG ── */
 
 .soldOut {
     position: absolute;
     top: var(--space-3);
     right: var(--space-3);
-    z-index: 2;
+    z-index: 4;
     font-family: var(--font-mono);
     font-size: var(--text-label);
     font-weight: var(--weight-medium);
@@ -97,7 +172,7 @@
 }
 
 
-/* ── QUICK ADD BUTTON ── */
+/* ── QUICK ADD ── */
 
 .quickAdd {
     position: absolute;
@@ -105,8 +180,7 @@
     left: 0;
     right: 0;
     height: 44px;
-    z-index: 2;
-
+    z-index: 4;
     background-color: var(--color-bg-inverse);
     color: var(--color-text-inverse);
     border: none;
@@ -117,6 +191,7 @@
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
     cursor: pointer;
+    overflow: hidden;
 
     transform: translateY(100%);
     transition:
@@ -136,14 +211,41 @@
     transform: translateY(0) scale(0.99);
 }
 
-.quickAddConfirmed {
-    background-color: var(--color-accent) !important;
-    transform: translateY(0) !important;
+.quickAdd.quickAddConfirmed {
+    background-color: var(--color-accent);
+    transform: translateY(0);
     cursor: default;
+}
+
+/* Ripple layer inside the button */
+.quickAdd::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center,
+            rgba(255, 255, 255, 0.25) 0%,
+            transparent 70%);
+    opacity: 0;
+    transform: scale(0);
+    transition:
+        opacity 0.4s var(--ease-standard),
+        transform 0.5s var(--ease-standard);
+}
+
+.quickAdd.quickAddConfirmed::after {
+    opacity: 1;
+    transform: scale(2.5);
 }
 
 .quickAdd:disabled {
     cursor: default;
+}
+
+/* Touch devices — always show the button */
+@media (hover: none) {
+    .quickAdd {
+        transform: translateY(0);
+    }
 }
 
 
@@ -152,9 +254,10 @@
 .info {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
-    padding: var(--space-4) var(--space-4);
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
     gap: var(--space-4);
+    border-top: 1px solid var(--color-border);
 }
 
 .name {
@@ -163,18 +266,58 @@
     font-weight: var(--weight-medium);
     color: var(--color-text-primary);
     line-height: var(--leading-heading);
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     min-width: 0;
+    transition: color var(--duration-micro) var(--ease-standard);
 }
 
-.price {
+.card:hover .name {
+    color: var(--color-text-accent);
+}
+
+/* Price wrapper — flips between amount and "View →" */
+.priceWrapper {
+    position: relative;
+    flex-shrink: 0;
+    height: 20px;
+    overflow: hidden;
+}
+
+.price,
+.priceHover {
+    display: block;
     font-family: var(--font-mono);
     font-size: var(--text-small);
     font-weight: var(--weight-medium);
-    color: var(--color-text-primary);
     white-space: nowrap;
-    flex-shrink: 0;
+    transition:
+        transform var(--duration-standard) var(--ease-standard),
+        opacity var(--duration-standard) var(--ease-standard);
+}
+
+.price {
+    color: var(--color-text-primary);
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.priceHover {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: var(--color-accent);
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.card:hover .price {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+.card:hover .priceHover {
+    transform: translateY(0);
+    opacity: 1;
 }

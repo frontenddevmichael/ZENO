@@ -1,25 +1,19 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useCartStore } from "../../store/cartStore"
-import styles from "../products/ProductCard.module.css"
+import styles from "./ProductCard.module.css"
 
 export default function ProductCard({ id, name, image, price, badge, inStock, slug }) {
     const navigate = useNavigate()
     const addItem = useCartStore((state) => state.addItem)
-
     const [added, setAdded] = useState(false)
 
-    const handleClick = () => {
-        navigate(`/product/${slug}`)
-    }
+    const handleClick = () => navigate(`/product/${slug}`)
 
     const handleAddToCart = (e) => {
         e.stopPropagation()
-
         if (!inStock) return
-
         addItem({ id, name, price, image, slug })
-
         setAdded(true)
         setTimeout(() => setAdded(false), 1800)
     }
@@ -28,20 +22,14 @@ export default function ProductCard({ id, name, image, price, badge, inStock, sl
         <article
             className={`${styles.card} ${!inStock ? styles.outOfStock : ""}`}
             onClick={handleClick}
-            role="button"
             tabIndex={0}
             aria-label={`View ${name}`}
             onKeyDown={(e) => e.key === "Enter" && handleClick()}
         >
             <div className={styles.imageArea}>
 
-                {badge && (
-                    <span className={styles.badge}>{badge}</span>
-                )}
-
-                {!inStock && (
-                    <span className={styles.soldOut}>Out of stock</span>
-                )}
+                {badge && <span className={styles.badge}>{badge}</span>}
+                {!inStock && <span className={styles.soldOut}>Out of stock</span>}
 
                 <img
                     src={image}
@@ -64,9 +52,11 @@ export default function ProductCard({ id, name, image, price, badge, inStock, sl
 
             <div className={styles.info}>
                 <h3 className={styles.name}>{name}</h3>
-                <p className={styles.price}>
-                    ₦{(price).toLocaleString()}
-                </p>
+
+                <div className={styles.priceWrapper}>
+                    <span className={styles.price}>₦{price.toLocaleString()}</span>
+                    <span className={styles.priceHover} aria-hidden="true">View →</span>
+                </div>
             </div>
 
         </article>

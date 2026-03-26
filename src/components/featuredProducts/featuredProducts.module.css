@@ -2,6 +2,18 @@
     padding: var(--space-24) var(--space-8);
     max-width: var(--width-content);
     margin-inline: auto;
+    position: relative;
+}
+
+.section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
 }
 
 
@@ -13,6 +25,8 @@
     justify-content: space-between;
     margin-bottom: var(--space-12);
     gap: var(--space-4);
+    position: relative;
+    z-index: 1;
 }
 
 .headerLeft {
@@ -21,6 +35,7 @@
     gap: var(--space-2);
 }
 
+/* Default state — hidden, waiting for .visible */
 .eyebrow {
     font-family: var(--font-mono);
     font-size: var(--text-label);
@@ -28,6 +43,10 @@
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
     color: var(--color-accent);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s var(--ease-enter) 0.1s,
+        transform 0.5s var(--ease-enter) 0.1s;
 }
 
 .heading {
@@ -37,6 +56,21 @@
     letter-spacing: var(--tracking-h2);
     line-height: var(--leading-heading);
     color: var(--color-text-primary);
+    position: relative;
+    display: inline-block;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.9s var(--ease-enter) 0.25s;
+}
+
+.heading::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    height: 1.5px;
+    width: 0;
+    background-color: var(--color-accent);
+    transition: width 0.7s var(--ease-enter) 1s;
 }
 
 .viewAll {
@@ -55,14 +89,89 @@
     white-space: nowrap;
     flex-shrink: 0;
     align-self: flex-end;
+    opacity: 0;
+    transform: translateY(10px);
     transition:
+        opacity 0.5s var(--ease-enter) 0.5s,
+        transform 0.5s var(--ease-enter) 0.5s,
         color var(--duration-micro) var(--ease-standard),
-        border-color var(--duration-micro) var(--ease-standard);
+        border-color var(--duration-micro) var(--ease-standard),
+        gap var(--duration-standard) var(--ease-standard);
 }
 
 .viewAll:hover {
     color: var(--color-text-primary);
     border-color: var(--color-text-primary);
+    gap: var(--space-3);
+}
+
+
+/* ── Cards — hidden by default ── */
+
+.cardWrapper {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+    transition:
+        opacity 0.55s var(--ease-enter),
+        transform 0.55s var(--ease-enter);
+}
+
+.cardWrapper:nth-child(1) {
+    transition-delay: 0.05s;
+}
+
+.cardWrapper:nth-child(2) {
+    transition-delay: 0.13s;
+}
+
+.cardWrapper:nth-child(3) {
+    transition-delay: 0.21s;
+}
+
+.cardWrapper:nth-child(4) {
+    transition-delay: 0.29s;
+}
+
+.cardWrapper:nth-child(5) {
+    transition-delay: 0.37s;
+}
+
+.cardWrapper:nth-child(6) {
+    transition-delay: 0.45s;
+}
+
+.cardWrapper:nth-child(7) {
+    transition-delay: 0.53s;
+}
+
+.cardWrapper:nth-child(8) {
+    transition-delay: 0.61s;
+}
+
+
+/* ── .visible fires everything ── */
+
+.visible .eyebrow {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.visible .heading {
+    clip-path: inset(0 0% 0 0);
+}
+
+.visible .heading::after {
+    width: 100%;
+}
+
+.visible .viewAll {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.visible .cardWrapper {
+    opacity: 1;
+    transform: translateY(0) scale(1);
 }
 
 
@@ -72,6 +181,8 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: var(--space-4);
+    position: relative;
+    z-index: 1;
 }
 
 
@@ -98,10 +209,22 @@
     inset: 0;
     background: linear-gradient(90deg,
             transparent 0%,
-            rgba(0, 0, 0, 0.04) 50%,
+            rgba(76, 175, 118, 0.08) 50%,
             transparent 100%);
     background-size: 200% 100%;
-    animation: shimmer 1.6s ease-in-out infinite;
+    animation: shimmer 1.8s ease-in-out infinite;
+}
+
+.skeletonCard:nth-child(2) .skeletonImage::after {
+    animation-delay: 0.2s;
+}
+
+.skeletonCard:nth-child(3) .skeletonImage::after {
+    animation-delay: 0.4s;
+}
+
+.skeletonCard:nth-child(4) .skeletonImage::after {
+    animation-delay: 0.6s;
 }
 
 .skeletonInfo {
@@ -125,18 +248,30 @@
     inset: 0;
     background: linear-gradient(90deg,
             transparent 0%,
-            rgba(0, 0, 0, 0.04) 50%,
+            rgba(76, 175, 118, 0.08) 50%,
             transparent 100%);
     background-size: 200% 100%;
-    animation: shimmer 1.6s ease-in-out infinite;
+    animation: shimmer 1.8s ease-in-out infinite;
+}
+
+.skeletonCard:nth-child(2) .skeletonLine::after {
+    animation-delay: 0.2s;
+}
+
+.skeletonCard:nth-child(3) .skeletonLine::after {
+    animation-delay: 0.4s;
+}
+
+.skeletonCard:nth-child(4) .skeletonLine::after {
+    animation-delay: 0.6s;
 }
 
 .skeletonName {
-    width: 75%;
+    width: 72%;
 }
 
 .skeletonPrice {
-    width: 40%;
+    width: 38%;
 }
 
 @keyframes shimmer {
@@ -160,6 +295,8 @@
     font-size: var(--text-small);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
+    position: relative;
+    z-index: 1;
 }
 
 
