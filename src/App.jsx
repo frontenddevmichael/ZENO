@@ -1,25 +1,27 @@
-import { Navbar } from "./components/layout/Nav/Nav.jsx"
-import CartDrawer from "./components/layout/CartDrawer/CartDrawer.jsx";
-import  SearchOverlay  from "./components/layout/searchOverlay/searchOverlay.jsx";
-import Hero from "./components/Hero/Hero.jsx";
-import FeaturedProducts from "./components/featuredProducts/featuredProducts.jsx";
 import { Routes, Route } from "react-router-dom";
-import Footer from "./components/layout/Footer/Footer.jsx"
-import WhatsAppButton from "./components/layout/whatsappButton/whatsappButton.jsx";
+// Ensure your import paths match your actual folder structure!
+import { Navbar } from "./components/layout/Nav/Nav.jsx";
+import CartDrawer from "./components/layout/CartDrawer/CartDrawer.jsx";
+import SearchOverlay from "./components/layout/searchOverlay/searchOverlay.jsx";
+import HomePage from "./home/Home.jsx";
+import ProductPage from "./pages/ProductDetails.jsx";
+import ShopPage from "./pages/ShopPage.jsx";
+import Footer from "./components/layout/Footer/Footer.jsx"; // Fixed path
 
 export default function App() {
-
-
-
   return (
     <>
+
       <Navbar />
       <SearchOverlay />
       <CartDrawer />
-      <Hero />
-      <FeaturedProducts />
-      <WhatsAppButton />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/shop" element={<ShopPage />} />
+          <Route path="/shop/:slug" element={<ProductPage />} />
+      </Routes>
+
       <Footer />
     </>
-  )
+  );
 }

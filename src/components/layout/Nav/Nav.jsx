@@ -4,6 +4,7 @@ import styles from "./Nav.module.css"
 import { useCartStore } from "../../../store/cartStore"
 import { useUIStore } from "../../../store/uiStore"
 
+
 export function Navbar() {
     const itemCount = useCartStore(state => state.itemCount())
     const openCart = useCartStore(state => state.openCart)
