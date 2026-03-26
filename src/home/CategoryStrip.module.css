@@ -61,3 +61,11 @@
     background-color: rgba(0, 0, 0, 0.6);
     /* Gets slightly darker on hover */
 }
+
+@media (max-width : 1024px) {
+    .strip {
+        display: flex;
+        flex-direction: column;
+    }
+
+}
