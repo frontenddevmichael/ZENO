@@ -37,7 +37,7 @@
     flex-direction: column;
     transform: translateX(100%);
     transition: transform var(--duration-panel) var(--ease-enter);
-
+    padding: 1rem;
     /* Crisp left edge */
     border-left: 1px solid var(--color-border);
 }
@@ -91,7 +91,7 @@
     height: 36px;
     border-radius: var(--radius-md);
     background: transparent;
-    border: 1px solid var(--color-border);
+    border: none;
     color: var(--color-text-secondary);
     cursor: pointer;
     transition:
@@ -103,7 +103,7 @@
 .closeBtn:hover {
     background-color: var(--color-bg-overlay);
     border-color: var(--color-border-strong);
-    color: var(--color-text-primary);
+    color: var(--color-error);
 }
 
 .closeBtn:active {
