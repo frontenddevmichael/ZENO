@@ -41,7 +41,7 @@ function SkeletonCard({ index, viewMode }) {
     return (
         <div
             className={`${styles.skeletonCard} ${viewMode === 'list' ? styles.skeletonCardList : ''}`}
-            style={{ animationDelay: `${index * 60}ms` }}
+            style={{ animationDelay: `${index * 20}ms` }}
             aria-hidden="true"
         >
             <div className={styles.skeletonImage} />
@@ -163,19 +163,6 @@ function StickyBar({ count, category, loading, viewMode, onViewChange, filterPil
                     <span className={styles.stickyCategory}> in {category}</span>
                 )}
             </span>
-            <div className={styles.viewToggle} role="group" aria-label="View mode">
-                {VIEW_MODES.map((m) => (
-                    <button
-                        key={m.id}
-                        className={`${styles.viewBtn} ${viewMode === m.id ? styles.viewBtnActive : ''}`}
-                        onClick={() => onViewChange(m.id)}
-                        aria-label={m.label}
-                        aria-pressed={viewMode === m.id}
-                    >
-                        {m.icon}
-                    </button>
-                ))}
-            </div>
         </div>
     );
 }
@@ -199,14 +186,11 @@ function MobileFilterBtn({ count, onClick }) {
 // ─── Mobile bottom sheet ──────────────────────────────────────────────────────
 
 function BottomSheet({ open, onClose, children }) {
-    // Prevent body scroll when open
     useEffect(() => {
         document.body.style.overflow = open ? 'hidden' : '';
         return () => { document.body.style.overflow = ''; };
     }, [open]);
-
     if (!open) return null;
-
     return (
         <>
             <div
@@ -310,19 +294,6 @@ export default function ShopPage() {
 
                         {/* Desktop view toggle */}
                         <div className={styles.headerControls}>
-                            <div className={styles.viewToggle} role="group" aria-label="View mode">
-                                {VIEW_MODES.map((m) => (
-                                    <button
-                                        key={m.id}
-                                        className={`${styles.viewBtn} ${viewMode === m.id ? styles.viewBtnActive : ''}`}
-                                        onClick={() => setViewMode(m.id)}
-                                        aria-label={m.label}
-                                        aria-pressed={viewMode === m.id}
-                                    >
-                                        {m.icon}
-                                    </button>
-                                ))}
-                            </div>
                         </div>
                     </div>
                 </header>

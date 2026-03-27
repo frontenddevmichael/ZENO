@@ -171,7 +171,7 @@ export default function CartDrawer() {
                         <div className={styles.subtotal}>
                             <span className={styles.subtotalLabel}>Subtotal</span>
                             <span className={styles.subtotalValue}>
-                                ₦{(total / 100).toLocaleString()}
+                                ₦{(total).toLocaleString()}
                             </span>
                         </div>
 

@@ -12,13 +12,11 @@ export  async function getFeaturedProducts() {
     }  /* eror control  */
 }
 export async function getProducts({ category, min, max, sort }) {
-    // 1. Start with a basic "Select All"
     let query = supabase
         .from("products")
         .select("*")
         .gt("stock" ,1)
 
-    // 2. Add Category filter (if it's not 'all' or null)
     if (category && category !== 'all') {
         query = query.eq("category", category);
     }

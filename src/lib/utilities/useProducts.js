@@ -10,8 +10,7 @@ export function useProducts(filters, retryKey) {
     useEffect(() => {
         async function fetchData() {
             try {
-                setLoading(true);
-                setError(null); // 2. Clear previous error so the UI feels fresh
+                setError(null); 
                 const data = await getProducts(filters);
                 setProducts(data);
             } catch (err) {
