@@ -321,3 +321,9 @@
     transform: translateY(0);
     opacity: 1;
 }
+
+@media (max-width: 768px) {
+    .quickAdd{
+        transform: translateY(0);
+    }
+}
