@@ -1,8 +1,77 @@
 /* ============================================================
    ShopSidebar.module.css
-   All values reference tokens from your design system.
-   Never hardcode a colour, spacing, or duration here.
+   Luxury refined tech store — every value from your tokens.
    ============================================================ */
+
+/* ── Keyframes ─────────────────────────────────────────────── */
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+@keyframes fadeSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pillIn {
+    from {
+        opacity: 0;
+        transform: scale(0.88) translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes dotPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 var(--color-accent-ring);
+    }
+
+    50% {
+        box-shadow: 0 0 0 4px transparent;
+    }
+}
+
+@keyframes histGrow {
+    from {
+        height: 0;
+    }
+
+    to {
+        height: var(--h);
+    }
+}
+
+@keyframes handlePop {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    40% {
+        transform: translate(-50%, -50%) scale(1.22);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
 
 
 /* ── Sidebar shell ─────────────────────────────────────────── */
@@ -11,49 +80,131 @@
     width: var(--width-sidebar);
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
-    padding: var(--space-6) 0;
+    gap: 0;
+    padding: var(--space-4) 0 var(--space-8);
+    /* Subtle left rule — gives it structure against the page */
+    border-right: 1px solid var(--color-border);
+    padding-right: var(--space-8);
+}
+
+
+/* ── Skeleton ──────────────────────────────────────────────── */
+
+.shimmer {
+    background: linear-gradient(90deg,
+            var(--color-bg-subtle) 0%,
+            var(--color-bg-overlay) 50%,
+            var(--color-bg-subtle) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.6s var(--ease-standard) infinite;
+    border-radius: var(--radius-sm);
+}
+
+.skeletonHeader {
+    composes: shimmer;
+    height: 11px;
+    width: 60%;
+    margin-bottom: var(--space-4);
+    border-radius: var(--radius-sm);
+}
+
+.skeletonRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+    animation: fadeSlideDown var(--duration-standard) var(--ease-enter) both;
+}
+
+.skeletonLine {
+    composes: shimmer;
+    height: 14px;
+}
+
+.skeletonBadge {
+    composes: shimmer;
+    width: 28px;
+    height: 14px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+.skeletonDivider {
+    height: 1px;
+    background: var(--color-border);
+    margin: var(--space-4) 0;
+}
+
+.skeletonHistogram {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 48px;
+    margin-bottom: var(--space-3);
+}
+
+.skeletonBar {
+    composes: shimmer;
+    flex: 1;
+    border-radius: 2px 2px 0 0;
+    animation: shimmer 1.6s var(--ease-standard) infinite;
+}
+
+.skeletonSlider {
+    composes: shimmer;
+    height: 4px;
+    border-radius: var(--radius-full);
+    width: 100%;
 }
 
 
 /* ── Active filter pills ───────────────────────────────────── */
 
-.activePills {
+.pills {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
     padding-bottom: var(--space-4);
-    border-bottom: 1px solid var(--color-border);
     margin-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .pill {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1);
-    padding: var(--space-1) var(--space-3);
+    gap: 5px;
+    padding: 4px var(--space-3);
     background: var(--color-accent-light);
     color: var(--color-accent-dark);
-    border: 1px solid var(--color-accent-ring);
+    border: 1px solid rgba(76, 175, 118, 0.25);
     border-radius: var(--radius-full);
     font-family: var(--font-primary);
     font-size: var(--text-small);
     font-weight: var(--weight-medium);
     cursor: pointer;
+    letter-spacing: 0.01em;
+    animation: pillIn var(--duration-standard) var(--ease-enter) both;
     transition:
         background var(--duration-micro) var(--ease-standard),
-        border-color var(--duration-micro) var(--ease-standard);
+        color var(--duration-micro) var(--ease-standard),
+        border-color var(--duration-micro) var(--ease-standard),
+        transform var(--duration-micro) var(--ease-standard);
 }
 
 .pill:hover {
     background: var(--color-accent);
     color: var(--color-text-inverse);
     border-color: var(--color-accent);
+    transform: translateY(-1px);
+}
+
+.pill:active {
+    transform: scale(0.96);
 }
 
 .pill svg {
-    flex-shrink: 0;
-    opacity: 0.7;
+    opacity: 0.75;
+    transition: opacity var(--duration-micro) var(--ease-standard);
 }
 
 .pill:hover svg {
@@ -61,19 +212,16 @@
 }
 
 
-/* ── Filter group wrapper ──────────────────────────────────── */
+/* ── Filter group ──────────────────────────────────────────── */
 
 .filterGroup {
-    border-bottom: 1px solid var(--color-border);
     padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .filterGroup:last-of-type {
     border-bottom: none;
 }
-
-
-/* ── Group toggle button (the label row) ───────────────────── */
 
 .groupToggle {
     display: flex;
@@ -98,50 +246,49 @@
     gap: var(--space-2);
 }
 
-/* .groupLabel uses .label-upper from your global tokens —
-   declared in globals.css as: font-size: 11px, weight 500,
-   tracking 0.06em, uppercase, color text-secondary.
-   The local class here just resets any inherited color so
-   the groupToggle hover can control it via `color`. */
+/* .label-upper global class handles font styling — we just inherit */
 .groupLabel {
     color: inherit;
 }
 
-/* Green dot shown when this filter group has an active value */
-.activeIndicator {
-    width: 6px;
-    height: 6px;
+/* Active filter indicator dot */
+.activeDot {
+    width: 5px;
+    height: 5px;
     border-radius: var(--radius-full);
     background: var(--color-accent);
-    flex-shrink: 0;
+    animation: dotPulse 2s var(--ease-standard) infinite;
 }
 
-.chevron {
+/* Chevron wrapper handles the rotation */
+.chevronWrap {
     color: var(--color-text-muted);
-    flex-shrink: 0;
-    transition: transform var(--duration-standard) var(--ease-standard);
+    display: flex;
+    align-items: center;
+    transition: transform var(--duration-standard) var(--ease-standard),
+        color var(--duration-micro) var(--ease-standard);
 }
 
 .chevronOpen {
     transform: rotate(180deg);
 }
 
+.groupToggle:hover .chevronWrap {
+    color: var(--color-text-secondary);
+}
 
-/* ── Collapsible content ───────────────────────────────────── */
-
-.groupContent {
+/* Collapse — grid-template-rows trick: no JS height calc needed */
+.groupBody {
     display: grid;
     grid-template-rows: 0fr;
     transition: grid-template-rows var(--duration-standard) var(--ease-enter);
-    /* grid-template-rows animation is the CSS-only collapse trick —
-     no JS height measurement needed */
 }
 
-.groupContentOpen {
+.groupBodyOpen {
     grid-template-rows: 1fr;
 }
 
-.groupContentInner {
+.groupBodyInner {
     overflow: hidden;
     padding-top: var(--space-3);
 }
@@ -149,18 +296,272 @@
 
 /* ── Category list ─────────────────────────────────────────── */
 
-.categoryList {
+.catList {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-/* Base filter button — used by categories AND sort options */
-.filterBtn {
+.catBtn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    padding-left: var(--space-4);
+    background: none;
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: var(--font-primary);
+    font-size: var(--text-body);
+    font-weight: var(--weight-regular);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    text-align: left;
+    overflow: hidden;
+    /* subtle background that reveals on hover */
+    transition:
+        background var(--duration-micro) var(--ease-standard),
+        color var(--duration-micro) var(--ease-standard),
+        padding-left var(--duration-standard) var(--ease-standard);
+}
+
+/* The animated left-edge line */
+.catLine {
+    position: absolute;
+    left: 0;
+    top: 12%;
+    height: 76%;
+    width: 2px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent);
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: transform var(--duration-standard) var(--ease-enter);
+}
+
+.catBtn:hover {
+    background: var(--color-bg-overlay);
+    color: var(--color-text-primary);
+}
+
+.catBtn:hover .catLine {
+    transform: scaleY(0.5);
+}
+
+.catBtnActive {
+    background: var(--color-accent-light);
+    color: var(--color-accent-dark);
+    font-weight: var(--weight-medium);
+    padding-left: calc(var(--space-4) + 2px);
+}
+
+.catBtnActive .catLine {
+    transform: scaleY(1);
+}
+
+.catBtnActive:hover {
+    background: var(--color-accent-light);
+    color: var(--color-accent-dark);
+}
+
+/* Category icon — geometric, refined */
+.catIcon {
+    font-size: 12px;
+    opacity: 0.45;
+    flex-shrink: 0;
+    transition: opacity var(--duration-micro) var(--ease-standard);
+    line-height: 1;
+}
+
+.catBtn:hover .catIcon,
+.catBtnActive .catIcon {
+    opacity: 0.85;
+}
+
+.catLabel {
+    flex: 1;
+}
+
+/* Product count */
+.catCount {
+    /* uses .spec-value global: JetBrains Mono, 13px */
+    padding: 1px 6px;
+    background: var(--color-bg-overlay);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    transition:
+        background var(--duration-micro) var(--ease-standard),
+        color var(--duration-micro) var(--ease-standard);
+}
+
+.catCountActive {
+    background: rgba(76, 175, 118, 0.12);
+    color: var(--color-accent-dark);
+}
+
+/* Slide-in arrow on hover */
+.catArrow {
+    color: var(--color-text-muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition:
+        opacity var(--duration-micro) var(--ease-standard),
+        transform var(--duration-micro) var(--ease-standard);
+    flex-shrink: 0;
+}
+
+.catArrowVisible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.catBtnActive .catArrow {
+    color: var(--color-accent);
+}
+
+
+/* ── Price slider ──────────────────────────────────────────── */
+
+.sliderRoot {
+    padding: var(--space-1) 0 var(--space-2);
+}
+
+/* Histogram */
+.histogram {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 48px;
+    margin-bottom: var(--space-3);
+    padding: 0 1px;
+}
+
+.histBar {
+    flex: 1;
+    height: var(--h);
+    background: var(--color-bg-overlay);
+    border-radius: 2px 2px 0 0;
+    min-height: 3px;
+    transform-origin: bottom;
+    animation: histGrow 600ms var(--ease-enter) both;
+    transition:
+        background var(--duration-standard) var(--ease-standard),
+        box-shadow var(--duration-standard) var(--ease-standard);
+}
+
+.histBarActive {
+    background: var(--color-accent-light);
+    box-shadow: 0 0 0 1px var(--color-accent-ring);
+}
+
+/* Track */
+.track {
+    position: relative;
+    height: 3px;
+    background: var(--color-bg-overlay);
+    border-radius: var(--radius-full);
+    margin: 0 9px;
+}
+
+.trackFill {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: var(--color-accent);
+    border-radius: var(--radius-full);
+    pointer-events: none;
+    transition: left var(--duration-micro) linear, width var(--duration-micro) linear;
+}
+
+/* Handle */
+.handle {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
+    background: var(--color-bg);
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius-full);
+    padding: 0;
+    cursor: grab;
+    touch-action: none;
+    z-index: var(--z-above);
+    transition:
+        box-shadow var(--duration-micro) var(--ease-standard),
+        border-color var(--duration-micro) var(--ease-standard);
+}
+
+/* The ring that expands on hover — pure CSS, no JS */
+.handleRing {
+    position: absolute;
+    inset: -6px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent-ring);
+    opacity: 0;
+    transform: scale(0.6);
+    transition:
+        opacity var(--duration-micro) var(--ease-standard),
+        transform var(--duration-micro) var(--ease-standard);
+    pointer-events: none;
+}
+
+.handle:hover .handleRing {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.handle:active {
+    cursor: grabbing;
+    border-color: var(--color-accent-dark);
+    animation: handlePop var(--duration-standard) var(--ease-standard);
+}
+
+.handle:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-accent-ring);
+}
+
+/* Price readout */
+.priceReadout {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: var(--space-4);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+}
+
+.priceVal {
+    /* uses .price global: JetBrains Mono, 16px, weight 500 */
+    font-size: var(--text-small);
+    color: var(--color-text-primary);
+}
+
+.priceSep {
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    font-family: var(--font-primary);
+}
+
+
+/* ── Sort options ──────────────────────────────────────────── */
+
+.sortList {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.sortBtn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
     width: 100%;
     padding: var(--space-2) var(--space-3);
     background: none;
@@ -175,171 +576,53 @@
     transition:
         background var(--duration-micro) var(--ease-standard),
         color var(--duration-micro) var(--ease-standard);
-    position: relative;
 }
 
-.filterBtn::before {
-    /* Left accent bar — invisible by default */
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 20%;
-    height: 60%;
-    width: 2px;
-    border-radius: var(--radius-full);
-    background: var(--color-accent);
-    opacity: 0;
-    transition: opacity var(--duration-micro) var(--ease-standard);
-}
-
-.filterBtn:hover {
+.sortBtn:hover {
     background: var(--color-bg-overlay);
     color: var(--color-text-primary);
 }
 
-.filterBtnActive {
-    background: var(--color-accent-light);
-    color: var(--color-accent-dark);
+.sortBtnActive {
+    color: var(--color-text-primary);
     font-weight: var(--weight-medium);
 }
 
-.filterBtnActive::before {
-    opacity: 1;
-}
-
-.filterBtnActive:hover {
-    background: var(--color-accent-light);
-    color: var(--color-accent-dark);
-}
-
-.filterBtnLabel {
-    flex: 1;
-}
-
-/* Category product count badge */
-.categoryCount {
-    /* Uses .spec-value from your globals (JetBrains Mono, 13px, text-secondary) */
-    padding: 1px var(--space-2);
-    background: var(--color-bg-overlay);
-    border-radius: var(--radius-sm);
-    transition: background var(--duration-micro) var(--ease-standard);
-}
-
-.filterBtnActive .categoryCount {
-    background: rgba(76, 175, 118, 0.15);
-    color: var(--color-accent-dark);
-}
-
-
-/* ── Sort options ──────────────────────────────────────────── */
-
-.sortOptions {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-
-/* ── Dual-range slider ─────────────────────────────────────── */
-
-.sliderWrapper {
-    padding: var(--space-2) 0 var(--space-1);
-}
-
-/* Histogram */
-.histogram {
-    display: flex;
-    align-items: flex-end;
-    gap: 2px;
-    height: 40px;
-    margin-bottom: var(--space-2);
-    padding: 0 2px;
-}
-
-.histBar {
-    flex: 1;
-    background: var(--color-bg-overlay);
-    border-radius: 2px 2px 0 0;
-    transition: background var(--duration-micro) var(--ease-standard);
-    min-height: 3px;
-}
-
-.histBarActive {
-    background: var(--color-accent-light);
-    border: 1px solid var(--color-accent-ring);
-    border-bottom: none;
-}
-
-/* Track */
-.track {
-    position: relative;
-    height: 4px;
-    background: var(--color-bg-overlay);
+/* Custom radio circle */
+.sortRadio {
+    width: 14px;
+    height: 14px;
     border-radius: var(--radius-full);
-    margin: 0 8px;
-    /* 8px margin leaves room for the handles (16px wide) to hang over the edges */
+    border: 1.5px solid var(--color-border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: border-color var(--duration-micro) var(--ease-standard);
 }
 
-.trackRange {
-    position: absolute;
-    top: 0;
-    height: 100%;
+.sortBtnActive .sortRadio {
+    border-color: var(--color-accent);
+}
+
+.sortRadioDot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
     background: var(--color-accent);
-    border-radius: var(--radius-full);
-    pointer-events: none;
-}
-
-.handle {
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 18px;
-    height: 18px;
-    background: var(--color-bg);
-    border: 2px solid var(--color-accent);
-    border-radius: var(--radius-full);
-    cursor: grab;
-    padding: 0;
-    transition:
-        box-shadow var(--duration-micro) var(--ease-standard),
-        transform var(--duration-micro) var(--ease-standard);
-    touch-action: none;
-    z-index: var(--z-above);
-}
-
-.handle:hover {
-    box-shadow: 0 0 0 6px var(--color-accent-ring);
-}
-
-.handle:active {
-    cursor: grabbing;
-    transform: translate(-50%, -50%) scale(1.15);
-    box-shadow: 0 0 0 8px var(--color-accent-ring);
-}
-
-.handle:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--color-border-focus);
-}
-
-/* Price labels below the slider */
-.priceLabels {
-    display: flex;
-    justify-content: space-between;
-    margin-top: var(--space-3);
-}
-
-.priceLabel {
-    /* Uses .price global utility — JetBrains Mono, 16px, weight 500 */
-    font-size: var(--text-small);
+    animation: pillIn var(--duration-micro) var(--ease-enter) both;
 }
 
 
-/* ── Clear all button ──────────────────────────────────────── */
+/* ── Clear all ─────────────────────────────────────────────── */
 
 .clearBtn {
-    margin-top: var(--space-4);
-    padding: var(--space-2) var(--space-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+    padding: var(--space-2) var(--space-4);
     width: 100%;
     background: none;
     border: 1px solid var(--color-border-strong);
@@ -349,10 +632,13 @@
     font-weight: var(--weight-medium);
     color: var(--color-text-secondary);
     cursor: pointer;
+    letter-spacing: 0.01em;
     transition:
         background var(--duration-micro) var(--ease-standard),
         color var(--duration-micro) var(--ease-standard),
-        border-color var(--duration-micro) var(--ease-standard);
+        border-color var(--duration-micro) var(--ease-standard),
+        transform var(--duration-micro) var(--ease-standard);
+    animation: fadeSlideDown var(--duration-standard) var(--ease-enter) both;
 }
 
 .clearBtn:hover {
@@ -361,16 +647,45 @@
     color: var(--color-error);
 }
 
+.clearBtn:active {
+    transform: scale(0.98);
+}
 
-/* ── Mobile: bottom sheet trigger ─────────────────────────────
-   Below 768px the sidebar is hidden and replaced by a
-   sticky "Filters" bar at the bottom of the screen.
-   The actual bottom-sheet drawer belongs in ShopPage.
-   ─────────────────────────────────────────────────────────── */
+
+/* ── Mobile ─────────────────────────────────────────────────── */
 
 @media (max-width: 768px) {
     .sidebar {
         width: 100%;
+        border-right: none;
+        padding-right: 0;
         padding: var(--space-4);
+    }
+}
+
+
+/* ── Reduced motion override ───────────────────────────────── */
+/* (your global @media prefers-reduced-motion already handles
+   transitions, but we also kill the shimmer and histGrow
+   animations explicitly here just in case) */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .shimmer,
+    .skeletonHeader,
+    .skeletonLine,
+    .skeletonBadge,
+    .skeletonBar,
+    .skeletonSlider {
+        animation: none;
+    }
+
+    .histBar {
+        animation: none;
+        height: var(--h);
+    }
+
+    .activeDot {
+        animation: none;
     }
 }

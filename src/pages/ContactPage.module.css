@@ -1,0 +1,853 @@
+.page {
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.hero {
+    position: relative;
+    background-color: var(--color-bg-inverse);
+    overflow: hidden;
+    padding: 160px var(--space-8) var(--space-24);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+    opacity: 0.5;
+}
+
+/* Signal wave rings — conceptual: "We're broadcasting. We're here." */
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: -120px;
+    right: -120px;
+    width: 480px;
+    height: 480px;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(76, 175, 118, 0.06);
+    box-shadow:
+        0 0 0 80px rgba(76, 175, 118, 0.025),
+        0 0 0 160px rgba(76, 175, 118, 0.015),
+        0 0 0 240px rgba(76, 175, 118, 0.008);
+    pointer-events: none;
+    animation: ripple 6s ease-in-out infinite;
+}
+
+@keyframes ripple {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.04);
+        opacity: 0.7;
+    }
+}
+
+.heroGrid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 64px 64px;
+    pointer-events: none;
+}
+
+.heroContent {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+    animation: fadeUp 0.9s var(--ease-enter) 0.1s both;
+}
+
+.eyebrow {
+    font-family: var(--font-regular);
+    font-size:2rem;
+    font-weight: var(--weight-light);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    border: 2.5px dashed rgba(76, 175, 118, 0.28);
+    border-radius: var(--radius-full);
+    padding:  var(--space-4);
+}
+
+.heroHeadline {
+    font-family: var(--font-primary);
+    font-size: var(--text-display);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-display);
+    line-height: var(--leading-display);
+    color: var(--color-text-inverse);
+}
+
+.accent {
+    color: var(--color-accent);
+}
+
+.heroSub {
+    font-family: var(--font-primary);
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body-lg);
+    color: rgba(255, 255, 255, 0.45);
+    max-width: 46ch;
+}
+
+
+/* ============================================================
+   CHANNELS — three terminal cards
+   ============================================================ */
+
+.channels {
+    position: relative;
+    background-color: var(--color-bg-subtle);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.channelsInner {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.channelCard {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-8);
+    text-decoration: none;
+    border-right: 1px solid var(--color-border);
+    position: relative;
+    overflow: hidden;
+    transition: background-color var(--duration-micro) var(--ease-standard);
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeUp 0.55s var(--ease-enter) both;
+    animation-delay: calc(var(--i) * 0.12s + 0.15s);
+}
+
+.channelCard:last-child {
+    border-right: none;
+}
+
+/* Underline sweep */
+.channelCard::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background: linear-gradient(90deg, var(--color-accent), rgba(76, 175, 118, 0.3));
+    transition: width var(--duration-standard) var(--ease-enter);
+}
+
+.channelCard:hover {
+    background-color: var(--color-bg-overlay);
+}
+
+.channelCard:hover::after {
+    width: 100%;
+}
+
+/* Channel number — top right corner, barely visible */
+.channelCard::before {
+    content: '0'attr(data-index);
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    color: var(--color-text-muted);
+    opacity: 0.4;
+    letter-spacing: 0.05em;
+}
+
+.channelIcon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    background-color: var(--color-bg);
+    transition:
+        color var(--duration-micro) var(--ease-standard),
+        border-color var(--duration-micro) var(--ease-standard),
+        background-color var(--duration-micro) var(--ease-standard);
+}
+
+.channelIcon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.channelCard:hover .channelIcon {
+    color: var(--color-accent);
+    border-color: rgba(76, 175, 118, 0.3);
+    background-color: rgba(76, 175, 118, 0.06);
+}
+
+.channelText {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.channelLabel {
+    font-family: var(--font-primary);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+}
+
+.channelDetail {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    color: var(--color-text-muted);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.channelArrow {
+    margin-left: auto;
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition:
+        opacity var(--duration-micro) var(--ease-standard),
+        transform var(--duration-standard) var(--ease-standard),
+        color var(--duration-micro) var(--ease-standard);
+}
+
+.channelCard:hover .channelArrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--color-accent);
+}
+
+
+/* ============================================================
+   FORM SECTION — two-column layout with wire line
+   ============================================================ */
+
+.formSection {
+    padding: var(--space-24) var(--space-8);
+}
+
+
+.formInner {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: var(--space-20);
+    align-items: start;
+}
+
+/* Left column context */
+.formContext {
+    position: sticky;
+    top: calc(var(--height-navbar) + var(--space-8));
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    opacity: 0;
+    transform: translateX(-16px);
+    transition: opacity 0.7s var(--ease-enter), transform 0.7s var(--ease-enter);
+}
+
+.formSection.visible .formContext {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.formHeader {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.sectionEyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-accent);
+}
+
+.sectionHeading {
+    font-family: var(--font-primary);
+    font-size: var(--text-h2);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-h2);
+    color: var(--color-text-inverse);
+    position: relative;
+    display: inline-block;
+}
+
+.sectionHeading::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    height: 1.5px;
+    width: 0;
+    background-color: var(--color-accent);
+    transition: width 0.8s var(--ease-enter) 0.5s;
+}
+
+.formSection.visible .sectionHeading::after,
+.faqSection.visible .sectionHeading::after {
+    width: 100%;
+}
+
+.formContextNote {
+    font-family: var(--font-primary);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-text-secondary);
+}
+
+/* Response time promise */
+.responseTime {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg-subtle);
+}
+
+.responseDot {
+    width: 7px;
+    height: 7px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-accent);
+    flex-shrink: 0;
+    animation: pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(0.75);
+    }
+}
+
+.responseText {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-secondary);
+    letter-spacing: 0.02em;
+}
+
+/* Right column — the form itself */
+.formRight {
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s var(--ease-enter) 0.15s, transform 0.7s var(--ease-enter) 0.15s;
+}
+
+.formSection.visible .formRight {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+.fieldRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: 1rem;
+}
+
+.label {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+}
+
+.input,
+.textarea {
+    width: 100%;
+    background-color: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    font-family: var(--font-primary);
+    font-size: var(--text-body);
+    color: var(--color-text-primary);
+    outline: none;
+    -webkit-appearance: none;
+    transition:
+        border-color var(--duration-micro) var(--ease-standard),
+        background-color var(--duration-micro) var(--ease-standard),
+        box-shadow var(--duration-micro) var(--ease-standard);
+}
+
+.input {
+    height: var(--height-input);
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 140px;
+    line-height: var(--leading-body);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+    color: var(--color-text-muted);
+}
+
+.input:hover,
+.textarea:hover {
+    background-color: var(--color-bg-overlay);
+}
+
+.input:focus,
+.textarea:focus {
+    background-color: var(--color-bg);
+    border-color: var(--color-border-focus);
+    box-shadow: 0 0 0 3px var(--color-accent-ring);
+}
+
+.submitBtn {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    height: var(--height-input);
+    padding: 0 var(--space-8);
+    background-color: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: var(--font-primary);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--duration-micro) var(--ease-standard);
+}
+
+.submitBtn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-accent);
+    transform: translateX(-101%);
+    transition: transform var(--duration-standard) var(--ease-enter);
+}
+
+.submitBtn:hover::before {
+    transform: translateX(0);
+}
+
+.submitBtn:active {
+    transform: scale(0.99);
+}
+
+.submitBtn:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.submitBtn:disabled::before {
+    transform: translateX(-101%);
+}
+
+.submitBtn span,
+.submitBtn .btnArrow {
+    position: relative;
+    z-index: 1;
+}
+
+.btnArrow {
+    transition: transform var(--duration-standard) var(--ease-standard);
+}
+
+.submitBtn:hover .btnArrow {
+    transform: translateX(4px);
+}
+
+.spinner {
+    position: relative;
+    z-index: 1;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: var(--radius-full);
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ── Success state ── */
+.successState {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-10) var(--space-8);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-accent-light);
+    animation: fadeUp 0.5s var(--ease-enter) both;
+}
+
+.successDot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-accent);
+    animation: dotPop 0.4s var(--ease-enter) both;
+}
+
+@keyframes dotPop {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+.successTitle {
+    font-family: var(--font-primary);
+    font-size: var(--text-body-lg);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+}
+
+.successSub {
+    font-family: var(--font-primary);
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+}
+
+
+/* ============================================================
+   FAQ SECTION — ghost numbers as decorative context
+   ============================================================ */
+
+.faqSection {
+    padding: var(--space-24) var(--space-8);
+    background-color: var(--color-bg-inverse);
+    border-top: 1px solid var(--color-border);
+}
+
+.faqInner {
+    max-width: 720px;
+    margin-inline: auto;
+}
+
+.faqHeader {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-bottom: var(--space-12);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s var(--ease-enter), transform 0.6s var(--ease-enter);
+
+}
+
+.faqSection.visible .faqHeader {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.faqList {
+    display: flex;
+    justify-self: center;
+    flex-direction: column;
+    border-top: 1px solid var(--color-border);
+    width: 80%;
+}
+
+.faqItem {
+    border-bottom: 1px solid var(--color-border);
+    position: relative;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s var(--ease-enter), transform 0.5s var(--ease-enter);
+    margin-bottom: 3rem;
+}
+
+.faqSection.visible .faqItem:nth-child(1) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.08s;
+}
+
+.faqSection.visible .faqItem:nth-child(2) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.16s;
+}
+
+.faqSection.visible .faqItem:nth-child(3) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.24s;
+}
+
+.faqSection.visible .faqItem:nth-child(4) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.32s;
+}
+
+/* Ghost ordinal number in the background of each FAQ row */
+.faqItem::before {
+    content: '0'counter(faq);
+    counter-increment: faq;
+    position: absolute;
+    right: var(--space-12);
+    top: 50%;
+    left: -18%;
+    transform: translateY(-50%);
+    font-family: var(--font-mono);
+    font-size: 64px;
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    opacity: 0.03;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    transition: opacity var(--duration-standard) var(--ease-standard);
+}
+
+.faqList {
+    counter-reset: faq;
+}
+
+.faqOpen::before {
+    opacity: .6;
+}
+
+.faqQ {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-5) 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-primary);
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-accent);
+    text-align: left;
+    position: relative;
+    z-index: 1;
+    transition: color var(--duration-micro) var(--ease-standard);
+}
+
+.faqQ:hover {
+    color: var(--color-accent);
+}
+
+/* Rotating icon — a clean + that becomes × */
+.faqIcon {
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+    transition:
+        color var(--duration-micro) var(--ease-standard),
+        border-color var(--duration-micro) var(--ease-standard),
+        background-color var(--duration-micro) var(--ease-standard),
+        transform var(--duration-standard) var(--ease-standard);
+}
+
+.faqOpen .faqIcon {
+    color: var(--color-text-inverse);
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+    transform: rotate(45deg);
+}
+
+.faqA {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--duration-standard) var(--ease-enter);
+    position: relative;
+    z-index: 1;;
+}
+
+.faqOpen .faqA {
+    grid-template-rows: 1fr;
+}
+
+.faqA p {
+    overflow: hidden;
+    font-family: var(--font-primary);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-text-secondary);
+    padding-bottom: var(--space-5);
+    padding-left: 0;
+    border-left: 2px solid var(--color-text-primary);
+    padding-left: var(--space-4);
+    margin-left: 0;
+
+}
+
+
+/* ============================================================
+   SHARED ANIMATIONS
+   ============================================================ */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1024px) {
+    .formInner {
+        grid-template-columns: 1fr;
+        gap: var(--space-12);
+    }
+
+    .formContext {
+        position: static;
+    }
+
+    .formRight::before {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .heroHeadline {
+        font-size: var(--text-h1);
+    }
+
+    .channelsInner {
+        grid-template-columns: 1fr;
+    }
+
+    .channelCard {
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .channelCard:last-child {
+        border-bottom: none;
+    }
+
+    .fieldRow {
+        grid-template-columns: 1fr;
+    }
+
+    .submitBtn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 120px var(--space-4) var(--space-16);
+    }
+
+    .heroHeadline {
+        font-size: var(--text-h2);
+    }
+
+    .formSection,
+    .faqSection {
+        padding: var(--space-16) var(--space-4);
+    }
+
+    .faqItem::before {
+        display: none;
+    }
+}

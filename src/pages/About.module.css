@@ -1,0 +1,760 @@
+.page {
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.hero {
+    position: relative;
+    background-color: var(--color-bg-inverse);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100svh;
+    padding: var(--space-32) var(--space-8) 0;
+}
+
+/* Top accent line */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--color-accent) 50%, transparent 100%);
+    opacity: 0.6;
+}
+
+/* Diagonal slash — pure decorative geometry, signals "precision" */
+.hero::after {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -5%;
+    width: 50%;
+    height: 130%;
+    background: linear-gradient(105deg,
+            rgba(76, 175, 118, 0.03) 0%,
+            transparent 60%);
+    transform: skewX(-8deg);
+    pointer-events: none;
+}
+
+.heroGrid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 64px 64px;
+    pointer-events: none;
+}
+
+/* Floating ambient orb */
+.heroOrb {
+    position: absolute;
+    width: 640px;
+    height: 640px;
+    border-radius: var(--radius-full);
+    background: radial-gradient(circle, rgba(76, 175, 118, 0.09) 0%, transparent 65%);
+    top: -180px;
+    right: -160px;
+    animation: orbFloat 9s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+/* Second smaller orb bottom-left for depth */
+.heroOrb::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: var(--radius-full);
+    background: radial-gradient(circle, rgba(76, 175, 118, 0.05) 0%, transparent 70%);
+    bottom: -600px;
+    left: -700px;
+}
+
+@keyframes orbFloat {
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(-40px, 60px) scale(1.08);
+    }
+}
+
+/* Vertical "ZENO" spine text — magazine column signature */
+.heroSpine {
+    position: absolute;
+    left: var(--space-8);
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: center center;
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.12);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+}
+
+.heroContent {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 860px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+}
+
+.heroContent .eyebrow,
+.heroContent .heroHeadline,
+.heroContent .heroSub {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s var(--ease-enter), transform 0.8s var(--ease-enter);
+}
+
+.heroContent.visible .eyebrow {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.1s;
+}
+
+.heroContent.visible .heroHeadline {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.28s;
+}
+
+.heroContent.visible .heroSub {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.46s;
+}
+
+.eyebrow {
+    font-family: var(--font-regular);
+    font-size: 2rem;
+    font-weight: var(--weight-light);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    border: 2.5px dashed rgba(76, 175, 118, 0.28);
+    border-radius: var(--radius-full);
+    padding: var(--space-4);
+}
+
+.heroHeadline {
+    font-family: var(--font-primary);
+    font-size: var(--text-display);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-display);
+    line-height: var(--leading-display);
+    color: var(--color-text-inverse);
+}
+
+.accent {
+    color: var(--color-accent);
+}
+
+.heroSub {
+    font-family: var(--font-primary);
+    font-size: var(--text-body-lg);
+    font-weight: var(--weight-regular);
+    line-height: var(--leading-body-lg);
+    color: rgba(255, 255, 255, 0.45);
+    max-width: 54ch;
+}
+
+/* ── Stats bar ── */
+.statsBar {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    max-width: var(--width-content);
+    margin-top: var(--space-24);
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-8) var(--space-4);
+    border-right: 1px solid rgba(255, 255, 255, 0.07);
+    position: relative;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s var(--ease-enter), transform 0.6s var(--ease-enter);
+    overflow: hidden;
+}
+
+.stat:last-child {
+    border-right: none;
+}
+
+/* Accent dot that appears above each stat on hover */
+.stat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 32px;
+    height: 2px;
+    background-color: var(--color-accent);
+    transition: transform var(--duration-standard) var(--ease-enter);
+    border-radius: 0 0 2px 2px;
+}
+
+.stat:hover::before {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.statsBar.visible .stat {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.statsBar.visible .stat:nth-child(1) {
+    transition-delay: 0.05s;
+}
+
+.statsBar.visible .stat:nth-child(2) {
+    transition-delay: 0.15s;
+}
+
+.statsBar.visible .stat:nth-child(3) {
+    transition-delay: 0.25s;
+}
+
+.statsBar.visible .stat:nth-child(4) {
+    transition-delay: 0.35s;
+}
+
+.statNum {
+    font-family: var(--font-mono);
+    font-size: var(--text-h2);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-inverse);
+    letter-spacing: -0.03em;
+    line-height: 1;
+}
+
+.statLabel {
+    font-family: var(--font-primary);
+    font-size: var(--text-label);
+    font-weight: var(--weight-regular);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.28);
+}
+
+
+/* ============================================================
+   VALUES — asymmetric bento grid
+   ============================================================ */
+
+.values {
+    padding: var(--space-24) var(--space-8);
+    max-width: var(--width-content);
+    margin-inline: auto;
+    position: relative;
+}
+
+/* Faint dot-grid behind values */
+.values::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.055) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.valuesHeader {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: var(--space-12);
+    gap: var(--space-6);
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s var(--ease-enter), transform 0.6s var(--ease-enter);
+}
+
+.values.visible .valuesHeader {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.valuesHeaderLeft {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.sectionEyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-accent);
+}
+
+.sectionHeading {
+    font-family: var(--font-primary);
+    font-size: var(--text-h2);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-h2);
+    color: var(--color-text-primary);
+    position: relative;
+    display: inline-block;
+}
+
+.sectionHeading::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    height: 1.5px;
+    width: 0;
+    background-color: var(--color-accent);
+    transition: width 0.8s var(--ease-enter) 0.5s;
+}
+
+.values.visible .sectionHeading::after {
+    width: 100%;
+}
+
+/* "Precision by design" side note */
+.valuesNote {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    color: var(--color-text-muted);
+    letter-spacing: 0.02em;
+    text-align: right;
+    max-width: 22ch;
+    line-height: var(--leading-body);
+}
+
+/* Asymmetric bento — tall first, normal second, normal third, tall fourth */
+.valuesGrid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    gap: var(--space-3);
+}
+
+.valueCard {
+    padding: var(--space-8);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    background-color: var(--color-bg);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+        opacity 0.6s var(--ease-enter),
+        transform 0.6s var(--ease-enter),
+        border-color var(--duration-standard) var(--ease-standard),
+        box-shadow var(--duration-standard) var(--ease-standard);
+}
+
+.valueCard::before {
+    content: attr(data-num);
+    position: absolute;
+    bottom: -16px;
+    right: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 96px;
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    opacity: 0.03;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    transition: opacity var(--duration-standard) var(--ease-standard);
+}
+
+.valueCard:hover::before {
+    opacity: 0.07;
+}
+
+
+
+.valueCard:hover {
+    border-color: rgba(76, 175, 118, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07), 0 0 0 1px rgba(76, 175, 118, 0.08);
+}
+
+
+/* Cards 1 & 4 get extra top padding to create asymmetry */
+.valueCard:nth-child(1),
+.valueCard:nth-child(4) {
+    padding-top: var(--space-12);
+}
+
+.values.visible .valueCard:nth-child(1) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.08s;
+}
+
+.values.visible .valueCard:nth-child(2) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.16s;
+}
+
+.values.visible .valueCard:nth-child(3) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.24s;
+}
+
+.values.visible .valueCard:nth-child(4) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.32s;
+}
+
+.valueNum {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    color: var(--color-accent);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+/* Small horizontal rule after the number */
+.valueNum::after {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background-color: var(--color-accent);
+    opacity: 0.4;
+}
+
+.valueTitle {
+    font-family: var(--font-primary);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    letter-spacing: var(--tracking-h3);
+    line-height: var(--leading-heading);
+}
+
+.valueBody {
+    font-family: var(--font-primary);
+    font-size: var(--text-body);
+    font-weight: var(--weight-regular);
+    line-height: var(--leading-body);
+    color: var(--color-text-secondary);
+    margin-top: auto;
+}
+
+
+/* ============================================================
+   MANIFESTO — full dark takeover
+   ============================================================ */
+
+.manifesto {
+    background-color: var(--color-bg-inverse);
+    padding: var(--space-32) var(--space-8);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Diagonal cross-hatch lines — "precision grid" conceptual visual */
+.manifesto::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(45deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(-45deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+}
+
+/* Large circle ring behind the quote — frames it like a viewfinder */
+.manifesto::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(76, 175, 118, 0.06);
+    pointer-events: none;
+}
+
+.manifestoInner {
+    max-width: 800px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.9s var(--ease-enter), transform 0.9s var(--ease-enter);
+}
+
+.manifesto.visible .manifestoInner {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* The huge opening mark — purely typographic decoration */
+.manifestoMark {
+    font-family: var(--font-primary);
+    font-size: 120px;
+    line-height: 0.5;
+    color: var(--color-accent);
+    font-weight: var(--weight-medium);
+    opacity: 0.2;
+    display: block;
+    align-self: flex-start;
+    margin-left: -var(--space-4);
+}
+
+.quote {
+    font-family: var(--font-primary);
+    font-size: var(--text-h1);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-h1);
+    line-height: var(--leading-heading);
+    color: var(--color-text-inverse);
+    font-style: normal;
+}
+
+/* The word "right" gets accent treatment — precision emphasis */
+.quote em {
+    font-style: normal;
+    color: var(--color-accent);
+}
+
+.quoteCite {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+/* Line before the cite — like a dash before an attribution */
+.quoteCite::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+/* ============================================================
+   CTA SECTION
+   ============================================================ */
+
+.cta {
+    padding: var(--space-24) var(--space-8);
+    text-align: center;
+    position: relative;
+}
+
+/* Two very subtle horizontal rules at top and bottom of CTA */
+.cta::before,
+.cta::after {
+    content: '';
+    position: absolute;
+    left: var(--space-8);
+    right: var(--space-8);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+}
+
+.cta::before {
+    top: 0;
+}
+
+.cta::after {
+    bottom: 0;
+}
+
+.ctaInner {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-8);
+}
+
+.ctaHeading {
+    font-family: var(--font-primary);
+    font-size: var(--text-h2);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-h2);
+    color: var(--color-text-primary);
+}
+
+.ctaBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    height: var(--height-input);
+    padding: 0 var(--space-8);
+    background-color: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+    border-radius: var(--radius-md);
+    font-family: var(--font-primary);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--duration-micro) var(--ease-standard);
+}
+
+.ctaBtn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-accent);
+    transform: translateX(-101%);
+    transition: transform var(--duration-standard) var(--ease-enter);
+}
+
+.ctaBtn:hover::before {
+    transform: translateX(0);
+}
+
+.ctaBtn:active {
+    transform: scale(0.99);
+}
+
+.ctaBtn span {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+    .heroHeadline {
+        font-size: var(--text-h1);
+    }
+
+    .heroSpine {
+        display: none;
+    }
+
+    .statsBar {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stat {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .stat:nth-child(even) {
+        border-right: none;
+    }
+
+    .valuesGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .valueCard:nth-child(1),
+    .valueCard:nth-child(4) {
+        padding-top: var(--space-8);
+    }
+
+    .quote {
+        font-size: var(--text-h2);
+    }
+
+    .valuesHeader {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .valuesNote {
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 100px var(--space-4) 0;
+    }
+
+    .heroHeadline {
+        font-size: var(--text-h2);
+    }
+
+    .values,
+    .cta {
+        padding: var(--space-16) var(--space-4);
+    }
+
+    .manifesto {
+        padding: var(--space-20) var(--space-4);
+    }
+
+    .quote {
+        font-size: var(--text-h3);
+    }
+
+    .manifestoMark {
+        font-size: 80px;
+    }
+}

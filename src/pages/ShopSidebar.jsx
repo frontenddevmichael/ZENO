@@ -1,61 +1,84 @@
 import { useSearchParams } from 'react-router-dom';
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import styles from './ShopSidebar.module.css';
 import FilterGroup from './FilterSection';
 
-// ─── Constants ───────────────────────────────────────────────────────────────
+// ─── Constants ────────────────────────────────────────────────────────────────
 
 const CATEGORIES = [
-    { slug: 'all', label: 'All Products' },
-    { slug: 'phones', label: 'Phones' },
-    { slug: 'laptops', label: 'Laptops' },
-    { slug: 'audio', label: 'Audio' },
-    { slug: 'accessories', label: 'Accessories' },
+    { slug: 'all', label: 'All Products', icon: '◈' },
+    { slug: 'phones', label: 'Phones', icon: '◱' },
+    { slug: 'laptops', label: 'Laptops', icon: '◰' },
+    { slug: 'audio', label: 'Audio', icon: '◲' },
+    { slug: 'accessories', label: 'Accessories', icon: '◳' },
 ];
 
 const SORT_OPTIONS = [
-    { value: 'newest', label: 'Newest' },
-    { value: 'price_asc', label: 'Price: Low → High' },
-    { value: 'price_desc', label: 'Price: High → Low' },
-    { value: 'popular', label: 'Most Popular' },
+    { value: 'newest', label: 'Newest arrivals' },
+    { value: 'price_asc', label: 'Price: low to high' },
+    { value: 'price_desc', label: 'Price: high to low' },
+    { value: 'popular', label: 'Most popular' },
 ];
 
-// Price axis: ₦0 – ₦1,000,000
 const PRICE_MIN = 0;
-const PRICE_MAX = 2_000_000;
+const PRICE_MAX = 1_000_000;
 
-// Simulated histogram buckets (20 bars across the price range).
-// In a real app, derive these from your product data.
-const HISTOGRAM_BUCKETS = [
-    3, 8, 14, 22, 31, 28, 24, 19, 16, 20,
-    18, 13, 10, 8, 6, 5, 4, 3, 2, 1,
-];
+// Simulated product distribution — replace with real data from your hook
+const HISTOGRAM = [3, 8, 14, 22, 31, 28, 24, 19, 16, 20, 18, 13, 10, 8, 6, 5, 4, 3, 2, 1];
+
+const fmt = (n) => `₦${n.toLocaleString('en-NG')}`;
+const fmtK = (n) => n >= 1000 ? `₦${(n / 1000).toFixed(0)}k` : fmt(n);
 
 
-// ─── Dual-range slider ────────────────────────────────────────────────────────
+// ─── Skeleton loader ──────────────────────────────────────────────────────────
 
-function DualRangeSlider({ min, max, low, high, onChange }) {
+export function ShopSidebarSkeleton() {
+    return (
+        <aside className={styles.sidebar} aria-busy="true" aria-label="Loading filters">
+            <div className={styles.skeletonHeader} />
+            {[80, 65, 72, 68, 58].map((w, i) => (
+                <div key={i} className={styles.skeletonRow} style={{ animationDelay: `${i * 80}ms` }}>
+                    <div className={styles.skeletonLine} style={{ width: `${w}%` }} />
+                    <div className={styles.skeletonBadge} />
+                </div>
+            ))}
+            <div className={styles.skeletonDivider} />
+            <div className={styles.skeletonHistogram}>
+                {HISTOGRAM.map((h, i) => (
+                    <div
+                        key={i}
+                        className={styles.skeletonBar}
+                        style={{
+                            height: `${(h / Math.max(...HISTOGRAM)) * 100}%`,
+                            animationDelay: `${i * 40}ms`,
+                        }}
+                    />
+                ))}
+            </div>
+            <div className={styles.skeletonSlider} />
+        </aside>
+    );
+}
+
+
+// ─── Dual range slider ────────────────────────────────────────────────────────
+
+function PriceSlider({ low, high, onChange, onCommit }) {
     const trackRef = useRef(null);
+    const bucketMax = Math.max(...HISTOGRAM);
+    const toPercent = (v) => ((v - PRICE_MIN) / (PRICE_MAX - PRICE_MIN)) * 100;
 
-    // Convert a price value → percentage position on the track
-    const toPercent = (val) => ((val - min) / (max - min)) * 100;
-
-    // Dragging logic — works for both handles
     const startDrag = useCallback((handle, e) => {
         e.preventDefault();
         const track = trackRef.current;
 
-        const move = (evt) => {
-            const clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
+        const move = (ev) => {
+            const clientX = ev.touches ? ev.touches[0].clientX : ev.clientX;
             const { left, width } = track.getBoundingClientRect();
-            const raw = Math.round(((clientX - left) / width) * (max - min) + min);
-            const clamped = Math.max(min, Math.min(max, raw));
-
-            if (handle === 'low') {
-                onChange(Math.min(clamped, high - 1), high);
-            } else {
-                onChange(low, Math.max(clamped, low + 1));
-            }
+            const raw = Math.round(((clientX - left) / width) * (PRICE_MAX - PRICE_MIN) + PRICE_MIN);
+            const clamped = Math.max(PRICE_MIN, Math.min(PRICE_MAX, raw));
+            if (handle === 'low') onChange(Math.min(clamped, high - 1), high);
+            else onChange(low, Math.max(clamped, low + 1));
         };
 
         const up = () => {
@@ -63,32 +86,32 @@ function DualRangeSlider({ min, max, low, high, onChange }) {
             window.removeEventListener('mouseup', up);
             window.removeEventListener('touchmove', move);
             window.removeEventListener('touchend', up);
+            onCommit(); // always fires on release, regardless of where cursor is
         };
 
         window.addEventListener('mousemove', move);
         window.addEventListener('mouseup', up);
         window.addEventListener('touchmove', move, { passive: false });
         window.addEventListener('touchend', up);
-    }, [min, max, low, high, onChange]);
+    }, [low, high, onChange, onCommit]);
 
     const lowPct = toPercent(low);
     const highPct = toPercent(high);
 
-    const bucketMax = Math.max(...HISTOGRAM_BUCKETS);
-
     return (
-        <div className={styles.sliderWrapper}>
+        <div className={styles.sliderRoot}>
+
             {/* Histogram */}
             <div className={styles.histogram} aria-hidden="true">
-                {HISTOGRAM_BUCKETS.map((count, i) => {
-                    const bucketStart = min + (i / HISTOGRAM_BUCKETS.length) * (max - min);
-                    const bucketEnd = min + ((i + 1) / HISTOGRAM_BUCKETS.length) * (max - min);
-                    const inRange = bucketEnd > low && bucketStart < high;
+                {HISTOGRAM.map((count, i) => {
+                    const start = PRICE_MIN + (i / HISTOGRAM.length) * (PRICE_MAX - PRICE_MIN);
+                    const end = PRICE_MIN + ((i + 1) / HISTOGRAM.length) * (PRICE_MAX - PRICE_MIN);
+                    const active = end > low && start < high;
                     return (
                         <div
                             key={i}
-                            className={`${styles.histBar} ${inRange ? styles.histBarActive : ''}`}
-                            style={{ height: `${(count / bucketMax) * 100}%` }}
+                            className={`${styles.histBar} ${active ? styles.histBarActive : ''}`}
+                            style={{ '--h': `${(count / bucketMax) * 100}%` }}
                         />
                     );
                 })}
@@ -96,13 +119,9 @@ function DualRangeSlider({ min, max, low, high, onChange }) {
 
             {/* Track */}
             <div className={styles.track} ref={trackRef}>
-                {/* Filled range */}
                 <div
-                    className={styles.trackRange}
-                    style={{
-                        left: `${lowPct}%`,
-                        width: `${highPct - lowPct}%`,
-                    }}
+                    className={styles.trackFill}
+                    style={{ left: `${lowPct}%`, width: `${highPct - lowPct}%` }}
                 />
 
                 {/* Low handle */}
@@ -113,11 +132,13 @@ function DualRangeSlider({ min, max, low, high, onChange }) {
                     onTouchStart={(e) => startDrag('low', e)}
                     role="slider"
                     aria-label="Minimum price"
-                    aria-valuemin={min}
-                    aria-valuemax={high - 1}
                     aria-valuenow={low}
-                    aria-valuetext={`₦${low.toLocaleString()}`}
-                />
+                    aria-valuemin={PRICE_MIN}
+                    aria-valuemax={high - 1}
+                    aria-valuetext={fmt(low)}
+                >
+                    <span className={styles.handleRing} />
+                </button>
 
                 {/* High handle */}
                 <button
@@ -127,21 +148,20 @@ function DualRangeSlider({ min, max, low, high, onChange }) {
                     onTouchStart={(e) => startDrag('high', e)}
                     role="slider"
                     aria-label="Maximum price"
-                    aria-valuemin={low + 1}
-                    aria-valuemax={max}
                     aria-valuenow={high}
-                    aria-valuetext={`₦${high.toLocaleString()}`}
-                />
+                    aria-valuemin={low + 1}
+                    aria-valuemax={PRICE_MAX}
+                    aria-valuetext={fmt(high)}
+                >
+                    <span className={styles.handleRing} />
+                </button>
             </div>
 
-            {/* Price labels */}
-            <div className={styles.priceLabels}>
-                <span className={`price ${styles.priceLabel}`}>
-                    ₦{low.toLocaleString()}
-                </span>
-                <span className={`price ${styles.priceLabel}`}>
-                    ₦{high.toLocaleString()}
-                </span>
+            {/* Labels */}
+            <div className={styles.priceReadout}>
+                <span className={`price ${styles.priceVal}`}>{fmtK(low)}</span>
+                <span className={styles.priceSep}>—</span>
+                <span className={`price ${styles.priceVal}`}>{fmtK(high)}</span>
             </div>
         </div>
     );
@@ -150,41 +170,34 @@ function DualRangeSlider({ min, max, low, high, onChange }) {
 
 // ─── Active filter pills ──────────────────────────────────────────────────────
 
-function ActiveFilterPills({ category, minPrice, maxPrice, sort, onRemove }) {
+function FilterPills({ category, low, high, sort, onRemove }) {
     const pills = [];
-
     if (category && category !== 'all') {
-        const cat = CATEGORIES.find(c => c.slug === category);
-        pills.push({ key: 'category', label: cat?.label ?? category });
+        const c = CATEGORIES.find((x) => x.slug === category);
+        pills.push({ key: 'category', label: c?.label ?? category });
     }
-
-    if (minPrice > PRICE_MIN || maxPrice < PRICE_MAX) {
-        pills.push({
-            key: 'price',
-            label: `₦${(minPrice / 1000).toFixed(0)}k – ₦${(maxPrice / 1000).toFixed(0)}k`,
-        });
+    if (low > PRICE_MIN || high < PRICE_MAX) {
+        pills.push({ key: 'price', label: `${fmtK(low)} – ${fmtK(high)}` });
     }
-
     if (sort && sort !== 'newest') {
-        const s = SORT_OPTIONS.find(o => o.value === sort);
+        const s = SORT_OPTIONS.find((x) => x.value === sort);
         pills.push({ key: 'sort', label: s?.label ?? sort });
     }
-
-    if (pills.length === 0) return null;
+    if (!pills.length) return null;
 
     return (
-        <div className={styles.activePills} role="list" aria-label="Active filters">
-            {pills.map(pill => (
+        <div className={styles.pills} role="list" aria-label="Active filters">
+            {pills.map((p) => (
                 <button
-                    key={pill.key}
+                    key={p.key}
                     className={styles.pill}
-                    onClick={() => onRemove(pill.key)}
+                    onClick={() => onRemove(p.key)}
                     role="listitem"
-                    aria-label={`Remove filter: ${pill.label}`}
+                    aria-label={`Remove: ${p.label}`}
                 >
-                    {pill.label}
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-                        <path d="M2 2L8 8M8 2L2 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    {p.label}
+                    <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true">
+                        <path d="M1.5 1.5L7.5 7.5M7.5 1.5L1.5 7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                     </svg>
                 </button>
             ))}
@@ -195,109 +208,93 @@ function ActiveFilterPills({ category, minPrice, maxPrice, sort, onRemove }) {
 
 // ─── Main sidebar ─────────────────────────────────────────────────────────────
 
-export default function ShopSidebar({ categoryCounts = {} }) {
+export default function ShopSidebar({ categoryCounts = {}, loading = false }) {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const currentCategory = searchParams.get('category') || 'all';
     const currentSort = searchParams.get('sort') || 'newest';
-    const paramMin = Number(searchParams.get('min')) || PRICE_MIN;
-    const paramMax = Number(searchParams.get('max')) || PRICE_MAX;
+    const urlMin = Number(searchParams.get('min')) || PRICE_MIN;
+    const urlMax = Number(searchParams.get('max')) || PRICE_MAX;
 
-    // Local slider state — only written to URL on mouse-up (via the handler)
-    const [priceRange, setPriceRange] = useState([paramMin, paramMax]);
+    const [price, setPrice] = useState([urlMin, urlMax]);
+    const [hoveredCat, setHoveredCat] = useState(null);
 
-    // Sync local state if URL changes externally (e.g. browser back)
-    useEffect(() => {
-        setPriceRange([paramMin, paramMax]);
-    }, [paramMin, paramMax]);
+    useEffect(() => { setPrice([urlMin, urlMax]); }, [urlMin, urlMax]);
 
-    // ── Helpers ──────────────────────────────────────────────────────────────
+    if (loading) return <ShopSidebarSkeleton />;
 
-    const updateParams = (updates) => {
+    const update = (changes) => {
         const next = new URLSearchParams(searchParams);
-        Object.entries(updates).forEach(([key, val]) => {
-            if (val === null || val === undefined) {
-                next.delete(key);
-            } else {
-                next.set(key, val);
-            }
-        });
+        Object.entries(changes).forEach(([k, v]) =>
+            v == null ? next.delete(k) : next.set(k, v)
+        );
         setSearchParams(next);
     };
 
-    const handleCategoryChange = (slug) => {
-        updateParams({ category: slug === 'all' ? null : slug });
-    };
-
-    const handleSortChange = (e) => {
-        updateParams({ sort: e.target.value === 'newest' ? null : e.target.value });
-    };
-
-    // Slider fires on every drag move — updates local state only
-    const handlePriceChange = useCallback((low, high) => {
-        setPriceRange([low, high]);
-    }, []);
-
-    // Apply price to URL when user releases handle
-    const handlePriceCommit = useCallback(() => {
-        const [low, high] = priceRange;
-        updateParams({
-            min: low > PRICE_MIN ? low : null,
-            max: high < PRICE_MAX ? high : null,
+    const handleCategory = (slug) => update({ category: slug === 'all' ? null : slug });
+    const handleSort = (value) => update({ sort: value === 'newest' ? null : value });
+    const handlePriceCommit = () => {
+        update({
+            min: price[0] > PRICE_MIN ? price[0] : null,
+            max: price[1] < PRICE_MAX ? price[1] : null,
         });
-    }, [priceRange]);
-
-    // Remove individual active filters
-    const handleRemovePill = (key) => {
-        if (key === 'category') updateParams({ category: null });
-        if (key === 'sort') updateParams({ sort: null });
-        if (key === 'price') updateParams({ min: null, max: null });
     };
-
-    const clearAll = () => {
-        setSearchParams({});
-        setPriceRange([PRICE_MIN, PRICE_MAX]);
+    const removePill = (key) => {
+        if (key === 'category') update({ category: null });
+        if (key === 'sort') update({ sort: null });
+        if (key === 'price') update({ min: null, max: null });
     };
+    const clearAll = () => { setSearchParams({}); setPrice([PRICE_MIN, PRICE_MAX]); };
 
-    const hasPriceFilter = priceRange[0] > PRICE_MIN || priceRange[1] < PRICE_MAX;
-    const hasCategoryFilter = currentCategory !== 'all';
-    const hasSortFilter = currentSort !== 'newest';
-    const hasAnyFilter = hasPriceFilter || hasCategoryFilter || hasSortFilter;
+    const hasCat = currentCategory !== 'all';
+    const hasPrice = price[0] > PRICE_MIN || price[1] < PRICE_MAX;
+    const hasSort = currentSort !== 'newest';
+    const hasAny = hasCat || hasPrice || hasSort;
 
     return (
         <aside className={styles.sidebar} aria-label="Product filters">
 
-            {/* Active filter pills */}
-            <ActiveFilterPills
+            {/* ── Active pills ── */}
+            <FilterPills
                 category={currentCategory}
-                minPrice={priceRange[0]}
-                maxPrice={priceRange[1]}
+                low={price[0]}
+                high={price[1]}
                 sort={currentSort}
-                onRemove={handleRemovePill}
+                onRemove={removePill}
             />
 
-            {/* Categories */}
-            <FilterGroup
-                label="Categories"
-                defaultOpen
-                hasActiveFilter={hasCategoryFilter}
-            >
-                <ul className={styles.categoryList} role="listbox" aria-label="Product categories">
-                    {CATEGORIES.map(({ slug, label }) => {
+            {/* ── Categories ── */}
+            <FilterGroup label="Categories" defaultOpen hasActiveFilter={hasCat}>
+                <ul className={styles.catList} role="listbox" aria-label="Product categories">
+                    {CATEGORIES.map(({ slug, label, icon }) => {
+                        const active = currentCategory === slug;
                         const count = categoryCounts[slug] ?? null;
-                        const isActive = currentCategory === slug;
                         return (
-                            <li key={slug} role="option" aria-selected={isActive}>
+                            <li key={slug} role="option" aria-selected={active}>
                                 <button
-                                    className={`${styles.filterBtn} ${isActive ? styles.filterBtnActive : ''}`}
-                                    onClick={() => handleCategoryChange(slug)}
+                                    className={`${styles.catBtn} ${active ? styles.catBtnActive : ''}`}
+                                    onClick={() => handleCategory(slug)}
+                                    onMouseEnter={() => setHoveredCat(slug)}
+                                    onMouseLeave={() => setHoveredCat(null)}
                                 >
-                                    <span className={styles.filterBtnLabel}>{label}</span>
-                                    {count !== null && (
-                                        <span className={`spec-value ${styles.categoryCount}`}>
+                                    {/* Hover reveal line */}
+                                    <span className={styles.catLine} aria-hidden="true" />
+
+                                    <span className={styles.catIcon} aria-hidden="true">{icon}</span>
+                                    <span className={styles.catLabel}>{label}</span>
+
+                                    {count != null && (
+                                        <span className={`spec-value ${styles.catCount} ${active ? styles.catCountActive : ''}`}>
                                             {count}
                                         </span>
                                     )}
+
+                                    {/* Subtle arrow that slides in on hover */}
+                                    <span className={`${styles.catArrow} ${hoveredCat === slug || active ? styles.catArrowVisible : ''}`} aria-hidden="true">
+                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                            <path d="M2 5h6M5.5 2.5L8 5l-2.5 2.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </span>
                                 </button>
                             </li>
                         );
@@ -305,53 +302,45 @@ export default function ShopSidebar({ categoryCounts = {} }) {
                 </ul>
             </FilterGroup>
 
-            {/* Price Range */}
-            <FilterGroup
-                label="Price Range"
-                defaultOpen
-                hasActiveFilter={hasPriceFilter}
-            >
-                <div
-                    onMouseUp={handlePriceCommit}
-                    onTouchEnd={handlePriceCommit}
-                >
-                    <DualRangeSlider
-                        min={PRICE_MIN}
-                        max={PRICE_MAX}
-                        low={priceRange[0]}
-                        high={priceRange[1]}
-                        onChange={handlePriceChange}
-                    />
-                </div>
+            {/* ── Price range ── */}
+            <FilterGroup label="Price Range" defaultOpen hasActiveFilter={hasPrice}>
+                <PriceSlider
+                    low={price[0]}
+                    high={price[1]}
+                    onChange={(lo, hi) => setPrice([lo, hi])}
+                    onCommit={handlePriceCommit}
+                />
             </FilterGroup>
 
-            {/* Sort */}
-            <FilterGroup
-                label="Sort By"
-                defaultOpen={false}
-                hasActiveFilter={hasSortFilter}
-            >
-                <div className={styles.sortOptions} role="radiogroup" aria-label="Sort order">
+            {/* ── Sort ── */}
+            <FilterGroup label="Sort By" defaultOpen={false} hasActiveFilter={hasSort}>
+                <div className={styles.sortList} role="radiogroup" aria-label="Sort order">
                     {SORT_OPTIONS.map(({ value, label }) => {
-                        const isActive = currentSort === value;
+                        const active = currentSort === value;
                         return (
                             <button
                                 key={value}
-                                className={`${styles.filterBtn} ${isActive ? styles.filterBtnActive : ''}`}
-                                onClick={() => handleSortChange({ target: { value } })}
+                                className={`${styles.sortBtn} ${active ? styles.sortBtnActive : ''}`}
+                                onClick={() => handleSort(value)}
                                 role="radio"
-                                aria-checked={isActive}
+                                aria-checked={active}
                             >
-                                <span className={styles.filterBtnLabel}>{label}</span>
+                                <span className={styles.sortRadio}>
+                                    {active && <span className={styles.sortRadioDot} />}
+                                </span>
+                                {label}
                             </button>
                         );
                     })}
                 </div>
             </FilterGroup>
 
-            {/* Clear all */}
-            {hasAnyFilter && (
+            {/* ── Clear ── */}
+            {hasAny && (
                 <button className={styles.clearBtn} onClick={clearAll}>
+                    <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true">
+                        <path d="M1.5 1.5L9.5 9.5M9.5 1.5L1.5 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
                     Clear all filters
                 </button>
             )}

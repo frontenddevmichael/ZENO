@@ -1,53 +1,46 @@
 import { useState } from 'react';
 import styles from './ShopSidebar.module.css';
 
-export default function FilterGroup({ label, children, defaultOpen = true, hasActiveFilter = false }) {
+export default function FilterGroup({
+    label,
+    children,
+    defaultOpen = true,
+    hasActiveFilter = false,
+}) {
     const [isOpen, setIsOpen] = useState(defaultOpen);
+    const id = `fg-${label.replace(/\s+/g, '-').toLowerCase()}`;
 
     return (
-        <div
-            className={styles.filterGroup}
-            role="group"
-            aria-labelledby={`fg-label-${label}`}
-        >
+        <div className={`${styles.filterGroup} ${isOpen ? styles.filterGroupOpen : ''}`}>
             <button
-                id={`fg-label-${label}`}
+                id={id}
                 className={styles.groupToggle}
-                onClick={() => setIsOpen(prev => !prev)}
+                onClick={() => setIsOpen((p) => !p)}
                 aria-expanded={isOpen}
             >
                 <span className={styles.groupLabelRow}>
-                    {/* Uses the .label-upper utility class from your global tokens */}
                     <span className={`label-upper ${styles.groupLabel}`}>{label}</span>
                     {hasActiveFilter && (
-                        <span className={styles.activeIndicator} aria-label="Active filter" />
+                        <span className={styles.activeDot} aria-label="Active filter" />
                     )}
                 </span>
-                <svg
-                    className={`${styles.chevron} ${isOpen ? styles.chevronOpen : ''}`}
-                    width="12"
-                    height="12"
-                    viewBox="0 0 12 12"
-                    fill="none"
-                    aria-hidden="true"
-                >
-                    <path
-                        d="M2.5 4.5L6 8L9.5 4.5"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    />
-                </svg>
+
+                {/* Animated chevron */}
+                <span className={`${styles.chevronWrap} ${isOpen ? styles.chevronOpen : ''}`}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                        <path
+                            d="M2.5 4.5L6 8L9.5 4.5"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
+                    </svg>
+                </span>
             </button>
 
-            <div
-                className={`${styles.groupContent} ${isOpen ? styles.groupContentOpen : ''}`}
-                aria-hidden={!isOpen}
-            >
-                <div className={styles.groupContentInner}>
-                    {children}
-                </div>
+            <div className={`${styles.groupBody} ${isOpen ? styles.groupBodyOpen : ''}`}>
+                <div className={styles.groupBodyInner}>{children}</div>
             </div>
         </div>
     );
