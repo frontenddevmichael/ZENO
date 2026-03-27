@@ -3,17 +3,20 @@ import { useNavigate } from "react-router-dom"
 import { useCartStore } from "../../store/cartStore"
 import styles from "./ProductCard.module.css"
 
-export default function ProductCard({ id, name, image, price, badge, inStock, slug }) {
+export default function ProductCard({ id, name, images, price, badge, stock, slug }) {
     const navigate = useNavigate()
     const addItem = useCartStore((state) => state.addItem)
     const [added, setAdded] = useState(false)
+    const inStock = stock
+
+    const productImage = images
 
     const handleClick = () => navigate(`/product/${slug}`)
 
     const handleAddToCart = (e) => {
         e.stopPropagation()
         if (!inStock) return
-        addItem({ id, name, price, image, slug })
+        addItem({ id, name, price, images, slug })
         setAdded(true)
         setTimeout(() => setAdded(false), 1800)
     }
@@ -32,7 +35,7 @@ export default function ProductCard({ id, name, image, price, badge, inStock, sl
                 {!inStock && <span className={styles.soldOut}>Out of stock</span>}
 
                 <img
-                    src={image}
+                    src={productImage}
                     alt={name}
                     className={styles.image}
                     loading="lazy"

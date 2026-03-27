@@ -4,7 +4,7 @@ import { supabase } from "../supabase";
 
 
 export  async function getFeaturedProducts() {
-    const { data, error } = await supabase.from("products").select("*").eq("is_featured", true).gt("stock", 0).order("created_at", {ascending :false}) /* get featured prodcuts to render in the home page  from featured boolean and stock */
+    const { data, error } = await supabase.from("products").select("*").eq("is_featured", true).gt("stock", 1).order("created_at", {ascending :false}) /* get featured prodcuts to render in the home page  from featured boolean and stock */
     if (error) {
         throw  error
     }else{
@@ -15,7 +15,8 @@ export async function getProducts({ category, min, max, sort }) {
     // 1. Start with a basic "Select All"
     let query = supabase
         .from("products")
-        .select("*");
+        .select("*")
+        .gt("stock" ,1)
 
     // 2. Add Category filter (if it's not 'all' or null)
     if (category && category !== 'all') {

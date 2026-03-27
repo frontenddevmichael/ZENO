@@ -11,7 +11,7 @@ export default function CartDrawer() {
     const closeCart = useCartStore((state) => state.closeCart);
     const updateQuantity = useCartStore((state) => state.updateQuantity);
     const removeItem = useCartStore((state) => state.removeItem);
-    // const total = useCartStore((state) => state.totalPrice());
+    const total = useCartStore((state) => state.total());
 
     // Escape key + scroll lock
     useEffect(() => {
@@ -108,7 +108,7 @@ export default function CartDrawer() {
                                 <div key={item.id} className={styles.item}>
 
                                     <img
-                                        src={item.image}
+                                        src={item.images}
                                         alt={item.name}
                                         className={styles.thumb}
                                     />
@@ -171,7 +171,7 @@ export default function CartDrawer() {
                         <div className={styles.subtotal}>
                             <span className={styles.subtotalLabel}>Subtotal</span>
                             <span className={styles.subtotalValue}>
-                                ₦{total.toLocaleString()}
+                                ₦{(total / 100).toLocaleString()}
                             </span>
                         </div>
 
