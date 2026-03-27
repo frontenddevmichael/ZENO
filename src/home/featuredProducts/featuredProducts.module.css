@@ -183,6 +183,7 @@
     gap: var(--space-4);
     position: relative;
     z-index: 1;
+    overflow-x: scroll;
 }
 
 
@@ -314,12 +315,16 @@
     }
 
     .grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-3);
+        display: flex;
+        gap: var(--space-6);
     }
 
     .heading {
         font-size: var(--text-h3);
+    }
+
+    .skeletonCard{
+        width: 100%;
     }
 }
 
