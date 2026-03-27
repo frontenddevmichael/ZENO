@@ -1,9 +1,8 @@
 .strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* 3 equal columns */
     gap: 1.5rem;
-    padding: 2rem 0;
+    padding: 2rem 1rem;
 }
 
 .card {

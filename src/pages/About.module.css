@@ -3,6 +3,19 @@
     overflow-x: hidden;
 }
 
+@keyframes lineReveal {
+    from {
+        opacity: 0;
+        clip-path: inset(0 0 100% 0);
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        clip-path: inset(0 0 0% 0);
+        transform: translateY(0);
+    }
+}
 
 /* ============================================================
    HERO
@@ -166,6 +179,7 @@
     letter-spacing: var(--tracking-display);
     line-height: var(--leading-display);
     color: var(--color-text-inverse);
+    animation: lineReveal .8s var(--ease-enter);
 }
 
 .accent {

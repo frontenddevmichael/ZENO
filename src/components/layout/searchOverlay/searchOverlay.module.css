@@ -115,7 +115,7 @@
     font-size: var(--text-label);
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.2);
+    color:var(--color-error);
 }
 
 

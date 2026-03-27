@@ -36,8 +36,7 @@ export default function SearchOverlay() {
         }
     }, [isSearchOpen]);
 
-    // Escape key — re-registers whenever isSearchOpen changes so the
-    // listener is only active (and the effect only cleans up) when open.
+
     useEffect(() => {
         if (!isSearchOpen) return;
         const handleEsc = (e) => { if (e.key === 'Escape') closeSearch(); };
@@ -89,7 +88,7 @@ export default function SearchOverlay() {
                         aria-label="Close search"
                     >
                         <span className={styles.escKey}>ESC</span>
-                        <span className={styles.escLabel}>to close</span>
+                        <span className={styles.escLabel}>x</span>
                     </button>
                 </div>
 

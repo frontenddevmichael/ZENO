@@ -11,12 +11,12 @@
 
 .btn {
     position: fixed;
-    bottom: var(--space-6);
-    right: var(--space-6);
+    bottom: var(--space-2);
+    right: var(--space-4);
     z-index: var(--z-toast);
 
-    width: 48px;
-    height: 48px;
+    width: 58px;
+    height: 58px;
     border-radius: var(--radius-full);
     background-color: var(--color-whatsapp);
     color: #ffffff;

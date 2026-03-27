@@ -4,6 +4,22 @@
 }
 
 
+@keyframes lineReveal {
+    from {
+        opacity: 0;
+        clip-path: inset(0 0 100% 0);
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        clip-path: inset(0 0 0% 0);
+        transform: translateY(0);
+    }
+}
+
+
+
 /* ============================================================
    HERO
    ============================================================ */
@@ -29,7 +45,6 @@
     opacity: 0.5;
 }
 
-/* Signal wave rings — conceptual: "We're broadcasting. We're here." */
 .hero::after {
     content: '';
     position: absolute;
@@ -83,14 +98,14 @@
 
 .eyebrow {
     font-family: var(--font-regular);
-    font-size:2rem;
+    font-size: 2rem;
     font-weight: var(--weight-light);
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
     color: var(--color-accent);
     border: 2.5px dashed rgba(76, 175, 118, 0.28);
     border-radius: var(--radius-full);
-    padding:  var(--space-4);
+    padding: var(--space-4);
 }
 
 .heroHeadline {
@@ -100,6 +115,7 @@
     letter-spacing: var(--tracking-display);
     line-height: var(--leading-display);
     color: var(--color-text-inverse);
+    animation: lineReveal 1s var(--ease-enter)  ;
 }
 
 .accent {
@@ -747,7 +763,8 @@
     grid-template-rows: 0fr;
     transition: grid-template-rows var(--duration-standard) var(--ease-enter);
     position: relative;
-    z-index: 1;;
+    z-index: 1;
+    ;
 }
 
 .faqOpen .faqA {
