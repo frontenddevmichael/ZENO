@@ -1,0 +1,587 @@
+.pageWrapper {
+    padding-top: var(--height-navbar);
+    min-height: 100vh;
+    background-color: var(--color-bg);
+}
+
+
+/* ============================================================
+   BREADCRUMB
+   ============================================================ */
+
+.breadcrumb {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    padding: var(--space-4) var(--space-8) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    animation: fadeUp 0.5s var(--ease-enter) both;
+}
+
+.breadcrumbLink {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--duration-micro) var(--ease-standard);
+}
+
+.breadcrumbLink:hover {
+    color: var(--color-text-secondary);
+}
+
+.breadcrumbSep {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    color: var(--color-border-strong);
+}
+
+.breadcrumbCurrent {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 32ch;
+}
+
+
+/* ============================================================
+   MAIN TWO-COLUMN GRID
+   ============================================================ */
+
+.container {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    padding: var(--space-8) var(--space-8) var(--space-16);
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: var(--space-12);
+    align-items: start;
+}
+
+
+/* ── GALLERY COLUMN ── */
+
+.galleryColumn {
+    position: sticky;
+    top: calc(var(--height-navbar) + var(--space-6));
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background-color: var(--color-bg-subtle);
+
+    /* Thin accent ring — frames the product like a display case */
+    outline: 1px solid var(--color-border);
+    outline-offset: 0;
+
+    animation: fadeUp 0.7s var(--ease-enter) 0.05s both;
+}
+
+/* Faint dot-grid inside the gallery column — studio floor texture */
+.galleryColumn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: var(--radius-xl);
+}
+
+
+/* ── INFO COLUMN ── */
+
+.infoColumn {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    animation: fadeUp 0.7s var(--ease-enter) 0.15s both;
+}
+
+
+/* ============================================================
+   SPECIFICATIONS SECTION
+   ============================================================ */
+
+.specs {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    padding: 0 var(--space-8) var(--space-24);
+    position: relative;
+}
+
+/* Hairline top rule with gradient fade — matches the hero top line */
+.specs::before {
+    content: '';
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+    margin-bottom: var(--space-16);
+}
+
+.specsInner {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--space-20);
+    align-items: start;
+}
+
+/* Left: header + context */
+.specsHeader {
+    position: sticky;
+    top: calc(var(--height-navbar) + var(--space-8));
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    opacity: 0;
+    transform: translateX(-16px);
+    transition: opacity 0.7s var(--ease-enter), transform 0.7s var(--ease-enter);
+}
+
+.specs.visible .specsHeader {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.specsEyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-accent);
+}
+
+.specsHeading {
+    font-family: var(--font-primary);
+    font-size: var(--text-h3);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-h3);
+    color: var(--color-text-primary);
+    position: relative;
+    display: inline-block;
+}
+
+.specsHeading::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    height: 1.5px;
+    width: 0;
+    background-color: var(--color-accent);
+    transition: width 0.7s var(--ease-enter) 0.4s;
+}
+
+.specs.visible .specsHeading::after {
+    width: 100%;
+}
+
+.specsNote {
+    font-family: var(--font-primary);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    line-height: var(--leading-body);
+    margin-top: var(--space-2);
+}
+
+/* Right: the actual spec table */
+.specTable {
+    position: relative;
+}
+
+/* Ghost product name watermark behind the spec table — same trick as value cards */
+.specTable::before {
+    content: attr(data-product);
+    position: absolute;
+    bottom: -8px;
+    right: 0;
+    font-family: var(--font-primary);
+    font-size: 72px;
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-display);
+    color: var(--color-text-primary);
+    opacity: 0.025;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 100%;
+    text-overflow: clip;
+}
+
+.specGrid {
+    display: flex;
+    flex-direction: column;
+}
+
+.specRow {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    position: relative;
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+        opacity 0.45s var(--ease-enter),
+        transform 0.45s var(--ease-enter),
+        background-color var(--duration-micro) var(--ease-standard);
+}
+
+/* Alternating row tint */
+.specRow:nth-child(even) {
+    background-color: var(--color-bg-subtle);
+}
+
+.specRow:hover {
+    background-color: var(--color-bg-overlay);
+}
+
+/* Accent left border that appears on hover — scanner line */
+.specRow::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--color-accent);
+    transform: scaleY(0);
+    border-radius: 1px;
+    transition: transform var(--duration-standard) var(--ease-enter);
+}
+
+.specRow:hover::before {
+    transform: scaleY(1);
+}
+
+.specs.visible .specRow {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.specs.visible .specRow:nth-child(1) {
+    transition-delay: 0.05s;
+}
+
+.specs.visible .specRow:nth-child(2) {
+    transition-delay: 0.10s;
+}
+
+.specs.visible .specRow:nth-child(3) {
+    transition-delay: 0.15s;
+}
+
+.specs.visible .specRow:nth-child(4) {
+    transition-delay: 0.20s;
+}
+
+.specs.visible .specRow:nth-child(5) {
+    transition-delay: 0.25s;
+}
+
+.specs.visible .specRow:nth-child(6) {
+    transition-delay: 0.30s;
+}
+
+.specs.visible .specRow:nth-child(7) {
+    transition-delay: 0.35s;
+}
+
+.specs.visible .specRow:nth-child(8) {
+    transition-delay: 0.40s;
+}
+
+.specs.visible .specRow:nth-child(9) {
+    transition-delay: 0.45s;
+}
+
+.specs.visible .specRow:nth-child(10) {
+    transition-delay: 0.50s;
+}
+
+.specKey {
+    font-family: var(--font-primary);
+    font-size: var(--text-small);
+    font-weight: var(--weight-regular);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    display: flex;
+    align-items: center;
+}
+
+.specValue {
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    letter-spacing: 0.01em;
+}
+
+
+/* ============================================================
+   LOADING SKELETON — mirrors the exact page layout
+   ============================================================ */
+
+.skeleton {
+    padding-top: var(--height-navbar);
+    min-height: 100vh;
+}
+
+.skeletonBreadcrumb {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    padding: var(--space-4) var(--space-8) 0;
+    display: flex;
+    gap: var(--space-3);
+}
+
+.skeletonCrumb {
+    height: 10px;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg-overlay);
+    position: relative;
+    overflow: hidden;
+}
+
+.skeletonCrumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(76, 175, 118, 0.07) 50%,
+            transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.8s ease-in-out infinite;
+}
+
+.skeletonCrumb:nth-child(1) {
+    width: 48px;
+}
+
+.skeletonCrumb:nth-child(2) {
+    width: 16px;
+}
+
+.skeletonCrumb:nth-child(3) {
+    width: 120px;
+}
+
+.skeletonGrid {
+    max-width: var(--width-content);
+    margin-inline: auto;
+    padding: var(--space-8) var(--space-8) var(--space-16);
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: var(--space-12);
+    align-items: start;
+}
+
+.skeletonGallery {
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-xl);
+    background-color: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    position: relative;
+    overflow: hidden;
+}
+
+.skeletonGallery::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(76, 175, 118, 0.06) 50%,
+            transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.8s ease-in-out infinite;
+}
+
+.skeletonInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding-top: var(--space-4);
+}
+
+.skeletonLine {
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg-overlay);
+    position: relative;
+    overflow: hidden;
+}
+
+.skeletonLine::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(76, 175, 118, 0.07) 50%,
+            transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.8s ease-in-out infinite;
+}
+
+.skeletonLine:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.skeletonLine:nth-child(3) {
+    animation-delay: 0.30s;
+}
+
+.skeletonLine:nth-child(4) {
+    animation-delay: 0.45s;
+}
+
+.skeletonBadge {
+    width: 72px;
+    height: 20px;
+}
+
+.skeletonTitle {
+    width: 85%;
+    height: 36px;
+    margin-top: var(--space-2);
+}
+
+.skeletonTitle2 {
+    width: 60%;
+    height: 36px;
+}
+
+.skeletonPrice {
+    width: 40%;
+    height: 28px;
+    margin-top: var(--space-2);
+}
+
+.skeletonBody {
+    width: 100%;
+    height: 12px;
+    margin-top: var(--space-4);
+}
+
+.skeletonBody2 {
+    width: 88%;
+    height: 12px;
+}
+
+.skeletonBody3 {
+    width: 72%;
+    height: 12px;
+}
+
+.skeletonBtn {
+    width: 100%;
+    height: var(--height-input);
+    margin-top: var(--space-4);
+    border-radius: var(--radius-md);
+}
+
+@keyframes shimmer {
+    from {
+        background-position: 200% 0;
+    }
+
+    to {
+        background-position: -200% 0;
+    }
+}
+
+
+/* ============================================================
+   SHARED ANIMATION
+   ============================================================ */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1024px) {
+
+    .container,
+    .skeletonGrid {
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
+    }
+
+    .galleryColumn {
+        position: static;
+    }
+
+    .specsInner {
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
+    }
+
+    .specsHeader {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .container,
+    .skeletonGrid {
+        padding: var(--space-6) var(--space-4) var(--space-12);
+    }
+
+    .specs {
+        padding: 0 var(--space-4) var(--space-16);
+    }
+
+    .breadcrumb,
+    .skeletonBreadcrumb {
+        padding: var(--space-3) var(--space-4) 0;
+    }
+
+    .specRow {
+        grid-template-columns: 1fr;
+        gap: var(--space-1);
+    }
+
+    .specKey {
+        font-size: var(--text-label);
+    }
+
+    .specTable::before {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .specsNote {
+        display: none;
+    }
+}

@@ -1,20 +1,29 @@
 import { useState, useEffect } from 'react';
-import { getProductBySlug } from '../supabase/queries';
+import { getProductBySlug } from '../utilities/query';
+
 
 export function useProduct(slug) {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!slug) return;
+        async function load() {
+            try {
+                setLoading(true);
 
-        async function fetchData() {
-            setLoading(true);
-            const data = await getProductBySlug(slug);
-            setProduct(data);
-            setLoading(false);
+                const fetchTask = getProductBySlug(slug);
+                const [data] = await Promise.all([fetchTask]);
+
+                setProduct(data);
+            } catch (err) {
+                console.error("Fetch Error:", err);
+                setProduct(null);
+            } finally {
+                setLoading(false); // Now this only fires after the delay
+            }
         }
-        fetchData();
+
+        if (slug) load();
     }, [slug]);
 
     return { product, loading };

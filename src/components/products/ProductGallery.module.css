@@ -1,0 +1,243 @@
+
+.mainImageWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: var(--color-bg-subtle);
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-in;
+    isolation: isolate;
+    transition: border-color 220ms ease;
+}
+
+.mainImageWrapper:hover {
+    border-color: var(--color-border-strong, rgba(0, 0, 0, 0.18));
+}
+
+/* Main image */
+.mainImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: var(--space-10);
+    opacity: 0;
+    transition:
+        opacity 280ms ease,
+        transform 160ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.imageVisible {
+    opacity: 1;
+}
+
+.zoomed {
+    cursor: crosshair;
+}
+
+.zoomed .mainImage {
+    transition:
+        opacity 280ms ease,
+        transform 100ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.zoomed .zoomHint {
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
+/* ── Skeleton shimmer ── */
+.shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+            var(--color-bg-subtle) 25%,
+            var(--color-bg-muted, #e8e8e6) 50%,
+            var(--color-bg-subtle) 75%);
+    background-size: 200% 100%;
+    animation: shimmerMove 1.6s ease-in-out infinite;
+    border-radius: inherit;
+}
+
+@keyframes shimmerMove {
+    0% {
+        background-position: 200% center;
+    }
+
+    100% {
+        background-position: -200% center;
+    }
+}
+
+/* ── Zoom hint pill ── */
+.zoomHint {
+    position: absolute;
+    bottom: var(--space-3, 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 11px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--color-fg-muted, #666);
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 2;
+    transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.mainImageWrapper:hover .zoomHint {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-2px);
+}
+
+/* ── Error state ── */
+.errorState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-fg-muted, #9e9e9b);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* ── Placeholder ── */
+.placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    aspect-ratio: 1 / 1;
+    background-color: var(--color-bg-subtle);
+    border-radius: var(--radius-md);
+    border: 1.5px dashed var(--color-border);
+    color: var(--color-fg-disabled, #c0bfbc);
+    user-select: none;
+}
+
+.placeholderText {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* ── Lightbox ── */
+.lightboxOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 180ms ease;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.lightboxContent {
+    max-width: min(90vw, 900px);
+    max-height: 88vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: scaleIn 220ms cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.92);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.lightboxImage {
+    max-width: 100%;
+    max-height: 88vh;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.lightboxClose {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 160ms ease, transform 160ms ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.lightboxClose:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: scale(1.08);
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+    .lightboxClose {
+        top: 12px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+
+    .mainImage,
+    .zoomHint,
+    .shimmer,
+    .lightboxContent,
+    .lightboxOverlay {
+        transition: none !important;
+        animation: none !important;
+    }
+}

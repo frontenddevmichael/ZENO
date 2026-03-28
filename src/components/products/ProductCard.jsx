@@ -11,7 +11,8 @@ export default function ProductCard({ id, name, images, price, badge, stock, slu
 
     const productImage = images
 
-    const handleClick = () => navigate(`/product/${slug}`)
+
+    const handleClick = () => navigate(`/shop/${slug}`);
 
     const handleAddToCart = (e) => {
         e.stopPropagation()
@@ -58,7 +59,7 @@ export default function ProductCard({ id, name, images, price, badge, stock, slu
 
                 <div className={styles.priceWrapper}>
                     <span className={styles.price}>₦{price.toLocaleString()}</span>
-                    <span className={styles.priceHover} aria-hidden="true">View →</span>
+                    <span className={styles.priceHover} aria-hidden="true" >View →</span>
                 </div>
             </div>
 

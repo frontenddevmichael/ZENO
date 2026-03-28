@@ -25,3 +25,4 @@ export function useProducts(filters, retryKey) {
 
     return { products, loading, error };
 }
+
