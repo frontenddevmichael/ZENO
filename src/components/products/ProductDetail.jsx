@@ -89,8 +89,8 @@ export default function ProductDetailPage() {
             {/* ── SPECIFICATIONS ── */}
             {hasSpecs && (
                 <section
-                    ref={specsRef}
-                    className={`${styles.specs} ${specsVisible ? styles.visible : ""}`}
+                    ref={specsRef}  
+                    className={`${styles.specs} ${styles.visible}`}
                     aria-label="Product specifications"
                 >
                     <div className={styles.specsInner}>
@@ -109,8 +109,14 @@ export default function ProductDetailPage() {
                             data-product={product.name}
                         >
                             <div className={styles.specGrid}>
-                                {Object.entries(product.specs).map(([key, value]) => (
-                                    <div key={key} className={styles.specRow}>
+                                {Object.entries(product.specs).map(([key, value], index) => (
+                                    <div
+                                        key={key}
+                                        className={styles.specRow}
+                                        /* Powers the CSS stagger: transition-delay: calc(var(--i) * 0.055s)
+                                           Works for any number of rows — no hardcoded :nth-child limits. */
+                                        style={{ '--i': index }}
+                                    >
                                         <span className={styles.specKey}>{key}</span>
                                         <span className={styles.specValue}>{value}</span>
                                     </div>

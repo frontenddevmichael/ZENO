@@ -74,18 +74,19 @@
 .galleryColumn {
     position: sticky;
     top: calc(var(--height-navbar) + var(--space-6));
+    position: relative;
+    top: calc(var(--height-navbar) + var(--space-6));
     border-radius: var(--radius-xl);
-    overflow: hidden;
     background-color: var(--color-bg-subtle);
-
-    /* Thin accent ring — frames the product like a display case */
     outline: 1px solid var(--color-border);
     outline-offset: 0;
 
+    z-index: 1;
     animation: fadeUp 0.7s var(--ease-enter) 0.05s both;
 }
 
-/* Faint dot-grid inside the gallery column — studio floor texture */
+/* Faint dot-grid — studio floor texture.
+   Self-clips with border-radius so overflow: hidden isn't needed on parent. */
 .galleryColumn::before {
     content: '';
     position: absolute;
@@ -93,8 +94,12 @@
     background-image: radial-gradient(circle, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
     background-size: 20px 20px;
     pointer-events: none;
+    /* FIX 4: z-index: 0 keeps the dot-grid behind the image content rendered
+       by ProductGallery, which sits at z-index: auto (above 0). */
     z-index: 0;
     border-radius: var(--radius-xl);
+    /* Self-clip so the dots don't bleed outside the rounded corners */
+    overflow: hidden;
 }
 
 
@@ -119,7 +124,6 @@
     position: relative;
 }
 
-/* Hairline top rule with gradient fade — matches the hero top line */
 .specs::before {
     content: '';
     display: block;
@@ -135,7 +139,6 @@
     align-items: start;
 }
 
-/* Left: header + context */
 .specsHeader {
     position: sticky;
     top: calc(var(--height-navbar) + var(--space-8));
@@ -194,12 +197,10 @@
     margin-top: var(--space-2);
 }
 
-/* Right: the actual spec table */
 .specTable {
     position: relative;
 }
 
-/* Ghost product name watermark behind the spec table — same trick as value cards */
 .specTable::before {
     content: attr(data-product);
     position: absolute;
@@ -241,7 +242,6 @@
         background-color var(--duration-micro) var(--ease-standard);
 }
 
-/* Alternating row tint */
 .specRow:nth-child(even) {
     background-color: var(--color-bg-subtle);
 }
@@ -250,7 +250,6 @@
     background-color: var(--color-bg-overlay);
 }
 
-/* Accent left border that appears on hover — scanner line */
 .specRow::before {
     content: '';
     position: absolute;
@@ -273,44 +272,12 @@
     transform: translateY(0);
 }
 
-.specs.visible .specRow:nth-child(1) {
-    transition-delay: 0.05s;
-}
-
-.specs.visible .specRow:nth-child(2) {
-    transition-delay: 0.10s;
-}
-
-.specs.visible .specRow:nth-child(3) {
-    transition-delay: 0.15s;
-}
-
-.specs.visible .specRow:nth-child(4) {
-    transition-delay: 0.20s;
-}
-
-.specs.visible .specRow:nth-child(5) {
-    transition-delay: 0.25s;
-}
-
-.specs.visible .specRow:nth-child(6) {
-    transition-delay: 0.30s;
-}
-
-.specs.visible .specRow:nth-child(7) {
-    transition-delay: 0.35s;
-}
-
-.specs.visible .specRow:nth-child(8) {
-    transition-delay: 0.40s;
-}
-
-.specs.visible .specRow:nth-child(9) {
-    transition-delay: 0.45s;
-}
-
-.specs.visible .specRow:nth-child(10) {
-    transition-delay: 0.50s;
+/* FIX 5: Replaced 10 hardcoded :nth-child delay rules with a CSS custom
+   property driven approach. Set --i on each row via inline style in JSX
+   (e.g. style={{ '--i': index }}) and the delay scales automatically for
+   any number of specs. Falls back to 0s if --i is not set. */
+.specs.visible .specRow {
+    transition-delay: calc(var(--i, 0) * 0.055s);
 }
 
 .specKey {
@@ -334,7 +301,7 @@
 
 
 /* ============================================================
-   LOADING SKELETON — mirrors the exact page layout
+   LOADING SKELETON
    ============================================================ */
 
 .skeleton {
