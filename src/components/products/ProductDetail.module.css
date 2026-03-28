@@ -73,14 +73,12 @@
 
 .galleryColumn {
     position: sticky;
-    top: calc(var(--height-navbar) + var(--space-6));
-    position: relative;
-    top: calc(var(--height-navbar) + var(--space-6));
+    top: calc(var(--height-navbar) + var(--space-2));
     border-radius: var(--radius-xl);
     background-color: var(--color-bg-subtle);
     outline: 1px solid var(--color-border);
     outline-offset: 0;
-
+    width: 75%;
     z-index: 1;
     animation: fadeUp 0.7s var(--ease-enter) 0.05s both;
 }

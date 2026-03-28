@@ -113,8 +113,6 @@ export default function ProductDetailPage() {
                                     <div
                                         key={key}
                                         className={styles.specRow}
-                                        /* Powers the CSS stagger: transition-delay: calc(var(--i) * 0.055s)
-                                           Works for any number of rows — no hardcoded :nth-child limits. */
                                         style={{ '--i': index }}
                                     >
                                         <span className={styles.specKey}>{key}</span>

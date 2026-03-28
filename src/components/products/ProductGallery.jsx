@@ -1,14 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import styles from "./ProductGallery.module.css";
 
-/**
- * ProductGallery — Single-image product viewer with zoom + lightbox.
- *
- * Props:
- *   images      — string   Product image URL (single string from API)
- *   alt         — string   Alt text for the image
- *   aspectRatio — string   CSS aspect-ratio for the viewer (default "1 / 1")
- */
+
 export default function ProductGallery({
     images,
     alt = "Product",
@@ -31,7 +24,7 @@ export default function ProductGallery({
         return () => window.removeEventListener("keydown", handler);
     }, [lightboxOpen]);
 
-    // Prevent body scroll when lightbox is open
+
     useEffect(() => {
         document.body.style.overflow = lightboxOpen ? "hidden" : "";
         return () => { document.body.style.overflow = ""; };
