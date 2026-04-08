@@ -7,7 +7,7 @@ export default function ProductCard({ id, name, images, price, badge, stock, slu
     const navigate = useNavigate()
     const addItem = useCartStore((state) => state.addItem)
     const [added, setAdded] = useState(false)
-    const inStock = stock
+    const inStock = stock > 0
 
     const productImage = images
 

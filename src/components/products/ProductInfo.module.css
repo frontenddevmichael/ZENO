@@ -44,12 +44,13 @@
 
 .actions {
     display: flex;
+    align-items: center;
     gap: var(--space-4);
     margin-top: var(--space-4);
 }
 
 .quantitySelector {
-    display: flex;
+    display: none;
     align-items: center;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
@@ -71,7 +72,7 @@
 }
 
 .addBtn {
-    flex: 1;
+    padding: var(--space-4) var(--space-12);
     background-color: var(--color-bg-inverse);
     color: var(--color-text-inverse);
     border: none;

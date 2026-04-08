@@ -64,6 +64,7 @@ export default function ProductDetailPage() {
     return (
         <main className={styles.pageWrapper}>
 
+
             {/* ── BREADCRUMB ── */}
             <nav className={styles.breadcrumb} aria-label="Breadcrumb">
                 <Link to="/" className={styles.breadcrumbLink}>Home</Link>

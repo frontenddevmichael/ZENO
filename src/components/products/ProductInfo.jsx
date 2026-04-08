@@ -2,12 +2,11 @@ import { useState } from 'react';
 import { useCartStore } from '../../store/cartStore';
 import styles from './ProductInfo.module.css';
 
-export default function ProductInfo({ product }) {
+export default function ProductInfo({ product, stock }) {
     const [quantity, setQuantity] = useState(1);
     const addItem = useCartStore((state) => state.addItem);
     const openCart = useCartStore((state) => state.openCart);
-
-    // Safety check for loading states
+    const isInStock = stock > 0;
     if (!product) return null;
 
     const handleAddToCart = () => {
@@ -45,16 +44,19 @@ export default function ProductInfo({ product }) {
 
                 <button
                     className={styles.addBtn}
-                    onClick={handleAddToCart}
-                    disabled={!product.inStock}
+                    disabled={isInStock === 0}
+                    onClick={() => {
+                        addItem(product, quantity);
+                        openCart();
+                    }}
                 >
-                    {product.inStock ? 'Add to Cart' : 'Out of Stock'}
+                    {isInStock === 0 ? "Out of Stock" : "Add to Cart"}
                 </button>
             </div>
 
             <div className={styles.footer}>
                 <a
-                    href={`https://wa.me/YOURNUMBER?text=Hi, I'm interested in the ${product.name}`}
+                    href={`https://wa.me/09061712509?text=Hi, I'm interested in buying  ${product.name}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.whatsappLink}

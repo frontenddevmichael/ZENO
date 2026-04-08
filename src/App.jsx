@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Navbar } from "./components/layout/Nav/Nav.jsx";
 import CartDrawer from "./components/layout/CartDrawer/CartDrawer.jsx";
+import CartPage from "./components/CartPage/CartPage.jsx";
 import SearchOverlay from "./components/layout/searchOverlay/searchOverlay.jsx";
 import HomePage from "./home/Home.jsx";
 import Contact from "./pages/ContactPage.jsx";
@@ -24,9 +25,10 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/shop/:slug" element={<ProductDetailPage />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/404" element={<div>404 - Product Not Found</div>} />
       </Routes>
-
+      
       <Footer />
     </>
   );
