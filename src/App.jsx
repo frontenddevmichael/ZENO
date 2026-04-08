@@ -7,10 +7,15 @@ import HomePage from "./home/Home.jsx";
 import Contact from "./pages/ContactPage.jsx";
 import About from "./pages/AboutPage.jsx";
 import ShopPage from "./pages/ShopPage.jsx";
+import CheckoutPage from "./pages/CheckoutPage.jsx";
 import Footer from "./components/layout/Footer/Footer.jsx";
+import OrderConfirmPage from './pages/OrderConfirmPage'
+
+
 
 // Import the ASSEMBLY page, not just the gallery
 import ProductDetailPage from "../src/components/products/ProductDetail.jsx";
+
 
 export default function App() {
   return (
@@ -26,6 +31,8 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/shop/:slug" element={<ProductDetailPage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/order/:txRef" element={<OrderConfirmPage />} />
         <Route path="/404" element={<div>404 - Product Not Found</div>} />
       </Routes>
       

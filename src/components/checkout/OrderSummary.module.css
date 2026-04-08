@@ -1,0 +1,120 @@
+.card {
+    border: 0.5px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+}
+
+.label {
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-5);
+}
+
+.itemList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+}
+
+.itemLeft {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-width: 0;
+}
+
+.thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-subtle);
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 4px;
+}
+
+.qty {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 16px;
+    height: 16px;
+    border-radius: var(--radius-full);
+    background: var(--color-bg-inverse);
+    color: var(--color-text-inverse);
+    font-size: 10px;
+    font-weight: var(--weight-medium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.itemName {
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.itemPrice {
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    flex-shrink: 0;
+}
+
+.divider {
+    height: 0.5px;
+    background: var(--color-border);
+    margin: var(--space-4) 0;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    padding: var(--space-2) 0;
+}
+
+.row span:last-child {
+    color: var(--color-text-primary);
+    font-weight: var(--weight-medium);
+}
+
+.totalRow {
+    padding-top: var(--space-3);
+    margin-top: var(--space-2);
+    border-top: 0.5px solid var(--color-border);
+}
+
+.totalRow span:first-child {
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+}
+
+.totalAmount {
+    font-family: var(--font-mono);
+    font-size: var(--text-body-lg);
+    font-weight: var(--weight-medium);
+}
