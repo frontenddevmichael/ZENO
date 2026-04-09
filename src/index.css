@@ -5,37 +5,24 @@
 
 
     --color-bg: #FFFFFF;
-    /* default page background */
     --color-bg-subtle: #F8F8F6;
-    /* alternate sections, card backgrounds, image placeholders */
     --color-bg-overlay: #F2F2F0;
-    /* hovered inputs, pressed states, skeleton base */
     --color-bg-inverse: #111111;
 
 
     --color-text-primary: #1e1e1e;
-    /* headings, prices, primary body copy */
     --color-text-secondary: #6B7280;
-    /* descriptions, labels, meta information */
     --color-text-muted: #9CA3AF;
-    /* placeholders, disabled text, fine print */
     --color-text-inverse: #FFFFFF;
-    /* text on dark surfaces */
     --color-text-accent: #4CAF76;
-    /* links, active nav items, success text */
 
 
 
 
     --color-accent: #4CAF76;
-    /* primary accent — buttons, focus, active */
     --color-accent-dark: #3A9E64;
-    /* accent hover state */
     --color-accent-light: #EBF7F0;
-    /* accent background tint — success banners, focus rings */
     --color-accent-ring: rgba(76, 175, 118, 0.18);
-    /* focus ring around inputs and buttons */
-
 
     /* ============================================================
      COLOUR — BORDERS
@@ -44,11 +31,8 @@
   ============================================================ */
 
     --color-border: rgba(0, 0, 0, 0.08);
-    /* default — cards, dividers, section breaks */
     --color-border-strong: rgba(0, 0, 0, 0.15);
-    /* inputs, tables, emphasized separators */
     --color-border-focus: #4CAF76;
-    /* input focus state border */
 
 
     /* ============================================================
@@ -58,21 +42,13 @@
   ============================================================ */
 
     --color-error: #DC2626;
-    /* error borders, destructive actions */
     --color-error-bg: #FEF2F2;
-    /* error message backgrounds */
     --color-warning: #D97706;
-    /* low stock badges, warning alerts */
     --color-warning-bg: #FFFBEB;
-    /* warning message backgrounds */
     --color-success: #16A34A;
-    /* order confirmed, item added, form success */
     --color-success-bg: #F0FDF4;
-    /* success toast backgrounds */
     --color-info: #2563EB;
-    /* informational banners, links */
     --color-info-bg: #EFF6FF;
-    /* info message backgrounds */
 
 
     /* ============================================================

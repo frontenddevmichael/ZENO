@@ -1,6 +1,7 @@
 import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3'
 import {useCartStore} from '../../store/cartStore'
 import styles from './PaymentStep.module.css'
+import { formatPrice } from '../../lib/formatter'
 
 export default function PaymentStep({ shippingData, onSuccess }) {
     const { items, total, clearCart } = useCartStore()
@@ -46,7 +47,7 @@ export default function PaymentStep({ shippingData, onSuccess }) {
 
             <div className={styles.summaryLine}>
                 <span>Amount to pay</span>
-                <span className={styles.amount}>{total()}</span>
+                <span className={styles.amount}>{formatPrice(total())}</span>
             </div>
 
             <div className={styles.deliveryInfo}>

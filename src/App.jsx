@@ -10,10 +10,6 @@ import ShopPage from "./pages/ShopPage.jsx";
 import CheckoutPage from "./pages/CheckoutPage.jsx";
 import Footer from "./components/layout/Footer/Footer.jsx";
 import OrderConfirmPage from './pages/OrderConfirmPage'
-
-
-
-// Import the ASSEMBLY page, not just the gallery
 import ProductDetailPage from "../src/components/products/ProductDetail.jsx";
 
 
