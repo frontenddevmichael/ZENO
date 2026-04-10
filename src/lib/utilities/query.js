@@ -56,13 +56,29 @@ export  async function  getProductBySlug (slug) {
 
 
 
-export async  function createOrder(orderData){
-    const {data , error} = await supabase.from('order').insert([orderData]).select().single();
+export async function createOrder(orderData) {
+    const { data: { user } } = await supabase.auth.getUser()
 
-    if (error) {
-        console.error("Error creating order:", error.message);
-        throw error;
-    }else{
-    return data;
+    const { data, error } = await supabase
+        .from('orders')
+        .insert([{ ...orderData, user_id: user.id }])
+        .select()
+        .single()
+
+    if (error) throw error
+    return data
 }
+
+
+export async function getOrdersByUser() {
+    const { data: { user } } = await supabase.auth.getUser()
+
+    const { data, error } = await supabase
+        .from('orders')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+
+    if (error) throw error
+    return data
 }

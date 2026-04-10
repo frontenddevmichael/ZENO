@@ -1,0 +1,381 @@
+.page {
+    min-height: 100vh;
+    padding-top: var(--height-navbar);
+    background-color: var(--color-bg);
+}
+
+.container {
+    max-width: 720px;
+    margin-inline: auto;
+    padding: var(--space-16) var(--space-8);
+}
+
+/* Page header */
+.pageHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    margin-bottom: var(--space-12);
+}
+
+.avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-family: var(--font-mono);
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 0.05em;
+}
+
+.name {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-h2);
+    color: var(--color-text-primary);
+}
+
+.email {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-1);
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: var(--space-1);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-8);
+}
+
+.tab {
+    background: none;
+    border: none;
+    font-family: var(--font-primary);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    padding: var(--space-3) var(--space-4);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color var(--duration-micro) var(--ease-standard),
+        border-color var(--duration-micro) var(--ease-standard);
+}
+
+.tab:hover {
+    color: var(--color-text-primary);
+}
+
+.tabActive {
+    color: var(--color-text-primary);
+    border-bottom-color: var(--color-text-primary);
+}
+
+/* Orders list */
+.ordersList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.orderCard {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.orderHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg-subtle);
+}
+
+.orderNumber {
+    font-family: var(--font-mono);
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+}
+
+.orderDate {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-1);
+}
+
+/* Status badge */
+.statusBadge {
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+}
+
+.pending_whatsapp {
+    background-color: var(--color-warning-bg);
+    color: var(--color-warning);
+}
+
+.confirmed {
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+}
+
+.delivered {
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+}
+
+/* Order items */
+.orderItems {
+    padding: var(--space-4) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.orderItem {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    font-size: var(--text-small);
+}
+
+.orderItemName {
+    flex: 1;
+    color: var(--color-text-primary);
+}
+
+.orderItemQty {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+}
+
+.orderItemPrice {
+    font-family: var(--font-mono);
+    color: var(--color-text-primary);
+    font-weight: var(--weight-medium);
+}
+
+/* Order footer */
+.orderFooter {
+    padding: var(--space-4) var(--space-6);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.orderTotal {
+    font-family: var(--font-mono);
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+}
+
+/* Skeleton */
+.orderSkeletonCard {
+    height: 160px;
+    border-radius: var(--radius-lg);
+    background-color: var(--color-bg-subtle);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Empty state */
+.emptyOrders {
+    padding: var(--space-16) 0;
+    text-align: center;
+}
+
+.emptyTitle {
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-2);
+}
+
+.emptySub {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+}
+
+/* Personal info */
+.infoSection {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+.infoGroup {
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.infoLabel {
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+}
+
+.infoValue {
+    font-size: var(--text-body);
+    color: var(--color-text-primary);
+}
+
+.infoNote {
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    line-height: var(--leading-body);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: var(--space-8) var(--space-4);
+    }
+
+    .name {
+        font-size: var(--text-h3);
+    }
+}
+
+/* Greeting */
+.greeting {
+    font-size: var(--text-body);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-body);
+    margin-bottom: var(--space-8);
+}
+
+/* Stats strip */
+.statsStrip {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-6);
+    background-color: var(--color-bg-subtle);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-8);
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.statValue {
+    font-family: var(--font-mono);
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+}
+
+.statLabel {
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.statDivider {
+    width: 1px;
+    height: 32px;
+    background-color: var(--color-border-strong);
+    flex-shrink: 0;
+}
+
+/* Last order highlight */
+.lastOrderCard {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: var(--space-8);
+}
+
+.lastOrderHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-6);
+    background-color: var(--color-bg-subtle);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.lastOrderLabel {
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.lastOrderBody {
+    padding: var(--space-4) var(--space-6);
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+}
+
+.lastOrderNumber {
+    font-family: var(--font-mono);
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+    flex: 1;
+}
+
+.lastOrderDate {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+}
+
+.lastOrderTotal {
+    font-family: var(--font-mono);
+    font-size: var(--text-body);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-primary);
+}
+
+/* WhatsApp button */
+.whatsappBtn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-small);
+    color: #25D366;
+    text-decoration: none;
+    font-weight: var(--weight-medium);
+    transition: opacity var(--duration-micro) var(--ease-standard);
+}
+
+.whatsappBtn:hover {
+    opacity: 0.75;
+}

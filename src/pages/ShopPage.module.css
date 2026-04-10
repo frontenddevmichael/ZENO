@@ -669,7 +669,7 @@
 
 
 
- .sidebarCol {
+    .sidebarCol {
         display: none;
     }
 
@@ -724,4 +724,11 @@
     .stickyBar {
         transition: none;
     }
+}
+
+.greeting {
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    letter-spacing: var(--tracking-label);
+    margin-bottom: var(--space-1);
 }

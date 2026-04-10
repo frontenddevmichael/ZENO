@@ -4,7 +4,7 @@ import { useProducts } from '../lib/utilities/useProducts';
 import ProductCard from '../components/products/ProductCard';
 import ShopSidebar, { ShopSidebarSkeleton } from './ShopSidebar';
 import styles from './ShopPage.module.css';
-
+import { useAuthStore } from '../store/authStore';
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const SKELETON_COUNT = 6;
@@ -228,6 +228,15 @@ export default function ShopPage() {
     const [sheetOpen, setSheetOpen] = useState(false);
     const [retryKey, setRetryKey] = useState(0);
     const filterPillsRef = useRef(null);
+    const profile = useAuthStore(state => state.profile)
+    const user = useAuthStore(state => state.user)
+
+    function getTimeOfDay() {
+        const hour = new Date().getHours()
+        if (hour < 12) return 'morning'
+        if (hour < 17) return 'afternoon'
+        return 'evening'
+    }
 
     const filters = {
         category: searchParams.get('category'),
@@ -278,7 +287,11 @@ export default function ShopPage() {
 
             {/* ── Main results column ── */}
             <main className={styles.resultsCol}>
-
+                {user && (
+                    <p className={styles.greeting}>
+                        Good {getTimeOfDay()}, {profile.fullName.split(' ')[0]}.
+                    </p>
+                )}
                 {/* Results header */}
                 <header className={styles.resultsHeader} ref={filterPillsRef}>
                     <div className={styles.headerTop}>
