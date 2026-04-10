@@ -6,20 +6,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- ============================================================
+      DNS PREFETCH — resolves domains before they're needed
+      Critical for Supabase on slow Nigerian connections
+    ============================================================ -->
+  <link rel="dns-prefetch" href="https://sbvfeovsndbrdnpfzmqg.supabase.co" />
+  <link rel="preconnect" href="https://sbvfeovsndbrdnpfzmqg.supabase.co" />
+  <link rel="dns-prefetch" href="https://api.fontshare.com" />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+  <!-- ============================================================
+      FONT PRELOADS — before stylesheets to eliminate FOUT
+    ============================================================ -->
+  <link rel="preload" as="style" href="https://api.fontshare.com/v2/css?f[]=satoshi@200,400,500&display=swap" />
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <!-- ============================================================
       PRIMARY SEO
     ============================================================ -->
   <title>Zeno — Premium Tech. Curated for Nigeria.</title>
   <meta name="description"
-    content="Zeno is Nigeria's editorial technology store. Shop premium smartphones, laptops, audio, and accessories. Authentic products. Fast delivery." />
+    content="Zeno is Nigeria's editorial technology store. Shop premium smartphones, laptops, audio, and accessories. Authentic products. Fast delivery across Lagos and Nigeria." />
   <meta name="keywords"
-    content="buy iPhone Nigeria, premium laptops Nigeria, tech store Lagos, buy MacBook Nigeria, Zeno electronics" />
-  <meta name="author" content="Zeno Electronics" />
+    content="buy iPhone Nigeria, premium laptops Nigeria, tech store Lagos, buy MacBook Nigeria, Zeno electronics, Samsung Nigeria, Sony headphones Nigeria" />
+  <meta name="author" content="Zeno" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://zeno.ng/" />
 
   <!-- ============================================================
-      OPEN GRAPH — controls how the link looks when shared on
-      WhatsApp, Twitter, Facebook, LinkedIn etc.
+      OPEN GRAPH
     ============================================================ -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://zeno.ng/" />
@@ -32,6 +48,12 @@
   <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="en_NG" />
 
+  <!-- WhatsApp specific — smaller image for better chat previews -->
+  <meta property="og:image:alt" content="Zeno — Premium Tech Store Nigeria" />
+  <meta property="og:image" content="https://zeno.ng/og-image-whatsapp.jpg" />
+  <meta property="og:image:width" content="300" />
+  <meta property="og:image:height" content="200" />
+
   <!-- ============================================================
       TWITTER / X CARD
     ============================================================ -->
@@ -41,45 +63,99 @@
   <meta name="twitter:description"
     content="Nigeria's editorial technology store. Authentic premium devices, fast delivery." />
   <meta name="twitter:image" content="https://zeno.ng/og-image.jpg" />
-  
+
+  <!-- ============================================================
+      FAVICONS
+    ============================================================ -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <!-- <link rel="manifest" href="/site.webmanifest" /> -->
+  <link rel="manifest" href="/site.webmanifest" />
   <meta name="theme-color" content="#111111" />
 
+  <!-- ============================================================
+      iOS PWA — Apple doesn't fully respect the manifest
+      These tags handle home screen installation on iPhone
+    ============================================================ -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Zeno" />
+  <link rel="apple-touch-startup-image" href="/apple-touch-icon.png" />
+
+  <!-- ============================================================
+      FONTS
+    ============================================================ -->
   <link rel="preconnect" href="https://api.fontshare.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@200,400,500&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <!-- <link rel="preload" as="image" href="/hero.jpg" fetchpriority="high" /> -->
+
+  <!-- ============================================================
+      HERO IMAGE PRELOAD — above the fold, load immediately
+    ============================================================ -->
+  <link rel="preload" as="image" href="/hero.jpeg" fetchpriority="high" />
+
+  <!-- ============================================================
+      STRUCTURED DATA — Store + LocalBusiness
+      Two types together unlock more Google rich results
+    ============================================================ -->
   <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Store",
-      "name": "Zeno",
-      "url": "https://zeno.ng",
-      "logo": "https://zeno.ng/logo.png",
-      "description": "Nigeria's editorial technology store. Premium smartphones, laptops, audio and accessories.",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "NG",
-        "addressLocality": "Lagos"
-      },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "customer service",
-        "availableLanguage": "English"
-      },
-      "sameAs": [
-        "https://twitter.com/zeno_ng",
-        "https://instagram.com/zeno.ng"
+  {
+    "@context": "https://schema.org",
+    "@type": ["Store", "LocalBusiness"],
+    "name": "Zeno",
+    "url": "https://zeno.ng",
+    "logo": "https://zeno.ng/logo.png",
+    "image": "https://zeno.ng/og-image.jpg",
+    "description": "Nigeria's editorial technology store. Premium smartphones, laptops, audio and accessories. Authentic products with fast delivery across Lagos and Nigeria.",
+    "priceRange": "₦₦₦",
+    "currenciesAccepted": "NGN",
+    "paymentAccepted": "Bank Transfer, USSD, Cash on Delivery",
+    "openingHours": "Mo-Sa 08:00-20:00",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "NG",
+      "addressLocality": "Lagos",
+      "addressRegion": "Lagos State"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "6.5244",
+      "longitude": "3.3792"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "availableLanguage": "English",
+      "contactOption": "TollFree"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Zeno Product Catalogue",
+      "itemListElement": [
+        {
+          "@type": "OfferCatalog",
+          "name": "Phones"
+        },
+        {
+          "@type": "OfferCatalog",
+          "name": "Laptops"
+        },
+        {
+          "@type": "OfferCatalog",
+          "name": "Audio"
+        }
       ]
-    }
-    </script>
+    },
+    "sameAs": [
+      "https://twitter.com/zeno_ng",
+      "https://instagram.com/zeno.ng"
+    ]
+  }
+  </script>
 
 </head>
 
