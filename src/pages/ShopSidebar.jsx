@@ -11,6 +11,7 @@ const CATEGORIES = [
     { slug: 'laptops', label: 'Laptops', icon: '◰' },
     { slug: 'audio', label: 'Audio', icon: '◲' },
     { slug: 'accessories', label: 'Accessories', icon: '◳' },
+    { slug: 'tablets', label: 'Tablets', icon: '◳' },
 ];
 
 const SORT_OPTIONS = [

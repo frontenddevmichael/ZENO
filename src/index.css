@@ -1,280 +1,276 @@
-
-
 :root {
 
 
 
-    --color-bg: #FFFFFF;
-    --color-bg-subtle: #F8F8F6;
-    --color-bg-overlay: #F2F2F0;
-    --color-bg-inverse: #111111;
+  --color-bg: #FFFFFF;
+  --color-bg-subtle: #F8F8F6;
+  --color-bg-overlay: #F2F2F0;
+  --color-bg-inverse: #111111;
 
 
-    --color-text-primary: #1e1e1e;
-    --color-text-secondary: #6B7280;
-    --color-text-muted: #9CA3AF;
-    --color-text-inverse: #FFFFFF;
-    --color-text-accent: #4CAF76;
+  --color-text-primary: #1e1e1e;
+  --color-text-secondary: #6B7280;
+  --color-text-muted: #9CA3AF;
+  --color-text-inverse: #FFFFFF;
+  --color-text-accent: #4CAF76;
 
 
 
 
-    --color-accent: #4CAF76;
-    --color-accent-dark: #3A9E64;
-    --color-accent-light: #EBF7F0;
-    --color-accent-ring: rgba(76, 175, 118, 0.18);
+  --color-accent: #4CAF76;
+  --color-accent-dark: #3A9E64;
+  --color-accent-light: #EBF7F0;
+  --color-accent-ring: rgba(76, 175, 118, 0.18);
 
-    /* ============================================================
+  /* ============================================================
      COLOUR — BORDERS
      Use rgba so borders work on any background without looking
      different depending on what's behind them.
   ============================================================ */
 
-    --color-border: rgba(0, 0, 0, 0.08);
-    --color-border-strong: rgba(0, 0, 0, 0.15);
-    --color-border-focus: #4CAF76;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(0, 0, 0, 0.15);
+  --color-border-focus: #4CAF76;
 
 
-    /* ============================================================
+  /* ============================================================
      COLOUR — SEMANTIC STATES
      Error, warning, success, info. Used for alerts, form feedback,
      badges, and toast notifications. Not for decoration.
   ============================================================ */
 
-    --color-error: #DC2626;
-    --color-error-bg: #FEF2F2;
-    --color-warning: #D97706;
-    --color-warning-bg: #FFFBEB;
-    --color-success: #16A34A;
-    --color-success-bg: #F0FDF4;
-    --color-info: #2563EB;
-    --color-info-bg: #EFF6FF;
+  --color-error: #DC2626;
+  --color-error-bg: #FEF2F2;
+  --color-warning: #D97706;
+  --color-warning-bg: #FFFBEB;
+  --color-success: #16A34A;
+  --color-success-bg: #F0FDF4;
+  --color-info: #2563EB;
+  --color-info-bg: #EFF6FF;
 
 
-    /* ============================================================
+  /* ============================================================
      TYPOGRAPHY — FONT FAMILIES
      Satoshi for all UI text. JetBrains Mono exclusively for
      prices (₦450,000), spec values (128GB), and order numbers.
      Never use Inter. Never use Roboto. Never use Arial.
   ============================================================ */
 
-    --font-primary: 'Satoshi', system-ui, -apple-system, sans-serif;
-    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --font-primary: 'Satoshi', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 
 
-    /* ============================================================
+  /* ============================================================
      TYPOGRAPHY — SIZE SCALE
      Use the named step, not the pixel value directly.
      Example: font-size: var(--text-body) — not font-size: 16px.
   ============================================================ */
 
-    --text-display: 4.5rem;
-    /* 72px — homepage hero headline only */
-    --text-h1: 3.5rem;
-    /* 56px — page titles */
-    --text-h2: 2.5rem;
-    /* 40px — section headings */
-    --text-h3: 1.75rem;
-    /* 28px — card headings, modal titles */
-    --text-body-lg: 1.125rem;
-    /* 18px — hero subtext, featured descriptions */
-    --text-body: 1rem;
-    /* 16px — standard body copy */
-    --text-small: 0.8125rem;
-    /* 13px — metadata, timestamps, secondary labels */
-    --text-label: 0.6875rem;
-    /* 11px — uppercased category labels, nav labels */
+  --text-display: 4.5rem;
+  /* 72px — homepage hero headline only */
+  --text-h1: 3.5rem;
+  /* 56px — page titles */
+  --text-h2: 2.5rem;
+  /* 40px — section headings */
+  --text-h3: 1.75rem;
+  /* 28px — card headings, modal titles */
+  --text-body-lg: 1.125rem;
+  /* 18px — hero subtext, featured descriptions */
+  --text-body: 1rem;
+  /* 16px — standard body copy */
+  --text-small: 0.8125rem;
+  /* 13px — metadata, timestamps, secondary labels */
+  --text-label: 0.6875rem;
+  /* 11px — uppercased category labels, nav labels */
 
 
-    /* ============================================================
+  /* ============================================================
      TYPOGRAPHY — WEIGHT
      Two weights only. 400 for reading. 500 for everything that
      needs to stand out. Never 600, never 700 — too heavy here.
   ============================================================ */
 
-    --weight-regular: 400;
-    --weight-medium: 500;
-    --weight-light :200
-
-
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-light: 200
     /* ============================================================
      TYPOGRAPHY — TRACKING (LETTER SPACING)
      Tight tracking on large type. Natural on body. Loose on labels.
   ============================================================ */
 
     --tracking-display: -0.03em;
-    /* used at Display size */
-    --tracking-h1: -0.025em;
-    /* used at H1 */
-    --tracking-h2: -0.02em;
-    /* used at H2 */
-    --tracking-h3: -0.01em;
-    /* used at H3 */
-    --tracking-body: 0em;
-    /* body text — never adjust */
-    --tracking-label: 0.06em;
-    /* uppercased label text */
+  /* used at Display size */
+  --tracking-h1: -0.025em;
+  /* used at H1 */
+  --tracking-h2: -0.02em;
+  /* used at H2 */
+  --tracking-h3: -0.01em;
+  /* used at H3 */
+  --tracking-body: 0em;
+  /* body text — never adjust */
+  --tracking-label: 0.06em;
+  /* uppercased label text */
 
 
-    /* ============================================================
+  /* ============================================================
      TYPOGRAPHY — LINE HEIGHT
      Tighter for large headings (optical balance).
      Looser for body text (readability).
   ============================================================ */
 
-    --leading-display: 1.05;
-    /* display and H1 */
-    --leading-heading: 1.15;
-    /* H2 and H3 */
-    --leading-body: 1.65;
-    /* standard body */
-    --leading-body-lg: 1.7;
-    /* large body / descriptions */
-    --leading-small: 1.5;
-    /* small text */
+  --leading-display: 1.05;
+  /* display and H1 */
+  --leading-heading: 1.15;
+  /* H2 and H3 */
+  --leading-body: 1.65;
+  /* standard body */
+  --leading-body-lg: 1.7;
+  /* large body / descriptions */
+  --leading-small: 1.5;
+  /* small text */
 
 
-    /* ============================================================
+  /* ============================================================
      SPACING — 8px BASE SCALE
      The entire layout is built on multiples of 8.
      Use these tokens everywhere — padding, margin, gap.
      The rule: if a value isn't on this scale, it's wrong.
   ============================================================ */
 
-    --space-1: 0.25rem;
-    /*  4px — icon-to-text gaps, hairline offsets */
-    --space-2: 0.5rem;
-    /*  8px — tight inline spacing, small badges */
-    --space-3: 0.75rem;
-    /* 12px — button padding vertical, input vertical */
-    --space-4: 1rem;
-    /* 16px — card internal padding small, list gaps */
-    --space-6: 1.5rem;
-    /* 24px — card padding standard, form field gap */
-    --space-8: 2rem;
-    /* 32px — section internal padding, modal padding */
-    --space-12: 3rem;
-    /* 48px — between components within a section */
-    --space-16: 4rem;
-    /* 64px — between sections on a page */
-    --space-20: 5rem;
-    /* 80px — generous section padding */
-    --space-24: 6rem;
-    /* 96px — section vertical padding default */
-    --space-32: 8rem;
-    /* 128px — hero section padding, maximum breathing room */
+  --space-1: 0.25rem;
+  /*  4px — icon-to-text gaps, hairline offsets */
+  --space-2: 0.5rem;
+  /*  8px — tight inline spacing, small badges */
+  --space-3: 0.75rem;
+  /* 12px — button padding vertical, input vertical */
+  --space-4: 1rem;
+  /* 16px — card internal padding small, list gaps */
+  --space-6: 1.5rem;
+  /* 24px — card padding standard, form field gap */
+  --space-8: 2rem;
+  /* 32px — section internal padding, modal padding */
+  --space-12: 3rem;
+  /* 48px — between components within a section */
+  --space-16: 4rem;
+  /* 64px — between sections on a page */
+  --space-20: 5rem;
+  /* 80px — generous section padding */
+  --space-24: 6rem;
+  /* 96px — section vertical padding default */
+  --space-32: 8rem;
+  /* 128px — hero section padding, maximum breathing room */
 
 
-    /* ============================================================
+  /* ============================================================
      BORDER RADIUS
      Consistent rounding that gives the UI its precise character.
      Never go above --radius-xl for standard components.
   ============================================================ */
 
-    --radius-sm: 4px;
-    /* tags, badges, chips, small pills */
-    --radius-md: 8px;
-    /* buttons, inputs, dropdowns */
-    --radius-lg: 12px;
-    /* product cards, feature cards */
-    --radius-xl: 20px;
-    /* modals, bottom sheets, large containers */
-    --radius-full: 9999px;
-    /* fully round — avatar, icon buttons, status dots */
+  --radius-sm: 4px;
+  /* tags, badges, chips, small pills */
+  --radius-md: 8px;
+  /* buttons, inputs, dropdowns */
+  --radius-lg: 12px;
+  /* product cards, feature cards */
+  --radius-xl: 20px;
+  /* modals, bottom sheets, large containers */
+  --radius-full: 9999px;
+  /* fully round — avatar, icon buttons, status dots */
 
 
-    /* ============================================================
+  /* ============================================================
      SHADOW
      Almost invisible. The premium feel comes from borders and
      spacing — not shadows. These are the only two allowed.
   ============================================================ */
 
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
-    /* resting card state — barely visible */
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-    /* hovered card, floating elements */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  /* resting card state — barely visible */
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  /* hovered card, floating elements */
 
 
-    /* ============================================================
+  /* ============================================================
      MOTION — EASING CURVES
      Three named curves for the three directions of movement.
      Never use the raw string "ease" or "ease-in-out" — always
      reference a token so the system stays consistent.
   ============================================================ */
 
-    --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-    /* default — color, opacity, most transitions */
-    --ease-enter: cubic-bezier(0, 0, 0.2, 1);
-    /* elements entering — drawers, modals, dropdowns */
-    --ease-exit: cubic-bezier(0.4, 0, 1, 1);
-    /* elements leaving */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  /* default — color, opacity, most transitions */
+  --ease-enter: cubic-bezier(0, 0, 0.2, 1);
+  /* elements entering — drawers, modals, dropdowns */
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  /* elements leaving */
 
 
-    /* ============================================================
+  /* ============================================================
      MOTION — DURATION
      Match duration to the scale of the movement.
      Micro for instant feedback. Panel for structural changes.
   ============================================================ */
 
-    --duration-micro: 150ms;
-    /* hover color changes, icon swaps, badge updates */
-    --duration-standard: 250ms;
-    /* card lift, button scale, dropdown open */
-    --duration-panel: 350ms;
-    /* side drawers, cart sliding in, filter sheets */
-    --duration-page: 400ms;
-    /* page transitions, full overlays */
+  --duration-micro: 150ms;
+  /* hover color changes, icon swaps, badge updates */
+  --duration-standard: 250ms;
+  /* card lift, button scale, dropdown open */
+  --duration-panel: 350ms;
+  /* side drawers, cart sliding in, filter sheets */
+  --duration-page: 400ms;
+  /* page transitions, full overlays */
 
 
-    /* ============================================================
+  /* ============================================================
      LAYOUT — STRUCTURE
      Fixed widths and heights for consistent structural components.
   ============================================================ */
 
-    --width-content: 1280px;
-    /* max content width — centered on wide screens */
-    --width-sidebar: 280px;
-    /* filter sidebar on PLP */
-    --height-navbar: 64px;
-    /* top navigation bar */
-    --height-input: 48px;
-    /* standard input and button height */
-    --height-input-sm: 40px;
-    /* compact inputs — search, quantity selectors */
+  --width-content: 1280px;
+  /* max content width — centered on wide screens */
+  --width-sidebar: 280px;
+  /* filter sidebar on PLP */
+  --height-navbar: 64px;
+  /* top navigation bar */
+  --height-input: 48px;
+  /* standard input and button height */
+  --height-input-sm: 40px;
+  /* compact inputs — search, quantity selectors */
 
 
-    /* ============================================================
+  /* ============================================================
      LAYOUT — Z-INDEX STACK
      Keeps layering predictable. Reference these instead of
      inventing numbers. Nothing should go above --z-modal except
      in an extreme edge case.
   ============================================================ */
 
-    --z-base: 0;
-    --z-above: 10;
-    /* sticky elements, hover tooltips */
-    --z-navbar: 150;
-    /* top nav — always above page content */
-    --z-drawer: 200;
-    /* cart drawer, filter bottom sheet */
-    --z-modal: 300;
-    /* search overlay, confirmation modals */
-    --z-toast: 400;
-    /* notifications — always on top of everything */
+  --z-base: 0;
+  --z-above: 10;
+  /* sticky elements, hover tooltips */
+  --z-navbar: 150;
+  /* top nav — always above page content */
+  --z-drawer: 200;
+  /* cart drawer, filter bottom sheet */
+  --z-modal: 300;
+  /* search overlay, confirmation modals */
+  --z-toast: 400;
+  /* notifications — always on top of everything */
 
 
-    /* ============================================================
+  /* ============================================================
      BREAKPOINTS
      These are reference values — use them in @media queries.
      The site is designed desktop-first. Mobile must work perfectly.
   ============================================================ */
 
-    /* --bp-mobile:  390px  */
-    /* --bp-tablet:  768px  */
-    /* --bp-laptop:  1024px */
-    /* --bp-desktop: 1280px */
+  /* --bp-mobile:  390px  */
+  /* --bp-tablet:  768px  */
+  /* --bp-laptop:  1024px */
+  /* --bp-desktop: 1280px */
 
-    /*
+  /*
     Note: CSS custom properties can't be used inside @media queries.
     The values above are here for documentation.
     In your CSS, write:  @media (max-width: 768px) { ... }
@@ -292,14 +288,14 @@
 
 @media (prefers-reduced-motion: reduce) {
 
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 
@@ -310,63 +306,77 @@
 ============================================================ */
 
 *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-    scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
 }
 
 body {
-    font-family: var(--font-primary);
-    font-size: var(--text-body);
-    font-weight: var(--weight-regular);
-    line-height: var(--leading-body);
-    color: var(--color-text-primary);
-    background-color: var(--color-bg);
+  font-family: var(--font-primary);
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-body);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
 }
 
 img, video {
-    display: block;
-    max-width: 100%;
+  display: block;
+  max-width: 100%;
 }
 
 button {
-    cursor: pointer;
-    font-family: inherit;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 a {
-    color: inherit;
-    text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
 /* Price values — applied wherever ₦ figures appear */
 .price {
-    font-family: var(--font-mono);
-    font-size: var(--text-body);
-    color: var(--color-text-primary);
-    font-weight: var(--weight-medium);
+  font-family: var(--font-mono);
+  font-size: var(--text-body);
+  color: var(--color-text-primary);
+  font-weight: var(--weight-medium);
 }
 
 /* Spec values — RAM, storage, screen size etc */
 .spec-value {
-    font-family: var(--font-mono);
-    font-size: var(--text-small);
-    color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
 }
 
 /* Uppercase section labels */
 .label-upper {
-    font-size: var(--text-label);
-    font-weight: var(--weight-medium);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-    color: var(--color-text-secondary);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s cubic-bezier(0, 0, 0.2, 1),
+    transform 0.6s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }

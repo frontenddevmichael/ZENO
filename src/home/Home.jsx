@@ -3,7 +3,9 @@ import Hero from './Hero/Hero';
 import PromoBanner from './PromoBanner';
 import FeaturedProducts from './featuredProducts/featuredProducts'
 import WhatsAppButton from './whatsappButton/whatsappButton';
-import ShopPage from '../pages/ShopPage';
+import TrustSection from './TrustSection';
+import EditorialStrip from './EditorialStrip'
+
 
 export default function HomePage() {
     return (
@@ -12,7 +14,10 @@ export default function HomePage() {
             <FeaturedProducts />
             <CategoryStrip />
             <PromoBanner />
+            <EditorialStrip />
+            <TrustSection />
             <WhatsAppButton />
         </main>
     );
 }
+

@@ -4,6 +4,9 @@ import laptopImg from '../../public/Laptop.jpeg';
 import phoneImg from '../../public/Phoneimg.jpg';
 import audioImg from '../../public/Audioimg.jpg'
 
+
+
+
 const CATEGORIES = [
     { id: 1, name: 'Phones', slug: 'phones', image: phoneImg  },
     { id: 2, name: 'Laptops', slug: 'laptops', image: laptopImg },
