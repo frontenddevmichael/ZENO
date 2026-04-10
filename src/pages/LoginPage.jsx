@@ -1,21 +1,26 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import styles from './LoginPage.module.css'
 import Toast from '../components/Toast'
 import { useToast } from '../lib/useToast'
 import { useAuthStore } from '../store/authStore'
 
-
 export default function LoginPage() {
     const navigate = useNavigate()
+    const location = useLocation()
+    const { toast, showToast, dismissToast } = useToast()
+    const profile = useAuthStore(state => state.profile)
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
-    const { toast, showToast, dismissToast } = useToast()
-        const profile = useAuthStore(state => state.profile)
+
+    useEffect(() => {
+        if (location.state?.signupToast) {
+            showToast(`Account created, ${location.state.signupToast}. Sign in to continue.`, 'info')
+        }
+    }, [])
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -25,13 +30,13 @@ export default function LoginPage() {
             const { error } = await supabase.auth.signInWithPassword({ email, password })
 
             if (error) {
-                showToast("Something went wrong. Please try again.", "error")
+                showToast(error.message, 'error')
                 return
             }
 
             navigate('/shop')
         } catch (err) {
-            showToast("Something went wrong. Please try again.", "error")
+            showToast('Something went wrong. Please try again.', 'error')
         } finally {
             setLoading(false)
         }
@@ -66,8 +71,6 @@ export default function LoginPage() {
                             disabled={loading}
                         />
                     </div>
-
-                    {error && <p className={styles.error}>{error}</p>}
 
                     <button type="submit" disabled={loading} className={styles.button}>
                         {loading ? 'Signing in...' : 'Sign in'}
