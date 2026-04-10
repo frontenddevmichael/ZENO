@@ -334,6 +334,9 @@
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
     .navbar {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
         padding: 0 var(--space-4);
     }
 
