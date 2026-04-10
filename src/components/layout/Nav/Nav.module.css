@@ -277,6 +277,7 @@
     transition:
         transform var(--duration-panel) var(--ease-enter),
         opacity var(--duration-panel) var(--ease-enter);
+        width: 100%;
 }
 
 .mobileMenuOpen {
@@ -334,9 +335,7 @@
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
     .navbar {
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
+        width: 100%;
         padding: 0 var(--space-4);
     }
 

@@ -14,7 +14,6 @@ export default function HomePage() {
             <FeaturedProducts />
             <CategoryStrip />
             <PromoBanner />
-            <EditorialStrip />
             <TrustSection />
             <WhatsAppButton />
         </main>

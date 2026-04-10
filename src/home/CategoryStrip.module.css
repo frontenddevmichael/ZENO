@@ -10,9 +10,8 @@
     position: relative;
     border-radius: 12px;
     overflow: hidden;
-    /* Important: clips the image when it scales up */
     height: 400px;
-    /* Adjust height as needed */
+
 }
 
 .imageWrapper {

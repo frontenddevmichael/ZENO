@@ -1,8 +1,13 @@
+* {
+    box-sizing: border-box;
+}
+
 .section {
     padding: var(--space-24) var(--space-8);
     background-color: var(--color-accent);
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
+    width: 100%;
 }
 
 .inner {
@@ -71,7 +76,7 @@
         transform var(--duration-standard) var(--ease-standard),
         border-color var(--duration-standard) var(--ease-standard),
         background-color var(--duration-standard) var(--ease-standard);
-        background-color: var(--color-bg-subtle);
+    background-color: var(--color-bg-subtle);
 }
 
 .panel.panelVisible {
