@@ -2,6 +2,10 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import styles from './LoginPage.module.css'
+import Toast from '../components/Toast'
+import { useToast } from '../lib/useToast'
+import { useAuthStore } from '../store/authStore'
+
 
 export default function LoginPage() {
     const navigate = useNavigate()
@@ -10,21 +14,27 @@ export default function LoginPage() {
     const [password, setPassword] = useState('')
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
+    const { toast, showToast, dismissToast } = useToast()
+        const profile = useAuthStore(state => state.profile)
 
     async function handleSubmit(e) {
         e.preventDefault()
-        setError(null)
         setLoading(true)
 
-        const { error } = await supabase.auth.signInWithPassword({ email, password })
+        try {
+            const { error } = await supabase.auth.signInWithPassword({ email, password })
 
-        if (error) {
-            setError(error.message)
+            if (error) {
+                showToast("Something went wrong. Please try again.", "error")
+                return
+            }
+
+            navigate('/shop')
+        } catch (err) {
+            showToast("Something went wrong. Please try again.", "error")
+        } finally {
             setLoading(false)
-            return
         }
-
-        navigate('/shop')
     }
 
     return (
@@ -68,6 +78,7 @@ export default function LoginPage() {
                     Don't have an account? <Link to="/signup">Sign up</Link>
                 </p>
             </div>
+            <Toast message={toast.message} type={toast.type} onDismiss={dismissToast} />
         </div>
     )
 }

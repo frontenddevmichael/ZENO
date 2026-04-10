@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import { useProducts } from '../lib/utilities/useProducts';
 import ProductCard from '../components/products/ProductCard';
 import ShopSidebar, { ShopSidebarSkeleton } from './ShopSidebar';
 import styles from './ShopPage.module.css';
 import { useAuthStore } from '../store/authStore';
+import Toast from '../components/Toast';
+import { useToast } from '../lib/useToast';
+
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const SKELETON_COUNT = 6;
@@ -67,7 +70,6 @@ function EmptyState({ filters, onClear }) {
 
     return (
         <div className={styles.emptyState}>
-            {/* Abstract geometric illustration */}
             <div className={styles.emptyIllustration} aria-hidden="true">
                 <div className={styles.emptyRing} />
                 <div className={styles.emptyRingInner} />
@@ -190,7 +192,9 @@ function BottomSheet({ open, onClose, children }) {
         document.body.style.overflow = open ? 'hidden' : '';
         return () => { document.body.style.overflow = ''; };
     }, [open]);
+
     if (!open) return null;
+
     return (
         <>
             <div
@@ -204,7 +208,6 @@ function BottomSheet({ open, onClose, children }) {
                 aria-modal="true"
                 aria-label="Product filters"
             >
-                {/* Drag handle */}
                 <div className={styles.sheetHandle} aria-hidden="true" />
                 <div className={styles.sheetHeader}>
                     <span className={`label-upper ${styles.sheetTitle}`}>Filters</span>
@@ -228,14 +231,28 @@ export default function ShopPage() {
     const [sheetOpen, setSheetOpen] = useState(false);
     const [retryKey, setRetryKey] = useState(0);
     const filterPillsRef = useRef(null);
-    const profile = useAuthStore(state => state.profile)
-    const user = useAuthStore(state => state.user)
+    const hasShownWelcome = useRef(false);
+
+    const profile = useAuthStore(state => state.profile);
+    const user = useAuthStore(state => state.user);
+
+    const { toast, showToast, dismissToast } = useToast();
+
+    // Show welcome toast once when user + profile are both available.
+    // Reads from the auth store directly — no router state needed.
+    useEffect(() => {
+        if (!hasShownWelcome.current && user && profile?.fullName) {
+            hasShownWelcome.current = true;
+            const firstName = profile.fullName.split(' ')[0];
+            showToast(`Welcome back, ${firstName}`, 'success');
+        }
+    }, [user, profile]);
 
     function getTimeOfDay() {
-        const hour = new Date().getHours()
-        if (hour < 12) return 'morning'
-        if (hour < 17) return 'afternoon'
-        return 'evening'
+        const hour = new Date().getHours();
+        if (hour < 12) return 'morning';
+        if (hour < 17) return 'afternoon';
+        return 'evening';
     }
 
     const filters = {
@@ -247,7 +264,6 @@ export default function ShopPage() {
 
     const { products, loading, error } = useProducts(filters, retryKey);
 
-    // Count active filters for mobile badge
     const activeFilterCount = [
         filters.category,
         filters.min || filters.max,
@@ -256,8 +272,6 @@ export default function ShopPage() {
 
     const clearAll = () => setSearchParams({});
 
-    // Category counts — in a real app derive from your data layer
-    // Shape: { all: 42, phones: 12, laptops: 8, audio: 9, accessories: 13 }
     const categoryCounts = {};
 
     const displayTitle = filters.category
@@ -266,8 +280,8 @@ export default function ShopPage() {
 
     return (
         <div className={styles.pageWrapper}>
+            <Toast message={toast.message} type={toast.type} onDismiss={dismissToast} />
 
-            {/* ── Sticky results bar (appears after scrolling past header) ── */}
             <StickyBar
                 count={products.length}
                 category={filters.category}
@@ -277,7 +291,6 @@ export default function ShopPage() {
                 filterPillsRef={filterPillsRef}
             />
 
-            {/* ── Desktop sidebar ── */}
             <aside className={styles.sidebarCol}>
                 {loading
                     ? <ShopSidebarSkeleton />
@@ -285,14 +298,13 @@ export default function ShopPage() {
                 }
             </aside>
 
-            {/* ── Main results column ── */}
             <main className={styles.resultsCol}>
                 {user && (
                     <p className={styles.greeting}>
                         Good {getTimeOfDay()}, {profile.fullName.split(' ')[0]}.
                     </p>
                 )}
-                {/* Results header */}
+
                 <header className={styles.resultsHeader} ref={filterPillsRef}>
                     <div className={styles.headerTop}>
                         <div>
@@ -304,14 +316,10 @@ export default function ShopPage() {
                                 }
                             </p>
                         </div>
-
-                        {/* Desktop view toggle */}
-                        <div className={styles.headerControls}>
-                        </div>
+                        <div className={styles.headerControls} />
                     </div>
                 </header>
 
-                {/* Mobile filter trigger */}
                 <div className={styles.mobileBar}>
                     <MobileFilterBtn
                         count={activeFilterCount}
@@ -319,7 +327,6 @@ export default function ShopPage() {
                     />
                 </div>
 
-                {/* ── Grid / list / states ── */}
                 {loading ? (
                     <div
                         className={`${styles.productGrid} ${viewMode === 'list' ? styles.productList : ''}`}
@@ -354,7 +361,6 @@ export default function ShopPage() {
                 )}
             </main>
 
-            {/* ── Mobile bottom sheet ── */}
             <BottomSheet open={sheetOpen} onClose={() => setSheetOpen(false)}>
                 <ShopSidebar categoryCounts={categoryCounts} />
             </BottomSheet>

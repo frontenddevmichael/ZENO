@@ -1,0 +1,217 @@
+.toast {
+    position: fixed;
+    bottom: var(--space-6);
+    right: var(--space-6);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    width: 340px;
+    border-radius: var(--radius-lg);
+    background: #1A1A1A;
+    border: 1px solid #2A2A2A;
+    overflow: hidden;
+    z-index: var(--z-toast);
+    font-family: var(--font-primary);
+    animation: rise var(--duration-standard) var(--ease-enter) both;
+    transition: border-color var(--duration-micro), background var(--duration-micro);
+}
+
+.toast:hover {
+    background: #1E1E1E;
+    border-color: #333;
+}
+
+@keyframes rise {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+    border-radius: var(--radius-full);
+    margin-left: var(--space-4);
+    flex-shrink: 0;
+}
+
+.success .dot {
+    background: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(76, 175, 118, 0.15);
+}
+
+.error .dot {
+    background: var(--color-error);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+.warning .dot {
+    background: var(--color-warning);
+    box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+}
+
+.info .dot {
+    background: var(--color-info);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.body {
+    padding: 14px var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.eyebrow {
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+}
+
+.success .eyebrow {
+    color: var(--color-accent);
+}
+
+.error .eyebrow {
+    color: var(--color-error);
+}
+
+.warning .eyebrow {
+    color: var(--color-warning);
+}
+
+.info .eyebrow {
+    color: var(--color-info);
+}
+
+.title {
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    color: #F0F0F0;
+    line-height: var(--leading-small);
+    letter-spacing: var(--tracking-h3);
+}
+
+.desc {
+    font-size: var(--text-label);
+    color: #666;
+    margin-top: 1px;
+    line-height: var(--leading-small);
+}
+
+.right {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    padding-right: var(--space-2);
+}
+
+.action {
+    font-family: var(--font-primary);
+    font-size: var(--text-label);
+    font-weight: var(--weight-medium);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    transition: background var(--duration-micro);
+}
+
+.success .action {
+    color: var(--color-accent);
+}
+
+.success .action:hover {
+    background: rgba(76, 175, 118, 0.1);
+}
+
+.error .action {
+    color: var(--color-error);
+}
+
+.error .action:hover {
+    background: rgba(220, 38, 38, 0.1);
+}
+
+.warning .action {
+    color: var(--color-warning);
+}
+
+.warning .action:hover {
+    background: rgba(217, 119, 6, 0.1);
+}
+
+.info .action {
+    color: var(--color-info);
+}
+
+.info .action:hover {
+    background: rgba(37, 99, 235, 0.1);
+}
+
+.divider {
+    width: 1px;
+    align-self: stretch;
+    background: #2A2A2A;
+    margin: var(--space-2) 0;
+}
+
+.close {
+    background: none;
+    border: none;
+    padding: 0 var(--space-3);
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #444;
+    transition: color var(--duration-micro);
+}
+
+.close:hover {
+    color: #888;
+}
+
+.progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1.5px;
+    animation: drain 4s linear forwards;
+}
+
+.success .progress {
+    background: var(--color-accent);
+}
+
+.error .progress {
+    background: var(--color-error);
+}
+
+.warning .progress {
+    background: var(--color-warning);
+}
+
+.info .progress {
+    background: var(--color-info);
+}
+
+@keyframes drain {
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0%;
+    }
+}
