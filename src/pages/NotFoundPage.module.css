@@ -1,0 +1,348 @@
+/* ── Full page takeover — no navbar, no footer ── */
+.page {
+    position: fixed;
+    inset: 0;
+    background-color: #090909;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 9999;
+}
+
+/* ── Canvas ── */
+.canvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Noise ── */
+.noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.028;
+    pointer-events: none;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+}
+
+/* ── ZENO watermark — the brand, corrupting ── */
+.watermark {
+    position: absolute;
+    font-family: var(--font-primary);
+    font-size: clamp(18vw, 26vw, 32vw);
+    font-weight: var(--weight-medium);
+    letter-spacing: -0.06em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(76, 175, 118, 0.06);
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: none;
+}
+
+.watermarkGlitch {
+    -webkit-text-stroke: 1px rgba(76, 175, 118, 0.14);
+    transform: translate(calc(-50% + 4px), calc(-50% - 2px));
+    filter: blur(0.5px);
+}
+
+.watermarkGlitch::before {
+    content: 'ZENO';
+    position: absolute;
+    top: 0;
+    left: -3px;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(220, 38, 38, 0.12);
+    clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+}
+
+/* ── Main content ── */
+.content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-8);
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+        opacity 1s cubic-bezier(0, 0, 0.2, 1) 0.1s,
+        transform 1s cubic-bezier(0, 0, 0.2, 1) 0.1s;
+    text-align: center;
+    padding: var(--space-8);
+}
+
+.contentVisible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── Top label ── */
+.topLabel {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(76, 175, 118, 0.5);
+}
+
+.labelDot {
+    width: 5px;
+    height: 5px;
+    border-radius: var(--radius-full);
+    background-color: #4caf76;
+    animation: dotPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(76, 175, 118, 0.4);
+    }
+
+    50% {
+        opacity: 0.5;
+        box-shadow: 0 0 0 5px rgba(76, 175, 118, 0);
+    }
+}
+
+/* ── Error code ── */
+.errorCode {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    line-height: 1;
+    animation: breathe 7s ease-in-out infinite;
+}
+
+@keyframes breathe {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.008);
+    }
+}
+
+.errorGlitch {
+    animation: none;
+    transform: translate(3px, -1px);
+    filter: blur(0.3px);
+}
+
+.errorNum {
+    font-family: var(--font-primary);
+    font-size: clamp(6rem, 18vw, 16rem);
+    font-weight: var(--weight-medium);
+    letter-spacing: -0.06em;
+    color: rgba(255, 255, 255, 0.88);
+    line-height: 1;
+}
+
+/* The 0 — Zeno's accent green, bleeding */
+.errorNumAccent {
+    color: var(--color-accent);
+    text-shadow:
+        0 0 60px rgba(76, 175, 118, 0.25),
+        0 0 120px rgba(76, 175, 118, 0.1);
+    animation: accentBleed 6s ease-in-out infinite;
+}
+
+@keyframes accentBleed {
+    0%, 100% {
+        color: var(--color-accent);
+        text-shadow:
+            0 0 60px rgba(76, 175, 118, 0.25),
+            0 0 120px rgba(76, 175, 118, 0.1);
+    }
+
+    45% {
+        color: #6fd49a;
+        text-shadow:
+            0 0 80px rgba(76, 175, 118, 0.35),
+            0 0 160px rgba(76, 175, 118, 0.15);
+    }
+
+    /* Brief corruption moment */
+    92% {
+        color: var(--color-accent);
+        text-shadow: 0 0 60px rgba(76, 175, 118, 0.25);
+    }
+
+    93% {
+        color: #dc2626;
+        text-shadow: 0 0 40px rgba(220, 38, 38, 0.4);
+    }
+
+    94% {
+        color: var(--color-accent);
+        text-shadow: 0 0 60px rgba(76, 175, 118, 0.25);
+    }
+}
+
+/* ── Rule ── */
+.rule {
+    width: 48px;
+    height: 1px;
+    background: linear-gradient(to right,
+            transparent,
+            rgba(76, 175, 118, 0.4),
+            transparent);
+}
+
+/* ── Message ── */
+.messageBlock {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 38ch;
+}
+
+.messageMain {
+    font-family: var(--font-primary);
+    font-size: var(--text-body-lg);
+    font-weight: var(--weight-medium);
+    color: rgba(255, 255, 255, 0.7);
+    line-height: var(--leading-body);
+}
+
+.messageSub {
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    color: rgba(255, 255, 255, 0.25);
+    line-height: var(--leading-body);
+    letter-spacing: 0.02em;
+}
+
+/* ── Actions ── */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: var(--space-2);
+}
+
+.btnPrimary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--height-input);
+    padding: 0 var(--space-8);
+    border-radius: var(--radius-md);
+    background-color: var(--color-accent);
+    border: none;
+    color: #ffffff;
+    font-family: var(--font-primary);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+        background-color var(--duration-micro) var(--ease-standard),
+        transform var(--duration-micro) var(--ease-standard);
+}
+
+.btnPrimary:hover {
+    background-color: var(--color-accent-dark);
+    transform: translateY(-2px);
+}
+
+.btnPrimary:active {
+    transform: scale(0.97);
+}
+
+.btnGhost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--height-input);
+    padding: 0 var(--space-8);
+    border-radius: var(--radius-md);
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.4);
+    font-family: var(--font-primary);
+    font-size: var(--text-small);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+        border-color var(--duration-micro) var(--ease-standard),
+        color var(--duration-micro) var(--ease-standard),
+        transform var(--duration-micro) var(--ease-standard);
+}
+
+.btnGhost:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.8);
+    transform: translateY(-2px);
+}
+
+.btnGhost:active {
+    transform: scale(0.97);
+}
+
+/* ── System line ── */
+.sysLine {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.1);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: var(--space-4);
+}
+
+.sysSep {
+    width: 3px;
+    height: 3px;
+    border-radius: var(--radius-full);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .content {
+        gap: var(--space-6);
+    }
+
+    .errorNum {
+        font-size: clamp(5rem, 22vw, 6rem);
+    }
+
+    .sysLine {
+        gap: var(--space-3);
+        font-size: 9px;
+    }
+
+    .actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btnPrimary,
+    .btnGhost {
+        width: 100%;
+    }
+}
